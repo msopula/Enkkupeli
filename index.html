@@ -548,7 +548,6 @@ summary {
 
   <div class="mode-row">
 
-```
 <select id="mode">
 
   <option value="en-fi">
@@ -573,7 +572,6 @@ summary {
 >
   🔊
 </button>
-```
 
   </div>
 
@@ -583,7 +581,6 @@ summary {
 
   <div class="stats">
 
-```
 <div class="stat">
 
   <small>
@@ -629,22 +626,18 @@ summary {
   </span>
 
 </div>
-```
 
   </div>
 
   <div class="progress">
 
-```
 <div id="progressBar">
 </div>
-```
 
   </div>
 
   <div id="gameArea">
 
-```
 <div
   id="prompt"
   class="prompt"
@@ -708,7 +701,6 @@ summary {
 >
   Seuraava →
 </button>
-```
 
   </div>
 
@@ -717,7 +709,6 @@ summary {
     class="finish hidden"
   >
 
-```
 <div class="finish-icon">
   🏆
 </div>
@@ -736,7 +727,6 @@ summary {
 >
   Pelaa uudelleen
 </button>
-```
 
   </div>
 
@@ -959,6 +949,229 @@ const ALIASES = {
   ]
 
 };
+
+
+
+/*
+  Häiriösanat: näitä ei kysytä
+  eikä näytetä sanastossa, ne
+  ovat vain vastausvaihtoehtoja
+  monivalinnoissa.
+*/
+
+const DECOYS = [
+
+  [
+    "a dog",
+    "koira"
+  ],
+
+  [
+    "a cat",
+    "kissa"
+  ],
+
+  [
+    "a school",
+    "koulu"
+  ],
+
+  [
+    "a house",
+    "talo"
+  ],
+
+  [
+    "a friend",
+    "kaveri"
+  ],
+
+  [
+    "a brother",
+    "veli"
+  ],
+
+  [
+    "a sister",
+    "sisko"
+  ],
+
+  [
+    "a mother",
+    "äiti"
+  ],
+
+  [
+    "a father",
+    "isä"
+  ],
+
+  [
+    "a teacher",
+    "opettaja"
+  ],
+
+  [
+    "a town",
+    "kaupunki"
+  ],
+
+  [
+    "a book",
+    "kirja"
+  ],
+
+  [
+    "a word",
+    "sana"
+  ],
+
+  [
+    "England",
+    "Englanti"
+  ],
+
+  [
+    "Finland",
+    "Suomi"
+  ],
+
+  [
+    "big",
+    "iso"
+  ],
+
+  [
+    "small",
+    "pieni"
+  ],
+
+  [
+    "old",
+    "vanha"
+  ],
+
+  [
+    "new",
+    "uusi"
+  ],
+
+  [
+    "happy",
+    "iloinen"
+  ],
+
+  [
+    "sad",
+    "surullinen"
+  ],
+
+  [
+    "very",
+    "hyvin, todella"
+  ],
+
+  [
+    "here",
+    "täällä"
+  ],
+
+  [
+    "now",
+    "nyt"
+  ],
+
+  [
+    "read",
+    "lukea"
+  ],
+
+  [
+    "play",
+    "pelata, leikkiä"
+  ],
+
+  [
+    "sing",
+    "laulaa"
+  ],
+
+  [
+    "run",
+    "juosta"
+  ],
+
+  [
+    "eat",
+    "syödä"
+  ],
+
+  [
+    "he",
+    "hän (mies)"
+  ],
+
+  [
+    "she",
+    "hän (nainen)"
+  ],
+
+  [
+    "they",
+    "he"
+  ],
+
+  [
+    "are",
+    "ovat"
+  ],
+
+  [
+    "his",
+    "hänen (miehen)"
+  ],
+
+  [
+    "her",
+    "hänen (naisen)"
+  ],
+
+  [
+    "our",
+    "meidän"
+  ],
+
+  [
+    "Good morning!",
+    "Hyvää huomenta!"
+  ],
+
+  [
+    "Goodbye!",
+    "Näkemiin!"
+  ],
+
+  [
+    "Thank you.",
+    "Kiitos."
+  ],
+
+  [
+    "How are you?",
+    "Mitä kuuluu?"
+  ],
+
+  [
+    "How old are you?",
+    "Kuinka vanha sinä olet?"
+  ],
+
+  [
+    "Where do you live?",
+    "Missä sinä asut?"
+  ]
+
+];
 
 
 
@@ -1337,29 +1550,115 @@ function showChoices(index) {
     current.word[index];
 
 
-  const alternatives =
+  const used =
+    new Set([
+      normalize(correct)
+    ]);
+
+
+  /*
+    Poimi altaasta niin monta
+    uutta vaihtoehtoa kuin
+    pyydetään, ohita jo
+    käytetyt.
+  */
+
+  const pick =
+    (pool, count) => {
+
+      const picked = [];
+
+
+      for (
+        const candidate
+        of pool
+      ) {
+
+        if (
+          picked.length >= count
+        ) {
+          break;
+        }
+
+
+        const key =
+          normalize(candidate);
+
+
+        if (
+          used.has(key)
+        ) {
+          continue;
+        }
+
+
+        used.add(key);
+
+        picked.push(candidate);
+
+      }
+
+
+      return picked;
+
+    };
+
+
+  const vocabPool =
 
     shuffle(
-
-      WORDS
-
-        .filter(
-          word =>
-            word[index] !==
-            correct
-        )
-
-        .map(
-          word =>
-            word[index]
-        )
-
-    )
-
-    .slice(
-      0,
-      3
+      WORDS.map(
+        word =>
+          word[index]
+      )
     );
+
+
+  const decoyPool =
+
+    shuffle(
+      DECOYS.map(
+        word =>
+          word[index]
+      )
+    );
+
+
+  /*
+    1–2 vaihtoehtoa sanaston
+    ulkopuolelta, loput
+    sanastosta.
+  */
+
+  const decoyCount =
+
+    1 +
+    Math.floor(
+      Math.random() * 2
+    );
+
+
+  const alternatives =
+    pick(
+      decoyPool,
+      decoyCount
+    );
+
+
+  alternatives.push(
+    ...pick(
+      vocabPool,
+      3 - alternatives.length
+    )
+  );
+
+
+  alternatives.push(
+    ...pick(
+      decoyPool,
+      3 - alternatives.length
+    )
+  );
 
 
   const choices =
