@@ -1,0 +1,1243 @@
+<!doctype html>
+<html lang="fi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#6d28d9">
+<title>Funny Families – Englannin sanapeli</title>
+
+<style>
+:root{
+  --bg:#f7f5ff;
+  --card:#ffffff;
+  --text:#1f2937;
+  --muted:#6b7280;
+  --primary:#6d28d9;
+  --primary-soft:#ede9fe;
+  --ok:#15803d;
+  --ok-bg:#dcfce7;
+  --bad:#b91c1c;
+  --bad-bg:#fee2e2;
+  --border:#e5e7eb;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html{
+  -webkit-text-size-adjust:100%;
+}
+
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+
+button,input,select{
+  font:inherit;
+}
+
+button{
+  touch-action:manipulation;
+}
+
+.app{
+  width:min(760px,100%);
+  margin:0 auto;
+  padding:
+    max(16px, env(safe-area-inset-top))
+    16px
+    max(24px, env(safe-area-inset-bottom));
+}
+
+.hero{
+  background:linear-gradient(135deg,#6d28d9,#9333ea);
+  color:#fff;
+  border-radius:24px;
+  padding:22px;
+  box-shadow:0 10px 30px rgba(109,40,217,.22);
+}
+
+.hero h1{
+  margin:0 0 6px;
+  font-size:clamp(30px,8vw,46px);
+}
+
+.hero p{
+  margin:0;
+  opacity:.95;
+}
+
+.card{
+  margin-top:16px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:22px;
+  padding:18px;
+  box-shadow:0 8px 24px rgba(0,0,0,.05);
+}
+
+.controls{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:10px;
+}
+
+select{
+  width:100%;
+  border:2px solid var(--border);
+  border-radius:14px;
+  padding:12px 14px;
+  background:#fff;
+}
+
+button{
+  border:0;
+  border-radius:14px;
+  padding:13px 16px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.primary{
+  background:var(--primary);
+  color:white;
+}
+
+.secondary{
+  background:var(--primary-soft);
+  color:#5b21b6;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+  margin-bottom:12px;
+}
+
+.stat{
+  background:#fafafa;
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:10px 8px;
+  text-align:center;
+  font-weight:800;
+}
+
+.stat small{
+  display:block;
+  color:var(--muted);
+  font-weight:700;
+  font-size:12px;
+  margin-bottom:3px;
+}
+
+.progress{
+  height:12px;
+  background:#e5e7eb;
+  border-radius:999px;
+  overflow:hidden;
+  margin:10px 0 20px;
+}
+
+.progress > div{
+  height:100%;
+  width:0;
+  background:var(--primary);
+  transition:width .25s ease;
+}
+
+.prompt{
+  text-align:center;
+  color:var(--muted);
+  font-size:18px;
+}
+
+.word{
+  text-align:center;
+  font-size:clamp(34px,10vw,62px);
+  font-weight:900;
+  line-height:1.08;
+  margin:14px 0 20px;
+  overflow-wrap:anywhere;
+}
+
+.answers{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.answer{
+  min-height:64px;
+  background:#f8fafc;
+  color:var(--text);
+  border:2px solid var(--border);
+  font-size:18px;
+}
+
+.answer.correct{
+  background:var(--ok-bg);
+  color:#166534;
+  border-color:#86efac;
+}
+
+.answer.wrong{
+  background:var(--bad-bg);
+  color:#991b1b;
+  border-color:#fca5a5;
+}
+
+.write-wrap{
+  display:none;
+}
+
+.write-wrap input{
+  width:100%;
+  border:2px solid var(--border);
+  border-radius:14px;
+  padding:14px 16px;
+  font-size:20px;
+}
+
+.write-actions{
+  display:flex;
+  gap:10px;
+  margin-top:10px;
+}
+
+.feedback{
+  min-height:34px;
+  margin-top:14px;
+  text-align:center;
+  font-size:20px;
+  font-weight:900;
+}
+
+.next-wrap{
+  display:flex;
+  justify-content:center;
+  margin-top:8px;
+}
+
+.hidden{
+  display:none !important;
+}
+
+.summary{
+  text-align:center;
+  padding:6px 0;
+}
+
+.summary .big{
+  font-size:54px;
+  margin:10px 0;
+}
+
+.summary h2{
+  font-size:30px;
+  margin:8px 0;
+}
+
+.summary p{
+  color:var(--muted);
+  font-size:18px;
+}
+
+.wordbank{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.tag{
+  background:#f3f4f6;
+  border-radius:999px;
+  padding:7px 10px;
+  font-size:14px;
+}
+
+.hint{
+  color:var(--muted);
+  font-size:13px;
+  margin-top:8px;
+}
+
+@media (max-width:600px){
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .answers{
+    grid-template-columns:1fr;
+  }
+
+  .controls{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<main class="app">
+
+  <section class="hero">
+    <h1>🎮 Funny Families</h1>
+    <p>Englannin sanapeli 3.-luokkalaiselle</p>
+  </section>
+
+  <section class="card">
+    <div class="controls">
+
+      <select id="mode">
+        <option value="en-fi">Englanti → suomi</option>
+        <option value="fi-en">Suomi → englanti</option>
+        <option value="write">Kirjoita englanniksi</option>
+      </select>
+
+      <button id="speakBtn" class="secondary">
+        🔊 Kuuntele
+      </button>
+
+    </div>
+  </section>
+
+  <section class="card">
+
+    <div class="stats">
+
+      <div class="stat">
+        <small>Pisteet</small>
+        ⭐ <span id="score">0</span>
+      </div>
+
+      <div class="stat">
+        <small>Putki</small>
+        🔥 <span id="streak">0</span>
+      </div>
+
+      <div class="stat">
+        <small>Elämät</small>
+        ❤️ <span id="lives">3</span>
+      </div>
+
+      <div class="stat">
+        <small>Kysymys</small>
+        <span id="questionNo">1</span>/<span id="questionTotal">15</span>
+      </div>
+
+    </div>
+
+    <div class="progress">
+      <div id="progressBar"></div>
+    </div>
+
+    <div id="playArea">
+
+      <div id="prompt" class="prompt"></div>
+
+      <div id="word" class="word"></div>
+
+      <div id="answers" class="answers"></div>
+
+      <div id="writeWrap" class="write-wrap">
+
+        <input
+          id="writeInput"
+          type="text"
+          autocomplete="off"
+          autocapitalize="none"
+          spellcheck="false"
+          placeholder="Kirjoita englanniksi"
+        >
+
+        <div class="write-actions">
+          <button id="checkBtn" class="primary">
+            Tarkista
+          </button>
+        </div>
+
+        <div class="hint">
+          Isoilla ja pienillä kirjaimilla ei ole väliä.
+        </div>
+
+      </div>
+
+      <div id="feedback" class="feedback"></div>
+
+      <div class="next-wrap">
+        <button id="nextBtn" class="primary hidden">
+          Seuraava ➜
+        </button>
+      </div>
+
+    </div>
+
+    <div id="summary" class="summary hidden">
+
+      <div class="big">
+        🏆
+      </div>
+
+      <h2>Kierros valmis!</h2>
+
+      <p id="summaryText"></p>
+
+      <button id="restartBtn" class="primary">
+        Pelaa uudelleen
+      </button>
+
+    </div>
+
+  </section>
+
+  <section class="card">
+
+    <h2>📚 Sanasto</h2>
+
+    <div id="wordbank" class="wordbank"></div>
+
+  </section>
+
+</main>
+
+<script>
+
+const WORDS = [
+
+  ["Funny families","Hauskoja perheitä"],
+
+  ["funny","hassu, hauska"],
+
+  ["a family","perhe"],
+
+  ["families","perheet"],
+
+  ["Meet the Nutty family","Tutustu Nuttyn perheeseen"],
+
+  ["Hello!","Hei!"],
+
+  ["My name's","Minun nimeni on"],
+
+  ["my","minun"],
+
+  ["a name","nimi"],
+
+  ["Hi!","Hei!"],
+
+  ["I'm","Minä olen"],
+
+  ["Nice to meet you.","Mukava tavata."],
+
+  ["nice","mukava, kiva"],
+
+  ["meet","tavata"],
+
+  ["you","sinä, sinut"],
+
+  ["We live in London!","Me asumme Lontoossa!"],
+
+  ["London","Lontoo"],
+
+  ["we","me"],
+
+  ["live","asua"],
+
+  ["Hi, there!","Hei, sinä siellä!"],
+
+  ["What's your name?","Mikä sinun nimesi on?"],
+
+  ["what","mikä"],
+
+  ["is","on"],
+
+  ["your","sinun"],
+
+  ["too","myös"],
+
+  ["What's your family name?","Mikä sukunimesi on?"],
+
+  ["a family name","sukunimi"],
+
+  ["Oh","Ai"],
+
+  ["really","todellako"],
+
+  ["What's so funny?","Mikä on niin hauskaa?"],
+
+  ["Huh?","Häh?"]
+
+];
+
+
+const ALIASES = {
+
+  "I'm":[
+    "I am"
+  ],
+
+  "My name's":[
+    "My name is"
+  ],
+
+  "What's your name?":[
+    "What is your name?",
+    "What is your name",
+    "Whats your name"
+  ],
+
+  "What's your family name?":[
+    "What is your family name?",
+    "What is your family name",
+    "Whats your family name"
+  ],
+
+  "What's so funny?":[
+    "What is so funny?",
+    "What is so funny",
+    "Whats so funny"
+  ],
+
+  "Nice to meet you.":[
+    "Nice to meet you"
+  ],
+
+  "We live in London!":[
+    "We live in London"
+  ],
+
+  "Hi, there!":[
+    "Hi there",
+    "Hi, there"
+  ],
+
+  "Hello!":[
+    "Hello"
+  ],
+
+  "Hi!":[
+    "Hi"
+  ],
+
+  "Huh?":[
+    "Huh"
+  ]
+
+};
+
+
+const ROUND_SIZE = 15;
+
+
+let queue = [];
+
+let current = null;
+
+let score = 0;
+
+let streak = 0;
+
+let lives = 3;
+
+let answered = 0;
+
+let correctCount = 0;
+
+let locked = false;
+
+
+const $ = id => document.getElementById(id);
+
+
+function shuffle(arr){
+
+  const a = [...arr];
+
+  for(let i = a.length - 1; i > 0; i--){
+
+    const j = Math.floor(
+      Math.random() * (i + 1)
+    );
+
+    [a[i],a[j]] = [a[j],a[i]];
+
+  }
+
+  return a;
+
+}
+
+
+function normalize(s){
+
+  return String(s)
+
+    .toLowerCase()
+
+    .trim()
+
+    .replace(/[’]/g,"'")
+
+    .replace(/[.!?,]/g,"")
+
+    .replace(/\s+/g," ");
+
+}
+
+
+function acceptedEnglish(answer){
+
+  const accepted = [
+
+    current[0],
+
+    ...(ALIASES[current[0]] || [])
+
+  ].map(normalize);
+
+  return accepted.includes(
+    normalize(answer)
+  );
+
+}
+
+
+function buildQueue(){
+
+  queue = shuffle(WORDS)
+    .slice(0, ROUND_SIZE);
+
+}
+
+
+function updateStats(){
+
+  $("score").textContent =
+    score;
+
+  $("streak").textContent =
+    streak;
+
+  $("lives").textContent =
+    lives;
+
+  $("questionNo").textContent =
+    Math.min(
+      answered + 1,
+      ROUND_SIZE
+    );
+
+  $("questionTotal").textContent =
+    ROUND_SIZE;
+
+  $("progressBar").style.width =
+    Math.min(
+      100,
+      answered / ROUND_SIZE * 100
+    ) + "%";
+
+}
+
+
+function speak(){
+
+  if(
+    !current ||
+    !("speechSynthesis" in window)
+  ){
+    return;
+  }
+
+  window.speechSynthesis.cancel();
+
+  const utterance =
+    new SpeechSynthesisUtterance(
+      current[0]
+    );
+
+  utterance.lang =
+    "en-GB";
+
+  utterance.rate =
+    0.82;
+
+  window.speechSynthesis.speak(
+    utterance
+  );
+
+}
+
+
+function nextQuestion(){
+
+  if(
+    lives <= 0 ||
+    answered >= ROUND_SIZE ||
+    queue.length === 0
+  ){
+
+    finishGame();
+
+    return;
+
+  }
+
+
+  locked = false;
+
+
+  $("feedback").textContent =
+    "";
+
+
+  $("nextBtn")
+    .classList
+    .add("hidden");
+
+
+  $("answers").innerHTML =
+    "";
+
+
+  current =
+    queue.shift();
+
+
+  const mode =
+    $("mode").value;
+
+
+  if(mode === "en-fi"){
+
+    $("prompt").textContent =
+      "Mitä tämä tarkoittaa suomeksi?";
+
+    $("word").textContent =
+      current[0];
+
+    $("answers").style.display =
+      "grid";
+
+    $("writeWrap").style.display =
+      "none";
+
+    showChoices(1);
+
+  }
+
+
+  else if(mode === "fi-en"){
+
+    $("prompt").textContent =
+      "Mikä tämä on englanniksi?";
+
+    $("word").textContent =
+      current[1];
+
+    $("answers").style.display =
+      "grid";
+
+    $("writeWrap").style.display =
+      "none";
+
+    showChoices(0);
+
+  }
+
+
+  else{
+
+    $("prompt").textContent =
+      "Kirjoita englanniksi:";
+
+    $("word").textContent =
+      current[1];
+
+    $("answers").style.display =
+      "none";
+
+    $("writeWrap").style.display =
+      "block";
+
+    $("writeInput").value =
+      "";
+
+    setTimeout(
+      () => $("writeInput").focus(),
+      100
+    );
+
+  }
+
+
+  updateStats();
+
+}
+
+
+function showChoices(index){
+
+  const correct =
+    current[index];
+
+
+  const distractors =
+    shuffle(
+
+      WORDS
+
+        .filter(
+          word =>
+            word[index] !== correct
+        )
+
+        .map(
+          word =>
+            word[index]
+        )
+
+    ).slice(0,3);
+
+
+  const options =
+    shuffle([
+      correct,
+      ...distractors
+    ]);
+
+
+  options.forEach(option => {
+
+    const button =
+      document.createElement(
+        "button"
+      );
+
+
+    button.className =
+      "answer";
+
+
+    button.textContent =
+      option;
+
+
+    button.addEventListener(
+      "click",
+      () =>
+        checkChoice(
+          button,
+          option,
+          index
+        )
+    );
+
+
+    $("answers")
+      .appendChild(
+        button
+      );
+
+  });
+
+}
+
+
+function markResult(ok){
+
+  locked =
+    true;
+
+
+  answered++;
+
+
+  if(ok){
+
+    correctCount++;
+
+    score +=
+      10 +
+      streak * 2;
+
+    streak++;
+
+
+    $("feedback").textContent =
+      "✅ Oikein!";
+
+
+    $("feedback").style.color =
+      "var(--ok)";
+
+
+    speak();
+
+  }
+
+
+  else{
+
+    streak =
+      0;
+
+    lives--;
+
+
+    $("feedback").innerHTML =
+
+      "❌ Oikea vastaus: <b>" +
+
+      escapeHtml(
+        current[0]
+      ) +
+
+      " = " +
+
+      escapeHtml(
+        current[1]
+      ) +
+
+      "</b>";
+
+
+    $("feedback").style.color =
+      "var(--bad)";
+
+
+    /*
+      Väärin mennyt sana
+      palaa myöhemmin
+      kierroksella uudelleen.
+    */
+
+    if(
+      answered < ROUND_SIZE &&
+      queue.length > 1
+    ){
+
+      const insertAt =
+        Math.min(
+
+          queue.length,
+
+          2 +
+          Math.floor(
+            Math.random() * 3
+          )
+
+        );
+
+
+      queue.splice(
+        insertAt,
+        0,
+        current
+      );
+
+    }
+
+  }
+
+
+  updateStats();
+
+
+  if(
+    lives <= 0 ||
+    answered >= ROUND_SIZE
+  ){
+
+    setTimeout(
+      finishGame,
+      550
+    );
+
+  }
+
+  else{
+
+    $("nextBtn")
+      .classList
+      .remove("hidden");
+
+  }
+
+}
+
+
+function checkChoice(
+  button,
+  option,
+  index
+){
+
+  if(locked){
+    return;
+  }
+
+
+  const correct =
+    current[index];
+
+
+  [
+    ...$("answers")
+      .querySelectorAll(
+        ".answer"
+      )
+  ]
+  .forEach(btn => {
+
+    if(
+      btn.textContent === correct
+    ){
+
+      btn.classList
+        .add("correct");
+
+    }
+
+  });
+
+
+  if(
+    option !== correct
+  ){
+
+    button.classList
+      .add("wrong");
+
+  }
+
+
+  markResult(
+    option === correct
+  );
+
+}
+
+
+function checkWritten(){
+
+  if(locked){
+    return;
+  }
+
+  markResult(
+    acceptedEnglish(
+      $("writeInput").value
+    )
+  );
+
+}
+
+
+function finishGame(){
+
+  $("playArea")
+    .classList
+    .add("hidden");
+
+
+  $("summary")
+    .classList
+    .remove("hidden");
+
+
+  $("progressBar")
+    .style
+    .width =
+      "100%";
+
+
+  const pct =
+    Math.round(
+
+      correctCount /
+
+      Math.max(
+        1,
+        answered
+      )
+
+      * 100
+
+    );
+
+
+  $("summaryText").textContent =
+
+    `Sait ${correctCount}/${answered} oikein (${pct} %) ja ${score} pistettä.`;
+
+}
+
+
+function restart(){
+
+  score =
+    0;
+
+  streak =
+    0;
+
+  lives =
+    3;
+
+  answered =
+    0;
+
+  correctCount =
+    0;
+
+  locked =
+    false;
+
+
+  buildQueue();
+
+
+  $("summary")
+    .classList
+    .add("hidden");
+
+
+  $("playArea")
+    .classList
+    .remove("hidden");
+
+
+  nextQuestion();
+
+}
+
+
+function escapeHtml(text){
+
+  return String(text)
+
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
+}
+
+
+$("speakBtn")
+  .addEventListener(
+    "click",
+    speak
+  );
+
+
+$("nextBtn")
+  .addEventListener(
+    "click",
+    nextQuestion
+  );
+
+
+$("checkBtn")
+  .addEventListener(
+    "click",
+    checkWritten
+  );
+
+
+$("restartBtn")
+  .addEventListener(
+    "click",
+    restart
+  );
+
+
+$("mode")
+  .addEventListener(
+    "change",
+    restart
+  );
+
+
+$("writeInput")
+  .addEventListener(
+    "keydown",
+    event => {
+
+      if(
+        event.key === "Enter"
+      ){
+
+        if(
+          locked &&
+          !$("nextBtn")
+            .classList
+            .contains("hidden")
+        ){
+
+          nextQuestion();
+
+        }
+
+        else{
+
+          checkWritten();
+
+        }
+
+      }
+
+    }
+  );
+
+
+$("wordbank").innerHTML =
+
+  WORDS
+
+    .map(
+      ([english,finnish]) =>
+
+        `<span class="tag">
+          <b>${escapeHtml(english)}</b>
+          =
+          ${escapeHtml(finnish)}
+        </span>`
+
+    )
+
+    .join("");
+
+
+restakrt();
+
+</script>
+
+</body>
+</html>
