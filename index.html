@@ -300,8 +300,8 @@ button:active {
 
 .word {
   margin:
-    10px 0
-    19px;
+    8px 0
+    13px;
 
   text-align: center;
 
@@ -366,6 +366,54 @@ button:active {
   color: #991b1b;
 }
 
+/* Vihjeellä pois karsittu vaihtoehto. */
+
+.answer.ruled-out {
+  opacity: .38;
+
+  text-decoration:
+    line-through;
+
+  cursor: default;
+}
+
+
+/* HINT */
+
+.hint {
+  width: 100%;
+
+  min-height: 46px;
+
+  margin-top: 8px;
+
+  font-size: 16px;
+}
+
+.hint:disabled {
+  opacity: .45;
+
+  cursor: default;
+}
+
+.hint-text {
+  margin-top: 10px;
+
+  text-align: center;
+
+  color: var(--muted);
+
+  font-size: 17px;
+
+  font-weight: 800;
+
+  letter-spacing: 2px;
+
+  min-height: 22px;
+
+  overflow-wrap: anywhere;
+}
+
 
 /* WRITING */
 
@@ -400,9 +448,27 @@ button:active {
 /* FEEDBACK */
 
 .feedback {
-  min-height: 30px;
+  /*
+    Tilaa pikaeläimelle sen
+    pienessä koossa, ettei näkymä
+    hyppää vastatessa. Iso vaihe
+    skaalautuu tämän päälle
+    vaikuttamatta asetteluun.
+  */
 
-  margin-top: 12px;
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 2px;
+
+  min-height: 104px;
+
+  margin-top: 6px;
 
   text-align: center;
 
@@ -452,6 +518,464 @@ button:active {
   width: 100%;
 
   margin-top: 8px;
+}
+
+
+/* CELEBRATION */
+
+.celebration {
+  display: grid;
+
+  gap: 4px;
+
+  justify-items: center;
+}
+
+.stage {
+  position: relative;
+
+  width: 100%;
+
+  max-width: 320px;
+
+  aspect-ratio: 7 / 6;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      180deg,
+      #f3ecff,
+      #ffffff
+    );
+
+  border-radius: 18px;
+}
+
+.stage svg {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+}
+
+
+/* Pikapalkinto oikeasta vastauksesta. */
+
+.mini {
+  width: 90px;
+  height: 77px;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      180deg,
+      #f3ecff,
+      #ffffff
+    );
+
+  border-radius: 14px;
+
+  /*
+    Ei ota klikkauksia, koska iso
+    vaihe peittää hetkeksi
+    ympäröiviä nappeja.
+  */
+
+  pointer-events: none;
+
+  animation:
+    mini-show 2.6s
+    ease-in-out
+    both;
+}
+
+.mini svg {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+}
+
+
+/*
+  Pomppaa esiin isona, pysyy
+  isona noin kaksi sekuntia ja
+  kutistuu sitten palautteen
+  kokoiseksi.
+*/
+
+@keyframes mini-show {
+
+  0% {
+    transform:
+      scale(.3)
+      translateY(14px);
+
+    opacity: 0;
+  }
+
+  7% {
+    transform:
+      scale(2.35)
+      translateY(0);
+
+    opacity: 1;
+  }
+
+  12% {
+    transform: scale(2.1);
+
+    opacity: 1;
+  }
+
+  84% {
+    transform: scale(2.1);
+
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+
+    opacity: 1;
+  }
+
+}
+
+.sparkle {
+  position: absolute;
+
+  font-size: 15px;
+
+  animation:
+    twinkle 1.4s
+    ease-in-out
+    infinite;
+}
+
+.sparkle:nth-child(1) {
+  top: 8%;
+  left: 9%;
+}
+
+.sparkle:nth-child(2) {
+  top: 14%;
+  right: 10%;
+
+  animation-delay: .35s;
+}
+
+.sparkle:nth-child(3) {
+  bottom: 12%;
+  right: 16%;
+
+  animation-delay: .7s;
+}
+
+.animal-name {
+  font-size: 15px;
+
+  font-weight: 850;
+}
+
+.animal-name small {
+  color: var(--muted);
+
+  font-weight: 700;
+}
+
+.animal-cheer {
+  margin: 0;
+
+  font-size: 14px;
+}
+
+
+/* CELEBRATION ANIMATIONS */
+
+.animal-box [class*="anim-"] {
+  transform-box: fill-box;
+}
+
+@keyframes twinkle {
+
+  0%, 100% {
+    transform: scale(.7);
+    opacity: .45;
+  }
+
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+
+}
+
+@keyframes anim-hop {
+
+  0%, 100% {
+    transform:
+      translateY(0)
+      scaleY(1);
+  }
+
+  15% {
+    transform:
+      translateY(2px)
+      scaleY(.93);
+  }
+
+  40% {
+    transform:
+      translateY(-15px)
+      scaleY(1.05);
+  }
+
+  70% {
+    transform: translateY(0);
+  }
+
+  82% {
+    transform: translateY(-6px);
+  }
+
+}
+
+.anim-hop {
+  animation:
+    anim-hop 1.15s
+    ease-in-out
+    infinite;
+
+  transform-origin:
+    50% 100%;
+}
+
+@keyframes anim-ears {
+
+  0%, 100% {
+    transform: rotate(0);
+  }
+
+  35% {
+    transform: rotate(-8deg);
+  }
+
+  65% {
+    transform: rotate(7deg);
+  }
+
+}
+
+.anim-ears {
+  animation:
+    anim-ears 1.15s
+    ease-in-out
+    infinite;
+
+  transform-origin:
+    50% 90%;
+}
+
+@keyframes anim-float {
+
+  0%, 100% {
+    transform:
+      translateY(0)
+      rotate(-1.5deg);
+  }
+
+  50% {
+    transform:
+      translateY(-7px)
+      rotate(2deg);
+  }
+
+}
+
+.anim-float {
+  animation:
+    anim-float 2.3s
+    ease-in-out
+    infinite;
+
+  transform-origin:
+    50% 80%;
+}
+
+@keyframes anim-tap {
+
+  0%, 100% {
+    transform:
+      translateY(0)
+      rotate(0);
+  }
+
+  45% {
+    transform:
+      translateY(-7px)
+      rotate(-7deg);
+  }
+
+}
+
+.anim-tap {
+  animation:
+    anim-tap .58s
+    ease-in-out
+    infinite;
+
+  transform-origin:
+    50% 85%;
+}
+
+@keyframes anim-wave {
+
+  0%, 100% {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(-16px);
+  }
+
+}
+
+.anim-wave {
+  animation:
+    anim-wave 3.2s
+    ease-in-out
+    infinite;
+}
+
+@keyframes anim-peek {
+
+  0% {
+    transform:
+      translateY(68px)
+      rotate(0);
+  }
+
+  20%, 62% {
+    transform:
+      translateY(0)
+      rotate(0);
+  }
+
+  72% {
+    transform:
+      translateY(0)
+      rotate(-9deg);
+  }
+
+  84% {
+    transform:
+      translateY(0)
+      rotate(9deg);
+  }
+
+  94%, 100% {
+    transform:
+      translateY(68px)
+      rotate(0);
+  }
+
+}
+
+/*
+  Kääntökeskipiste sanan omassa
+  koordinaatistossa, jotta
+  heiluminen tapahtuu jalkojen
+  kohdalta.
+*/
+
+.animal-box .anim-peek {
+  animation:
+    anim-peek 2.8s
+    ease-in-out
+    infinite;
+
+  transform-box: view-box;
+
+  transform-origin:
+    70px 100px;
+}
+
+@keyframes anim-swing {
+
+  0%, 100% {
+    transform: rotate(-14deg);
+  }
+
+  50% {
+    transform: rotate(14deg);
+  }
+
+}
+
+/* Keinuu kädestä oksan kohdalta. */
+
+.animal-box .anim-swing {
+  animation:
+    anim-swing 1.5s
+    ease-in-out
+    infinite;
+
+  transform-box: view-box;
+
+  transform-origin:
+    70px 20px;
+}
+
+@keyframes anim-waddle {
+
+  0%, 100% {
+    transform:
+      rotate(-9deg)
+      translateY(0);
+  }
+
+  25% {
+    transform:
+      rotate(0)
+      translateY(-4px);
+  }
+
+  50% {
+    transform:
+      rotate(9deg)
+      translateY(0);
+  }
+
+  75% {
+    transform:
+      rotate(0)
+      translateY(-4px);
+  }
+
+}
+
+.anim-waddle {
+  animation:
+    anim-waddle 1.3s
+    ease-in-out
+    infinite;
+
+  transform-origin:
+    50% 95%;
+}
+
+@media (
+  prefers-reduced-motion: reduce
+) {
+
+  .animal-box,
+  .animal-box * {
+    animation: none !important;
+  }
+
 }
 
 
@@ -560,6 +1084,10 @@ summary {
 
   <option value="write">
     Kirjoita englanniksi
+  </option>
+
+  <option value="spell">
+    Oikeinkirjoitus
   </option>
 
 </select>
@@ -687,6 +1215,22 @@ summary {
 
 
 
+<button
+  id="hintBtn"
+  class="secondary hint"
+>
+  💡 Vihje
+</button>
+
+
+<div
+  id="hintText"
+  class="hint-text"
+>
+</div>
+
+
+
 <div
   id="feedback"
   class="feedback"
@@ -709,11 +1253,41 @@ summary {
     class="finish hidden"
   >
 
-<div class="finish-icon">
+<div
+  id="finishIcon"
+  class="finish-icon"
+>
   🏆
 </div>
 
-<h2>
+
+<div
+  id="celebration"
+  class="celebration hidden"
+>
+
+  <div
+    id="animalStage"
+    class="stage animal-box"
+  >
+  </div>
+
+  <div
+    id="animalName"
+    class="animal-name"
+  >
+  </div>
+
+  <p
+    id="animalCheer"
+    class="animal-cheer"
+  >
+  </p>
+
+</div>
+
+
+<h2 id="finishTitle">
   Kaikki osattu!
 </h2>
 
@@ -799,7 +1373,7 @@ const WORDS = [
 
   [
     "Hi!",
-    "Hei!"
+    "Moi!"
   ],
 
   [
@@ -849,7 +1423,7 @@ const WORDS = [
 
   [
     "Hi, there!",
-    "Hei, sinä siellä!"
+    "Moi, sinä siellä!"
   ],
 
   [
@@ -1193,6 +1767,31 @@ let attempts = 0;
 
 let locked = false;
 
+/* Väärien vastausten määrä. */
+
+let wrongAnswers = 0;
+
+/*
+  Monivalinnan oikea vaihtoehto
+  tekstinä.
+*/
+
+let answerText = "";
+
+/*
+  Kierroksen todellinen koko:
+  kirjoitusosioissa sanavarasto
+  on pienempi.
+*/
+
+let roundSize = ROUND_SIZE;
+
+/* Montako vihjettä on käytetty. */
+
+let hintsUsed = 0;
+
+let hintLetters = 0;
+
 
 
 const $ = id =>
@@ -1268,6 +1867,29 @@ function normalize(text) {
 
 
 
+/*
+  Huuto- ja kysymysmerkit sekä
+  pisteet eivät ole osa
+  kirjoitusharjoitusta, joten ne
+  siivotaan pois vastauksista ja
+  vihjeistä.
+*/
+
+function plainWord(text) {
+
+  return String(text)
+
+    .replace(
+      /[.!?,]/g,
+      ""
+    )
+
+    .trim();
+
+}
+
+
+
 function escapeHtml(text) {
 
   return String(text)
@@ -1301,17 +1923,127 @@ function escapeHtml(text) {
 
 
 
+/*
+  Kirjoitus- ja oikeinkirjoitus-
+  osioihin kelpaavat vain yhden
+  sanan kohdat: kokonaiset
+  lauseet ovat liian työläitä
+  näppäillä, ja parikirjaimiset
+  sanat kuten "we" ja "is" eivät
+  opeta kirjoitusasusta mitään.
+
+  Heittomerkki lasketaan mukaan
+  pituuteen, joten "I'm" kelpaa –
+  siinä on oikeasti opeteltavaa.
+*/
+
+const MIN_TYPED_LENGTH = 3;
+
+const MAX_TYPED_LENGTH = 10;
+
+
+/*
+  Poikkeukset pituussääntöön:
+  lyhyet mutta oikeat sanat, jotka
+  kannattaa osata kirjoittaa.
+*/
+
+const SHORT_ALLOWED = [
+  "my",
+  "we"
+];
+
+
+/*
+  Äännähdykset jätetään pois: niiden
+  kirjoitusasua ei ole mielekästä
+  harjoitella.
+*/
+
+const SKIP_TYPED = [
+  "huh"
+];
+
+
+
+function isTypable(entry) {
+
+  const word =
+    plainWord(entry[0]);
+
+
+  if (
+    /\s/.test(word) ||
+    word.length > MAX_TYPED_LENGTH ||
+
+    SKIP_TYPED.includes(
+      word.toLowerCase()
+    )
+  ) {
+    return false;
+  }
+
+
+  if (
+    word.length >= MIN_TYPED_LENGTH
+  ) {
+    return true;
+  }
+
+
+  return SHORT_ALLOWED.includes(
+    word.toLowerCase()
+  );
+
+}
+
+
+
+function roundPool() {
+
+  const mode =
+    $("mode").value;
+
+
+  if (
+    mode !== "write" &&
+    mode !== "spell"
+  ) {
+    return WORDS;
+  }
+
+
+  return WORDS.filter(
+    isTypable
+  );
+
+}
+
+
+
 function buildRound() {
 
+  const pool =
+    roundPool();
+
+
+  roundSize =
+    Math.min(
+      ROUND_SIZE,
+      pool.length
+    );
+
+
   queue =
-    shuffle(WORDS)
+    shuffle(pool)
       .slice(
         0,
-        ROUND_SIZE
+        roundSize
       )
       .map(word => ({
         word,
-        mistakes: 0
+        mistakes: 0,
+        done: false
       }));
 
 }
@@ -1330,16 +2062,17 @@ function updateStats() {
     mastered;
 
   $("total").textContent =
-    ROUND_SIZE;
+    roundSize;
 
 
   $("progressBar")
     .style
     .width =
 
-      (
+      Math.min(
+        100,
         mastered /
-        ROUND_SIZE *
+        roundSize *
         100
       )
 
@@ -1424,6 +2157,22 @@ function nextQuestion() {
       "";
 
 
+  /* Vihje alkaa alusta joka sanassa. */
+
+  hintLetters =
+    0;
+
+
+  $("hintText")
+    .textContent =
+      "";
+
+
+  $("hintBtn")
+    .disabled =
+      false;
+
+
   const mode =
     $("mode").value;
 
@@ -1493,11 +2242,52 @@ function nextQuestion() {
 
 
 
+  else if (
+    mode === "spell"
+  ) {
+
+    $("prompt")
+      .textContent =
+        "Valitse oikea kirjoitusasu";
+
+
+    $("word")
+      .textContent =
+        current.word[1];
+
+
+    $("answers")
+      .style
+      .display =
+        "grid";
+
+
+    $("writeArea")
+      .style
+      .display =
+        "none";
+
+
+    showSpellChoices();
+
+
+    /*
+      Sana kuuluviin, jotta
+      kirjoitusasua voi verrata
+      ääneen.
+    */
+
+    speak();
+
+  }
+
+
+
   else {
 
     $("prompt")
       .textContent =
-        "Kirjoita englanniksi";
+        "Kirjoita englanniksi – välimerkkejä ei tarvita";
 
 
     $("word")
@@ -1539,6 +2329,492 @@ function nextQuestion() {
 
 
   updateStats();
+
+}
+
+
+
+/*
+  Yleisiä kirjoitusvirheitä:
+  kirjainpareja, jotka kuulostavat
+  samalta mutta kirjoitetaan eri
+  tavalla.
+*/
+
+const SPELL_SWAPS = [
+
+  ["ee", "ea"],
+  ["ea", "ee"],
+  ["ie", "ei"],
+  ["ei", "ie"],
+  ["oo", "u"],
+  ["ou", "o"],
+  ["ai", "ay"],
+  ["ay", "ai"],
+  ["th", "t"],
+  ["ph", "f"],
+  ["ck", "k"],
+  ["gh", "g"],
+  ["ce", "se"],
+  ["ci", "si"],
+  ["ly", "li"]
+
+];
+
+
+const VOWEL_SWAPS = {
+
+  a: "e",
+  e: "a",
+  i: "e",
+  o: "u",
+  u: "o",
+  y: "i"
+
+};
+
+
+
+/*
+  Tuottaa väärin kirjoitettuja
+  versioita sanasta. Muokkaa aina
+  lauseen pisintä sanaa, jotta
+  fraasit pysyvät luettavina.
+*/
+
+function misspellings(text) {
+
+  const parts =
+    String(text)
+      .split(
+        /([^A-Za-z']+)/
+      );
+
+
+  let target = -1;
+
+
+  parts.forEach(
+    (part, i) => {
+
+      if (
+        !/[A-Za-z]/.test(part)
+      ) {
+        return;
+      }
+
+
+      if (
+        target === -1 ||
+        part.length >
+          parts[target].length
+      ) {
+        target = i;
+      }
+
+    }
+  );
+
+
+  if (target === -1) {
+    return [];
+  }
+
+
+  const word =
+    parts[target];
+
+
+  const lower =
+    word.toLowerCase();
+
+
+  const isVowel =
+    character =>
+      "aeiou".includes(
+        character.toLowerCase()
+      );
+
+
+  /*
+    Pidä isot ja pienet kirjaimet
+    alkuperäisen kaltaisina, jotta
+    vaihtoehdot eroavat vain
+    kirjoitusasultaan.
+  */
+
+  const hasInnerCaps =
+    /[A-Z]/.test(
+      word.slice(1)
+    );
+
+
+  const matchCase =
+    variant => {
+
+      const head =
+        /[A-Z]/.test(word[0])
+          ? variant[0]
+              .toUpperCase()
+          : variant[0]
+              .toLowerCase();
+
+
+      const tail =
+        hasInnerCaps
+          ? variant.slice(1)
+          : variant
+              .slice(1)
+              .toLowerCase();
+
+
+      return head + tail;
+
+    };
+
+
+  const primary = [];
+
+  const secondary = [];
+
+
+  /* Puuttuva heittomerkki. */
+
+  if (
+    word.includes("'")
+  ) {
+
+    primary.push(
+      word.replaceAll(
+        "'",
+        ""
+      )
+    );
+
+  }
+
+
+  /* Kaksoiskirjain yhdeksi. */
+
+  for (
+    let i = 0;
+    i < word.length - 1;
+    i++
+  ) {
+
+    if (
+      lower[i] === lower[i + 1]
+    ) {
+
+      primary.push(
+        word.slice(0, i + 1) +
+        word.slice(i + 2)
+      );
+
+      break;
+
+    }
+
+  }
+
+
+  /* Samalta kuulostava pari. */
+
+  for (
+    const [from, to]
+    of SPELL_SWAPS
+  ) {
+
+    const at =
+      lower.indexOf(from);
+
+
+    if (at === -1) {
+      continue;
+    }
+
+
+    primary.push(
+      word.slice(0, at) +
+      to +
+      word.slice(
+        at + from.length
+      )
+    );
+
+    break;
+
+  }
+
+
+  /* Ylimääräinen kaksoiskirjain. */
+
+  const isLetter =
+    character =>
+      /[a-z]/.test(
+        String(character)
+          .toLowerCase()
+      );
+
+
+  for (
+    let i = 1;
+    i < word.length;
+    i++
+  ) {
+
+    if (
+      !isLetter(word[i]) ||
+      isVowel(word[i]) ||
+      lower[i] === lower[i - 1] ||
+      lower[i] === lower[i + 1]
+    ) {
+      continue;
+    }
+
+
+    primary.push(
+      word.slice(0, i + 1) +
+      word[i] +
+      word.slice(i + 1)
+    );
+
+    break;
+
+  }
+
+
+  /*
+    Kadonnut vokaali ja vaihtuneet
+    kirjaimet vain riittävän
+    pitkissä sanoissa.
+  */
+
+  if (
+    word.length >= 4
+  ) {
+
+    for (
+      let i = 1;
+      i < word.length - 1;
+      i++
+    ) {
+
+      if (
+        !isVowel(word[i])
+      ) {
+        continue;
+      }
+
+
+      primary.push(
+        word.slice(0, i) +
+        word.slice(i + 1)
+      );
+
+      break;
+
+    }
+
+
+    for (
+      let i = 1;
+      i < word.length - 1;
+      i++
+    ) {
+
+      if (
+        lower[i] === lower[i + 1] ||
+        !isLetter(word[i]) ||
+        !isLetter(word[i + 1])
+      ) {
+        continue;
+      }
+
+
+      primary.push(
+        word.slice(0, i) +
+        word[i + 1] +
+        word[i] +
+        word.slice(i + 2)
+      );
+
+      break;
+
+    }
+
+  }
+
+
+  /* Väärä vokaali. */
+
+  for (
+    let i = 0;
+    i < word.length;
+    i++
+  ) {
+
+    const replacement =
+      VOWEL_SWAPS[
+        lower[i]
+      ];
+
+
+    if (!replacement) {
+      continue;
+    }
+
+
+    const cased =
+      word[i] === lower[i]
+        ? replacement
+        : replacement.toUpperCase();
+
+
+    secondary.push(
+      word.slice(0, i) +
+      cased +
+      word.slice(i + 1)
+    );
+
+  }
+
+
+  /* Varalla: tuplattu kirjain. */
+
+  for (
+    let i = 1;
+    i < word.length;
+    i++
+  ) {
+
+    if (
+      !isLetter(word[i])
+    ) {
+      continue;
+    }
+
+
+    secondary.push(
+      word.slice(0, i + 1) +
+      word[i] +
+      word.slice(i + 1)
+    );
+
+  }
+
+
+  /* Varalla: kirjaimet vaihtaneet
+     paikkaa. */
+
+  for (
+    let i = 0;
+    i < word.length - 1;
+    i++
+  ) {
+
+    if (
+      lower[i] === lower[i + 1] ||
+      !isLetter(word[i]) ||
+      !isLetter(word[i + 1])
+    ) {
+      continue;
+    }
+
+
+    secondary.push(
+      word.slice(0, i) +
+      word[i + 1] +
+      word[i] +
+      word.slice(i + 2)
+    );
+
+  }
+
+
+  const variants =
+    shuffle(primary)
+      .concat(
+        shuffle(secondary)
+      )
+      .map(matchCase);
+
+
+  const seen =
+    new Set([word]);
+
+
+  const result = [];
+
+
+  for (
+    const variant
+    of variants
+  ) {
+
+    if (
+      seen.has(variant)
+    ) {
+      continue;
+    }
+
+
+    seen.add(variant);
+
+
+    result.push(
+      parts
+        .slice(0, target)
+        .join("") +
+
+      variant +
+
+      parts
+        .slice(target + 1)
+        .join("")
+    );
+
+  }
+
+
+  return result;
+
+}
+
+
+
+function showSpellChoices() {
+
+  /*
+    Vaihtoehdot ilman välimerkkejä,
+    jotta tehtävä mittaa vain
+    kirjoitusasua.
+  */
+
+  const correct =
+    plainWord(
+      current.word[0]
+    );
+
+
+  const wrong =
+    misspellings(correct)
+      .slice(0, 3);
+
+
+  const choices =
+    shuffle(
+      [
+        correct,
+        ...wrong
+      ]
+    );
+
+
+  renderChoices(
+    choices,
+    correct
+  );
 
 }
 
@@ -1671,6 +2947,29 @@ function showChoices(index) {
     );
 
 
+  renderChoices(
+    choices,
+    correct
+  );
+
+}
+
+
+
+function renderChoices(
+  choices,
+  correct
+) {
+
+  /*
+    Oikea vaihtoehto talteen juuri
+    siinä muodossa kuin se on
+    napissa.
+  */
+
+  answerText =
+    correct;
+
 
   choices.forEach(
     choice => {
@@ -1694,8 +2993,7 @@ function showChoices(index) {
 
           checkChoice(
             button,
-            choice,
-            index
+            choice
           );
 
         };
@@ -1713,10 +3011,218 @@ function showChoices(index) {
 
 
 
+/*
+  Vihje antaa apua yksi askel
+  kerrallaan: monivalinnassa
+  karsii yhden väärän vaihtoehdon,
+  kirjoitustehtävässä paljastaa
+  yhden kirjaimen. Jokainen vihje
+  maksaa kaksi pistettä.
+*/
+
+const HINT_COST = 2;
+
+
+
+function useHint() {
+
+  if (
+    locked ||
+    !current
+  ) {
+    return;
+  }
+
+
+  if (
+    $("mode").value === "write"
+  ) {
+
+    revealLetter();
+
+  }
+
+  else {
+
+    ruleOutChoice();
+
+  }
+
+}
+
+
+
+function payForHint() {
+
+  hintsUsed++;
+
+
+  score =
+    Math.max(
+      0,
+      score - HINT_COST
+    );
+
+
+  updateStats();
+
+}
+
+
+
+function ruleOutChoice() {
+
+  const correct =
+    answerText;
+
+
+  const removable =
+
+    [
+      ...$("answers")
+        .querySelectorAll(
+          ".answer"
+        )
+    ]
+
+    .filter(
+      element =>
+        !element
+          .classList
+          .contains("ruled-out") &&
+        element.textContent !==
+          correct
+    );
+
+
+  /*
+    Jätä aina oikea vastaus ja
+    yksi väärä, ettei vihje
+    paljasta vastausta suoraan.
+  */
+
+  if (
+    removable.length <= 1
+  ) {
+
+    $("hintBtn")
+      .disabled =
+        true;
+
+    return;
+
+  }
+
+
+  const victim =
+    removable[
+      Math.floor(
+        Math.random() *
+        removable.length
+      )
+    ];
+
+
+  victim
+    .classList
+    .add("ruled-out");
+
+
+  victim.disabled =
+    true;
+
+
+  payForHint();
+
+
+  if (
+    removable.length - 1 <= 1
+  ) {
+
+    $("hintBtn")
+      .disabled =
+        true;
+
+  }
+
+}
+
+
+
+function revealLetter() {
+
+  const answer =
+    plainWord(
+      current.word[0]
+    );
+
+
+  /* Viimeinen kirjain jää aina. */
+
+  if (
+    hintLetters >=
+    answer.length - 1
+  ) {
+
+    $("hintBtn")
+      .disabled =
+        true;
+
+    return;
+
+  }
+
+
+  hintLetters++;
+
+
+  const shown =
+    answer
+      .slice(0, hintLetters)
+      .split("")
+      .join(" ");
+
+
+  const rest =
+    answer
+      .slice(hintLetters)
+      .split("")
+      .map(
+        character =>
+          character === " "
+            ? " "
+            : "_"
+      )
+      .join(" ");
+
+
+  $("hintText")
+    .textContent =
+      (shown + " " + rest)
+        .trim();
+
+
+  payForHint();
+
+
+  if (
+    hintLetters >=
+    answer.length - 1
+  ) {
+
+    $("hintBtn")
+      .disabled =
+        true;
+
+  }
+
+}
+
+
+
 function checkChoice(
   button,
-  choice,
-  index
+  choice
 ) {
 
   if (locked) {
@@ -1725,7 +3231,7 @@ function checkChoice(
 
 
   const correct =
-    current.word[index];
+    answerText;
 
 
   [
@@ -1830,10 +3336,29 @@ function answerResult(success) {
   attempts++;
 
 
+  $("hintBtn")
+    .disabled =
+      true;
+
+
 
   if (success) {
 
-    mastered++;
+    /*
+      Sama sana lasketaan osatuksi
+      vain kertaalleen, vaikka se
+      kysyttäisiin uudelleen.
+    */
+
+    if (!current.done) {
+
+      current.done =
+        true;
+
+      mastered++;
+
+    }
+
 
     score +=
       10 +
@@ -1843,8 +3368,11 @@ function answerResult(success) {
 
 
     $("feedback")
-      .textContent =
-        "✅ Oikein!";
+      .innerHTML =
+
+        miniCheer() +
+
+        "<span>✅ Oikein!</span>";
 
 
     $("feedback")
@@ -1868,6 +3396,9 @@ function answerResult(success) {
     current.mistakes++;
 
 
+    wrongAnswers++;
+
+
     score =
       Math.max(
         0,
@@ -1878,7 +3409,7 @@ function answerResult(success) {
     $("feedback")
       .innerHTML =
 
-        "❌ Oikea vastaus: <b>" +
+        "<span>❌ Oikea vastaus: <b>" +
 
         escapeHtml(
           current.word[0]
@@ -1890,7 +3421,7 @@ function answerResult(success) {
           current.word[1]
         )
 
-        + "</b>";
+        + "</b></span>";
 
 
     $("feedback")
@@ -1947,6 +3478,659 @@ function answerResult(success) {
 
 
 
+/*
+  Täysien pisteiden palkinto:
+  söpö eläin, joka vaihtuu
+  joka kerta.
+*/
+
+const CUTE_ANIMALS = [
+
+  {
+    en: "a fennec fox",
+    fi: "aavikkokettu",
+
+    cheer:
+      "Korvat hörössä ja hyppy pystyyn!",
+
+    svg: `
+      <svg viewBox="0 0 140 120" aria-hidden="true">
+
+        <ellipse cx="70" cy="112" rx="42" ry="6"
+          fill="#efe6ff"/>
+
+        <g class="anim-hop">
+
+          <path d="M40 92 C14 92 8 68 26 58 C36 53 47 62 48 76 Z"
+            fill="#e9bd82"/>
+
+          <path d="M26 58 C16 64 15 74 20 80 C10 72 12 60 26 58 Z"
+            fill="#fff4e6"/>
+
+          <ellipse cx="74" cy="86" rx="29" ry="23"
+            fill="#f0c68d"/>
+
+          <ellipse cx="74" cy="95" rx="18" ry="13"
+            fill="#fff4e6"/>
+
+          <ellipse cx="62" cy="106" rx="7" ry="5"
+            fill="#e0ab6c"/>
+
+          <ellipse cx="86" cy="106" rx="7" ry="5"
+            fill="#e0ab6c"/>
+
+          <g class="anim-ears">
+
+            <path d="M56 46 L45 8 L74 36 Z"
+              fill="#eec089"/>
+
+            <path d="M57 43 L51 18 L68 35 Z"
+              fill="#fbdcc0"/>
+
+            <path d="M92 46 L103 8 L74 36 Z"
+              fill="#eec089"/>
+
+            <path d="M91 43 L97 18 L80 35 Z"
+              fill="#fbdcc0"/>
+
+          </g>
+
+          <circle cx="74" cy="54" r="23"
+            fill="#f4cd97"/>
+
+          <ellipse cx="74" cy="66" rx="13" ry="10"
+            fill="#fff4e6"/>
+
+          <circle cx="65" cy="52" r="3.4"
+            fill="#42301f"/>
+
+          <circle cx="83" cy="52" r="3.4"
+            fill="#42301f"/>
+
+          <circle cx="66.2" cy="50.8" r="1.2"
+            fill="#ffffff"/>
+
+          <circle cx="84.2" cy="50.8" r="1.2"
+            fill="#ffffff"/>
+
+          <path d="M70 62 L78 62 L74 66 Z"
+            fill="#42301f"/>
+
+          <path d="M68 70 q6 4 12 0"
+            fill="none" stroke="#c8904f"
+            stroke-width="2" stroke-linecap="round"/>
+
+        </g>
+
+      </svg>
+    `
+  },
+
+
+  {
+    en: "an otter",
+    fi: "saukko",
+
+    cheer:
+      "Saukko kellii selällään ja taputtaa kiveä!",
+
+    svg: `
+      <svg viewBox="0 0 140 120" aria-hidden="true">
+
+        <path class="anim-wave"
+          d="M-20 92 q18 -9 36 0 t36 0 t36 0 t36 0 t36 0 V120 H-20 Z"
+          fill="#c3e7f7"/>
+
+        <g class="anim-float">
+
+          <path d="M106 84 q26 4 28 -14 q-2 20 -26 22 Z"
+            fill="#8a5f40"/>
+
+          <ellipse cx="76" cy="84" rx="33" ry="19"
+            fill="#9c6d48"/>
+
+          <ellipse cx="74" cy="86" rx="23" ry="12"
+            fill="#cf9f77"/>
+
+          <ellipse cx="99" cy="70" rx="8" ry="5"
+            fill="#7d543a"/>
+
+          <circle cx="30" cy="56" r="6.5"
+            fill="#7d543a"/>
+
+          <circle cx="52" cy="54" r="6.5"
+            fill="#7d543a"/>
+
+          <circle cx="41" cy="72" r="20"
+            fill="#9c6d48"/>
+
+          <ellipse cx="40" cy="80" rx="12" ry="9"
+            fill="#f2dac2"/>
+
+          <circle cx="34" cy="68" r="3"
+            fill="#33241a"/>
+
+          <circle cx="49" cy="68" r="3"
+            fill="#33241a"/>
+
+          <circle cx="35" cy="67" r="1"
+            fill="#ffffff"/>
+
+          <circle cx="50" cy="67" r="1"
+            fill="#ffffff"/>
+
+          <ellipse cx="41" cy="76" rx="3.4" ry="2.6"
+            fill="#33241a"/>
+
+          <path d="M37 82 q4 3 8 -1"
+            fill="none" stroke="#a97b55"
+            stroke-width="1.6" stroke-linecap="round"/>
+
+          <path d="M27 78 l-11 -3 M27 82 l-11 4 M55 78 l11 -3 M55 82 l11 4"
+            stroke="#efd9c2" stroke-width="1.5"
+            stroke-linecap="round"/>
+
+          <g class="anim-tap">
+
+            <circle cx="72" cy="68" r="8"
+              fill="#b8b3ac"/>
+
+            <ellipse cx="63" cy="75" rx="6" ry="4.6"
+              fill="#8a5f40"/>
+
+            <ellipse cx="81" cy="75" rx="6" ry="4.6"
+              fill="#8a5f40"/>
+
+          </g>
+
+        </g>
+
+      </svg>
+    `
+  },
+
+
+  {
+    en: "a mongoose",
+    fi: "mangusti",
+
+    cheer:
+      "Mangusti kurkistaa kolostaan ja nyökkää!",
+
+    svg: `
+      <svg viewBox="0 0 140 120" aria-hidden="true">
+
+        <g class="anim-peek">
+
+          <path d="M82 94 q24 -2 26 -30 q6 30 -22 38 Z"
+            fill="#b39c7d"/>
+
+          <ellipse cx="70" cy="78" rx="16" ry="26"
+            fill="#c3ab88"/>
+
+          <ellipse cx="70" cy="84" rx="9" ry="17"
+            fill="#eaddc2"/>
+
+          <ellipse cx="55" cy="74" rx="5" ry="9"
+            fill="#b09777"/>
+
+          <ellipse cx="85" cy="74" rx="5" ry="9"
+            fill="#b09777"/>
+
+          <ellipse cx="55" cy="42" rx="5" ry="4"
+            fill="#ab9174"/>
+
+          <ellipse cx="85" cy="42" rx="5" ry="4"
+            fill="#ab9174"/>
+
+          <ellipse cx="70" cy="44" rx="15" ry="14"
+            fill="#cdb794"/>
+
+          <path d="M58 50 q12 -4 24 0 q-4 14 -12 14 q-8 0 -12 -14 Z"
+            fill="#d9c6a6"/>
+
+          <ellipse cx="70" cy="57" rx="7" ry="6"
+            fill="#f0e4cc"/>
+
+          <circle cx="63" cy="42" r="3.2"
+            fill="#33291f"/>
+
+          <circle cx="77" cy="42" r="3.2"
+            fill="#33291f"/>
+
+          <circle cx="64.2" cy="41" r="1.1"
+            fill="#ffffff"/>
+
+          <circle cx="78.2" cy="41" r="1.1"
+            fill="#ffffff"/>
+
+          <ellipse cx="70" cy="54" rx="2.8" ry="2.2"
+            fill="#33291f"/>
+
+          <path d="M66 60 q4 3 8 0"
+            fill="none" stroke="#b7a184"
+            stroke-width="1.6" stroke-linecap="round"/>
+
+        </g>
+
+        <path d="M0 96 q26 -14 52 -8 q14 3 22 3 q28 0 66 -6 V120 H0 Z"
+          fill="#f3e0b4"/>
+
+        <ellipse cx="66" cy="97" rx="24" ry="7"
+          fill="#dcc48f"/>
+
+      </svg>
+    `
+  },
+
+
+  {
+    en: "a monkey",
+    fi: "apina",
+
+    cheer:
+      "Apina keinuu oksalla ja hurraa!",
+
+    svg: `
+      <svg viewBox="0 0 140 120" aria-hidden="true">
+
+        <rect x="4" y="12" width="132" height="10" rx="5"
+          fill="#8d6a49"/>
+
+        <path d="M34 12 q10 -14 26 -11 q-16 5 -18 11 Z"
+          fill="#5cb98a"/>
+
+        <path d="M100 12 q12 -13 27 -9 q-17 3 -20 9 Z"
+          fill="#5cb98a"/>
+
+        <g class="anim-swing">
+
+          <path d="M70 34 L70 20"
+            stroke="#a9743f" stroke-width="10"
+            stroke-linecap="round"/>
+
+          <path d="M94 78 q28 6 24 -20 q-1 18 -22 12 Z"
+            fill="#a9743f"/>
+
+          <ellipse cx="70" cy="80" rx="22" ry="23"
+            fill="#b57f48"/>
+
+          <ellipse cx="70" cy="84" rx="14" ry="16"
+            fill="#e7c294"/>
+
+          <ellipse cx="57" cy="100" rx="8" ry="6"
+            fill="#a9743f"/>
+
+          <ellipse cx="83" cy="100" rx="8" ry="6"
+            fill="#a9743f"/>
+
+          <circle cx="50" cy="50" r="8.5"
+            fill="#b57f48"/>
+
+          <circle cx="50" cy="50" r="4.6"
+            fill="#e7c294"/>
+
+          <circle cx="90" cy="50" r="8.5"
+            fill="#b57f48"/>
+
+          <circle cx="90" cy="50" r="4.6"
+            fill="#e7c294"/>
+
+          <circle cx="70" cy="50" r="21"
+            fill="#b57f48"/>
+
+          <ellipse cx="70" cy="56" rx="15.5" ry="13"
+            fill="#eecb9f"/>
+
+          <circle cx="63" cy="47" r="3.3"
+            fill="#3d2b1c"/>
+
+          <circle cx="77" cy="47" r="3.3"
+            fill="#3d2b1c"/>
+
+          <circle cx="64.2" cy="45.8" r="1.1"
+            fill="#ffffff"/>
+
+          <circle cx="78.2" cy="45.8" r="1.1"
+            fill="#ffffff"/>
+
+          <ellipse cx="67" cy="56" rx="1.7" ry="1.3"
+            fill="#3d2b1c"/>
+
+          <ellipse cx="73" cy="56" rx="1.7" ry="1.3"
+            fill="#3d2b1c"/>
+
+          <path d="M62 61 q8 6 16 0"
+            fill="none" stroke="#8d5a2b"
+            stroke-width="2.2" stroke-linecap="round"/>
+
+        </g>
+
+      </svg>
+    `
+  },
+
+
+  {
+    en: "a rabbit",
+    fi: "kani",
+
+    cheer:
+      "Kani pomppii kuin popcorn!",
+
+    svg: `
+      <svg viewBox="0 0 140 120" aria-hidden="true">
+
+        <ellipse cx="70" cy="112" rx="40" ry="6"
+          fill="#efe6ff"/>
+
+        <g class="anim-hop">
+
+          <circle cx="100" cy="88" r="11"
+            fill="#fdfdff"/>
+
+          <ellipse cx="72" cy="86" rx="28" ry="22"
+            fill="#f4f2fb"/>
+
+          <ellipse cx="70" cy="94" rx="17" ry="12"
+            fill="#ffffff"/>
+
+          <ellipse cx="58" cy="104" rx="9" ry="6"
+            fill="#e7e3f3"/>
+
+          <ellipse cx="82" cy="104" rx="9" ry="6"
+            fill="#e7e3f3"/>
+
+          <g class="anim-ears">
+
+            <ellipse cx="60" cy="26" rx="7" ry="22"
+              transform="rotate(-9 60 26)"
+              fill="#f4f2fb"/>
+
+            <ellipse cx="60" cy="28" rx="3.4" ry="15"
+              transform="rotate(-9 60 28)"
+              fill="#f9c9d8"/>
+
+            <ellipse cx="84" cy="26" rx="7" ry="22"
+              transform="rotate(9 84 26)"
+              fill="#f4f2fb"/>
+
+            <ellipse cx="84" cy="28" rx="3.4" ry="15"
+              transform="rotate(9 84 28)"
+              fill="#f9c9d8"/>
+
+          </g>
+
+          <circle cx="72" cy="56" r="22"
+            fill="#f8f6fd"/>
+
+          <circle cx="63" cy="53" r="3.4"
+            fill="#3f3550"/>
+
+          <circle cx="81" cy="53" r="3.4"
+            fill="#3f3550"/>
+
+          <circle cx="64.2" cy="51.8" r="1.2"
+            fill="#ffffff"/>
+
+          <circle cx="82.2" cy="51.8" r="1.2"
+            fill="#ffffff"/>
+
+          <path d="M68 62 L76 62 L72 66 Z"
+            fill="#f39cb4"/>
+
+          <path d="M72 66 v3 M72 69 q-5 4 -8 0 M72 69 q5 4 8 0"
+            fill="none" stroke="#c9a7b6"
+            stroke-width="1.6" stroke-linecap="round"/>
+
+          <path d="M52 58 l-12 -3 M52 62 l-12 4 M92 58 l12 -3 M92 62 l12 4"
+            stroke="#ded9ec" stroke-width="1.5"
+            stroke-linecap="round"/>
+
+        </g>
+
+      </svg>
+    `
+  },
+
+
+  {
+    en: "a penguin",
+    fi: "pingviini",
+
+    cheer:
+      "Pingviini tekee voittotanssin!",
+
+    svg: `
+      <svg viewBox="0 0 140 120" aria-hidden="true">
+
+        <ellipse cx="70" cy="112" rx="38" ry="6"
+          fill="#e8f4ff"/>
+
+        <g class="anim-waddle">
+
+          <ellipse cx="70" cy="72" rx="30" ry="38"
+            fill="#3b3f52"/>
+
+          <ellipse cx="70" cy="78" rx="21" ry="30"
+            fill="#fdfdff"/>
+
+          <ellipse cx="41" cy="74" rx="8" ry="20"
+            transform="rotate(8 41 74)"
+            fill="#333747"/>
+
+          <ellipse cx="99" cy="74" rx="8" ry="20"
+            transform="rotate(-8 99 74)"
+            fill="#333747"/>
+
+          <circle cx="70" cy="40" r="24"
+            fill="#3b3f52"/>
+
+          <ellipse cx="70" cy="46" rx="17" ry="15"
+            fill="#fdfdff"/>
+
+          <circle cx="62" cy="38" r="3.4"
+            fill="#23252f"/>
+
+          <circle cx="78" cy="38" r="3.4"
+            fill="#23252f"/>
+
+          <circle cx="63.2" cy="36.8" r="1.2"
+            fill="#ffffff"/>
+
+          <circle cx="79.2" cy="36.8" r="1.2"
+            fill="#ffffff"/>
+
+          <path d="M62 47 L78 47 L70 57 Z"
+            fill="#f6a13c"/>
+
+          <ellipse cx="58" cy="108" rx="11" ry="5"
+            fill="#f6a13c"/>
+
+          <ellipse cx="82" cy="108" rx="11" ry="5"
+            fill="#f6a13c"/>
+
+        </g>
+
+        <circle cx="22" cy="26" r="4"
+          fill="#dceeff"/>
+
+        <circle cx="116" cy="34" r="3.4"
+          fill="#dceeff"/>
+
+        <circle cx="104" cy="16" r="2.6"
+          fill="#dceeff"/>
+
+      </svg>
+    `
+  }
+
+];
+
+
+
+/*
+  Täydet pisteet = kaikki oikein
+  ensimmäisellä yrityksellä, eli
+  putki ei katkea kertaakaan.
+*/
+
+function maxScore() {
+
+  return (
+    roundSize * 10 +
+
+    roundSize *
+    (roundSize - 1)
+  );
+
+}
+
+
+
+let lastAnimal = -1;
+
+let lastMini = -1;
+
+
+
+/*
+  Poimii eläimen niin, ettei sama
+  tule kahdesti putkeen.
+*/
+
+function pickAnimal(previous) {
+
+  let index =
+    Math.floor(
+      Math.random() *
+      CUTE_ANIMALS.length
+    );
+
+
+  if (
+    index === previous
+  ) {
+
+    index =
+      (
+        index +
+        1 +
+        Math.floor(
+          Math.random() *
+          (CUTE_ANIMALS.length - 1)
+        )
+      )
+      % CUTE_ANIMALS.length;
+
+  }
+
+
+  return index;
+
+}
+
+
+
+/*
+  Nopea pomppu jokaisesta oikeasta
+  vastauksesta, palautteen viereen.
+*/
+
+function miniCheer() {
+
+  lastMini =
+    pickAnimal(lastMini);
+
+
+  return (
+    '<span class="mini animal-box">' +
+
+    CUTE_ANIMALS[lastMini].svg +
+
+    "</span>"
+  );
+
+}
+
+
+
+function showCelebration() {
+
+  lastAnimal =
+    pickAnimal(lastAnimal);
+
+
+  const index =
+    lastAnimal;
+
+
+  const animal =
+    CUTE_ANIMALS[index];
+
+
+  $("animalStage")
+    .innerHTML =
+
+      `
+      <span class="sparkle">✨</span>
+      <span class="sparkle">⭐</span>
+      <span class="sparkle">✨</span>
+      `
+      +
+      animal.svg;
+
+
+  $("animalName")
+    .innerHTML =
+
+      escapeHtml(animal.en) +
+
+      " <small>= " +
+
+      escapeHtml(animal.fi) +
+
+      "</small>";
+
+
+  $("animalCheer")
+    .textContent =
+      animal.cheer;
+
+
+  $("celebration")
+    .classList
+    .remove("hidden");
+
+
+  $("finishIcon")
+    .classList
+    .add("hidden");
+
+}
+
+
+
+function hideCelebration() {
+
+  $("celebration")
+    .classList
+    .add("hidden");
+
+
+  $("animalStage")
+    .innerHTML =
+      "";
+
+
+  $("finishIcon")
+    .classList
+    .remove("hidden");
+
+}
+
+
+
 function finishGame() {
 
   $("gameArea")
@@ -1969,22 +4153,87 @@ function finishGame() {
       "100%";
 
 
+  /*
+    Palkinnon ei tarvitse vaatia
+    täysiä pisteitä: eläin tulee
+    jo silloin, kun korkeintaan
+    kolmasosassa sanoista tuli
+    virhe.
+  */
+
+  const rewardLimit =
+    Math.ceil(
+      roundSize / 3
+    );
+
+
+  const perfect =
+    wrongAnswers === 0;
+
+
+  const rewarded =
+    wrongAnswers <= rewardLimit;
+
+
+  $("finishTitle")
+    .textContent =
+
+      perfect
+        ? "🎉 Täydet pisteet!"
+
+        : wrongAnswers <= 2
+          ? "🌟 Melkein täydet!"
+
+          : rewarded
+            ? "👏 Hienosti tehty!"
+
+            : "Kaikki osattu!";
+
+
+  const hintNote =
+
+    hintsUsed === 0
+      ? ""
+      : " Vihjeitä käytettiin " +
+        hintsUsed +
+        ".";
+
+
   $("finishText")
     .textContent =
 
-      "Osasit kaikki " +
+      (
+        perfect
 
-      ROUND_SIZE +
+          ? "Kaikki " +
+            roundSize +
+            " sanaa oikein ensi yrittämällä ja täydet " +
+            maxScore() +
+            " pistettä!"
 
-      " sanaa. Vastauksia tarvittiin " +
+          : "Osasit kaikki " +
+            roundSize +
+            " sanaa. Väärin meni " +
+            wrongAnswers +
+            " kertaa ja sait " +
+            score +
+            " pistettä."
+      )
 
-      attempts +
+      + hintNote;
 
-      " ja sait " +
 
-      score +
+  if (rewarded) {
 
-      " pistettä.";
+    showCelebration();
+
+  }
+
+  else {
+
+    hideCelebration();
+
+  }
 
 }
 
@@ -2007,6 +4256,25 @@ function restart() {
   locked =
     false;
 
+  wrongAnswers =
+    0;
+
+  hintsUsed =
+    0;
+
+  hintLetters =
+    0;
+
+
+  $("hintText")
+    .textContent =
+      "";
+
+
+  $("hintBtn")
+    .disabled =
+      false;
+
 
   $("finishArea")
     .classList
@@ -2020,6 +4288,14 @@ function restart() {
     .remove(
       "hidden"
     );
+
+
+  /*
+    Pysäytä animaatio, ettei se
+    pyöri taustalla kesken pelin.
+  */
+
+  hideCelebration();
 
 
   buildRound();
@@ -2045,6 +4321,11 @@ $("nextBtn")
 $("checkBtn")
   .onclick =
     checkWritten;
+
+
+$("hintBtn")
+  .onclick =
+    useHint;
 
 
 $("restartBtn")
