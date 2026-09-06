@@ -1256,6 +1256,13 @@ summary {
 .writing-finale .fin-lilli-cue1,.writing-finale .fin-lilli-cue2,.writing-finale .fin-lilli-cue3,.writing-finale .fin-lilli-treat {opacity:0}
 }
 
+
+body.demo-only .hero,
+body.demo-only .mode-card,
+body.demo-only .stats,
+body.demo-only .progress,
+body.demo-only details { display: none; }
+body.demo-only .card { margin-top: 0; }
 </style>
 
 </head>
@@ -1276,7 +1283,7 @@ summary {
 
 </section>
 
-<section class="card">
+<section class="card mode-card">
 
   <div class="mode-row">
 
@@ -6195,10 +6202,26 @@ function miniCheer() {
   return '<span class="mini animal-box">' + CUTE_ANIMALS[lastMini].svg + "</span>";
 }
 
-function showWritingFinale() {
+function showWritingFinale(requestedTitle = "") {
   const count = WRITING_FINAL_SCENES.length;
-  let index = Math.floor(Math.random() * (lastWritingFinale < 0 ? count : count - 1));
-  if (lastWritingFinale >= 0 && index >= lastWritingFinale) index++;
+  let index;
+
+  if (requestedTitle) {
+    index = WRITING_FINAL_SCENES.findIndex(
+      scene => scene.title === requestedTitle
+    );
+    if (index < 0) return false;
+  }
+  else {
+    index = Math.floor(
+      Math.random() *
+      (lastWritingFinale < 0 ? count : count - 1)
+    );
+    if (lastWritingFinale >= 0 && index >= lastWritingFinale) {
+      index++;
+    }
+  }
+
   lastWritingFinale = index;
   const scene = WRITING_FINAL_SCENES[index];
   $("animalStage").classList.add("writing-finale");
@@ -6207,6 +6230,7 @@ function showWritingFinale() {
   $("animalCheer").textContent = scene.description;
   $("celebration").classList.remove("hidden");
   $("finishIcon").classList.add("hidden");
+  return true;
 }
 
 function showCelebration() {
@@ -6465,6 +6489,41 @@ function restart() {
 
 
 
+
+function showRequestedDemo() {
+  const demo =
+    new URLSearchParams(
+      window.location.search
+    ).get("demo");
+
+  if (demo !== "lilli") return false;
+
+  document.body.classList.add("demo-only");
+  $("mode").value = "write";
+  $("gameArea").classList.add("hidden");
+  $("finishArea").classList.remove("hidden");
+  $("finishTitle").textContent =
+    "Lillin koulutushetki";
+  $("finishText").textContent =
+    "Volpino italianon animaatiodemo";
+  $("restartBtn").textContent =
+    "Katso uudelleen";
+
+  const replay = () => {
+    hideCelebration();
+    requestAnimationFrame(
+      () => showWritingFinale(
+        "Lillin koulutushetki"
+      )
+    );
+  };
+
+  $("restartBtn").onclick = replay;
+  showWritingFinale("Lillin koulutushetki");
+  return true;
+}
+
+
 $("speakBtn")
   .onclick =
     speak;
@@ -6561,7 +6620,9 @@ $("wordbank")
 
 
 
-restart();
+if (!showRequestedDemo()) {
+  restart();
+}
 
 </script>
 
