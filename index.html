@@ -693,6 +693,161 @@ button:active {
 }
 
 
+
+/* Kirjoituspelin tavallista näyttävämmät palkinnot. */
+
+.mini.hard-reward {
+  width: 145px;
+  height: 124px;
+  border: 2px solid #c4b5fd;
+  box-shadow: 0 12px 30px rgba(109,40,217,.25);
+  animation: hard-reward-show 3.2s ease-in-out both;
+}
+
+@keyframes hard-reward-show {
+  0% { transform: scale(.2) rotate(-8deg); opacity: 0; }
+  10% { transform: scale(1.85) rotate(3deg); opacity: 1; }
+  18%, 78% { transform: scale(1.65); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.hard-reward .reward-star {
+  animation: reward-twinkle .65s ease-in-out infinite alternate;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@keyframes reward-twinkle {
+  from { transform: scale(.55) rotate(0); opacity: .35; }
+  to { transform: scale(1.25) rotate(25deg); opacity: 1; }
+}
+
+.hard-reward .rocket {
+  animation: rocket-flight 1.15s ease-in-out infinite;
+  transform-box: view-box;
+  transform-origin: 70px 70px;
+}
+
+@keyframes rocket-flight {
+  0%, 100% { transform: translateY(7px) rotate(-3deg); }
+  50% { transform: translateY(-12px) rotate(3deg); }
+}
+
+.hard-reward .rocket-flame {
+  animation: flame-pulse .22s ease-in-out infinite alternate;
+  transform-box: fill-box;
+  transform-origin: 50% 0%;
+}
+
+@keyframes flame-pulse {
+  from { transform: scaleY(.6); }
+  to { transform: scaleY(1.2); }
+}
+
+.hard-reward .dragon {
+  animation: dragon-bob 1.25s ease-in-out infinite;
+  transform-box: view-box;
+  transform-origin: 70px 75px;
+}
+
+@keyframes dragon-bob {
+  0%, 100% { transform: translateY(4px) rotate(-2deg); }
+  50% { transform: translateY(-8px) rotate(2deg); }
+}
+
+.hard-reward .dragon-wing {
+  animation: wing-flap .38s ease-in-out infinite alternate;
+  transform-box: fill-box;
+  transform-origin: 100% 85%;
+}
+
+@keyframes wing-flap {
+  from { transform: rotate(-12deg) scaleY(.8); }
+  to { transform: rotate(18deg) scaleY(1.08); }
+}
+
+.hard-reward .dragon-fire {
+  animation: fire-grow .42s ease-in-out infinite alternate;
+  transform-box: fill-box;
+  transform-origin: 0% 50%;
+}
+
+@keyframes fire-grow {
+  from { transform: scaleX(.45) scaleY(.75); opacity: .65; }
+  to { transform: scaleX(1.12) scaleY(1.08); opacity: 1; }
+}
+
+.hard-reward .unicorn {
+  animation: unicorn-gallop .72s ease-in-out infinite;
+  transform-box: view-box;
+  transform-origin: 70px 88px;
+}
+
+@keyframes unicorn-gallop {
+  0%, 100% { transform: translateY(5px) rotate(-2deg); }
+  50% { transform: translateY(-9px) rotate(2deg); }
+}
+
+.hard-reward .rainbow {
+  stroke-dasharray: 180;
+  animation: rainbow-draw 1.6s linear infinite;
+}
+
+@keyframes rainbow-draw {
+  from { stroke-dashoffset: 180; }
+  to { stroke-dashoffset: -180; }
+}
+
+.hard-reward .chest-lid {
+  animation: chest-open 1.35s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+
+@keyframes chest-open {
+  0%, 18%, 100% { transform: rotate(0); }
+  42%, 82% { transform: translateY(-5px) rotate(-18deg); }
+}
+
+.hard-reward .coin {
+  animation: coin-jump 1.35s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@keyframes coin-jump {
+  0%, 28%, 100% { transform: translateY(14px) scale(.7); opacity: 0; }
+  48%, 76% { transform: translateY(-7px); opacity: 1; }
+}
+
+.hard-reward .wand {
+  animation: wand-cast 1.05s ease-in-out infinite;
+  transform-box: view-box;
+  transform-origin: 78px 79px;
+}
+
+@keyframes wand-cast {
+  0%, 100% { transform: rotate(-18deg); }
+  50% { transform: rotate(24deg); }
+}
+
+.hard-reward .magic-orb {
+  animation: magic-orbit 1.25s linear infinite;
+  transform-box: view-box;
+  transform-origin: 70px 55px;
+}
+
+.hard-reward .magic-orb.alt {
+  animation-direction: reverse;
+  animation-duration: 1.7s;
+}
+
+@keyframes magic-orbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+
 /* CELEBRATION ANIMATIONS */
 
 .animal-box [class*="anim-"] {
@@ -6009,6 +6164,14 @@ const CUTE_ANIMALS = [
   putki ei katkea kertaakaan.
 */
 
+const HARD_REWARDS = [
+  "<svg viewBox=\"0 0 140 120\" aria-hidden=\"true\">\n  <rect width=\"140\" height=\"120\" rx=\"18\" fill=\"#11143b\"/>\n  <circle class=\"reward-star\" cx=\"24\" cy=\"25\" r=\"4\" fill=\"#fde047\"/>\n  <circle class=\"reward-star\" cx=\"112\" cy=\"34\" r=\"3\" fill=\"#fff\"/>\n  <circle class=\"reward-star\" cx=\"30\" cy=\"86\" r=\"3\" fill=\"#c4b5fd\"/>\n  <g class=\"rocket\">\n    <path d=\"M70 18C91 36 91 63 70 83C49 63 49 36 70 18Z\" fill=\"#f8fafc\"/>\n    <circle cx=\"70\" cy=\"45\" r=\"9\" fill=\"#38bdf8\" stroke=\"#312e81\" stroke-width=\"3\"/>\n    <path d=\"M54 61L42 78L58 75ZM86 61L98 78L82 75Z\" fill=\"#f43f5e\"/>\n    <g class=\"rocket-flame\">\n      <path d=\"M60 78Q70 111 80 78Z\" fill=\"#f97316\"/>\n      <path d=\"M65 78Q70 101 75 78Z\" fill=\"#fde047\"/>\n    </g>\n  </g>\n</svg>",
+  "<svg viewBox=\"0 0 140 120\" aria-hidden=\"true\">\n  <rect width=\"140\" height=\"120\" rx=\"18\" fill=\"#e0f2fe\"/>\n  <circle class=\"reward-star\" cx=\"20\" cy=\"22\" r=\"4\" fill=\"#facc15\"/>\n  <g class=\"dragon\">\n    <path class=\"dragon-wing\" d=\"M60 67Q25 32 23 72Q40 60 55 84Z\" fill=\"#22c55e\"/>\n    <path class=\"dragon-wing\" d=\"M80 67Q115 32 117 72Q100 60 85 84Z\" fill=\"#16a34a\"/>\n    <ellipse cx=\"70\" cy=\"79\" rx=\"29\" ry=\"24\" fill=\"#4ade80\"/>\n    <path d=\"M51 61Q43 40 58 27L65 57ZM89 61Q97 40 82 27L75 57Z\" fill=\"#facc15\"/>\n    <circle cx=\"70\" cy=\"57\" r=\"22\" fill=\"#4ade80\"/>\n    <circle cx=\"61\" cy=\"54\" r=\"4\" fill=\"#172554\"/><circle cx=\"79\" cy=\"54\" r=\"4\" fill=\"#172554\"/>\n    <path d=\"M61 68Q70 75 79 68\" fill=\"none\" stroke=\"#166534\" stroke-width=\"3\"/>\n    <path class=\"dragon-fire\" d=\"M84 66Q116 53 128 67Q112 69 124 83Q101 81 84 71Z\" fill=\"#f97316\"/>\n  </g>\n</svg>",
+  "<svg viewBox=\"0 0 140 120\" aria-hidden=\"true\">\n  <rect width=\"140\" height=\"120\" rx=\"18\" fill=\"#fdf2f8\"/>\n  <path class=\"rainbow\" d=\"M8 94Q42 36 79 94\" fill=\"none\" stroke=\"#fb7185\" stroke-width=\"14\"/>\n  <path class=\"rainbow\" d=\"M13 96Q44 48 75 96\" fill=\"none\" stroke=\"#facc15\" stroke-width=\"10\"/>\n  <path class=\"rainbow\" d=\"M18 98Q44 61 70 98\" fill=\"none\" stroke=\"#38bdf8\" stroke-width=\"7\"/>\n  <g class=\"unicorn\">\n    <ellipse cx=\"81\" cy=\"80\" rx=\"31\" ry=\"21\" fill=\"#fff\" stroke=\"#c084fc\" stroke-width=\"2\"/>\n    <circle cx=\"99\" cy=\"55\" r=\"18\" fill=\"#fff\" stroke=\"#c084fc\" stroke-width=\"2\"/>\n    <path d=\"M98 37L107 12L111 41Z\" fill=\"#facc15\"/>\n    <path d=\"M87 42Q75 21 65 35Q78 36 84 52Z\" fill=\"#f472b6\"/>\n    <circle cx=\"104\" cy=\"54\" r=\"3\" fill=\"#312e81\"/>\n    <path d=\"M58 79Q39 65 34 85Q49 80 58 91Z\" fill=\"#f472b6\"/>\n    <path d=\"M67 96L61 111M87 98L91 112\" stroke=\"#c084fc\" stroke-width=\"5\"/>\n  </g>\n</svg>",
+  "<svg viewBox=\"0 0 140 120\" aria-hidden=\"true\">\n  <rect width=\"140\" height=\"120\" rx=\"18\" fill=\"#fff7ed\"/>\n  <circle class=\"reward-star\" cx=\"20\" cy=\"23\" r=\"4\" fill=\"#facc15\"/>\n  <circle class=\"coin\" cx=\"54\" cy=\"55\" r=\"8\" fill=\"#facc15\" stroke=\"#ca8a04\" stroke-width=\"2\"/>\n  <circle class=\"coin\" cx=\"70\" cy=\"43\" r=\"8\" fill=\"#fde047\" stroke=\"#ca8a04\" stroke-width=\"2\"/>\n  <circle class=\"coin\" cx=\"87\" cy=\"54\" r=\"8\" fill=\"#facc15\" stroke=\"#ca8a04\" stroke-width=\"2\"/>\n  <g class=\"chest-lid\">\n    <path d=\"M35 67Q35 42 70 42Q105 42 105 67Z\" fill=\"#92400e\" stroke=\"#451a03\" stroke-width=\"4\"/>\n    <path d=\"M39 62Q43 49 70 49Q97 49 101 62Z\" fill=\"#f59e0b\"/>\n  </g>\n  <rect x=\"32\" y=\"66\" width=\"76\" height=\"39\" rx=\"7\" fill=\"#b45309\" stroke=\"#451a03\" stroke-width=\"4\"/>\n  <path d=\"M32 77H108M70 67V105\" stroke=\"#fbbf24\" stroke-width=\"6\"/>\n  <rect x=\"64\" y=\"77\" width=\"13\" height=\"16\" rx=\"3\" fill=\"#fde047\"/>\n</svg>",
+  "<svg viewBox=\"0 0 140 120\" aria-hidden=\"true\">\n  <rect width=\"140\" height=\"120\" rx=\"18\" fill=\"#1e1b4b\"/>\n  <circle class=\"reward-star\" cx=\"22\" cy=\"23\" r=\"4\" fill=\"#fde047\"/>\n  <circle class=\"reward-star\" cx=\"115\" cy=\"28\" r=\"3\" fill=\"#67e8f9\"/>\n  <g class=\"magic-orb\"><circle cx=\"70\" cy=\"22\" r=\"6\" fill=\"#f472b6\"/></g>\n  <g class=\"magic-orb alt\"><circle cx=\"70\" cy=\"90\" r=\"5\" fill=\"#67e8f9\"/></g>\n  <path d=\"M39 103Q48 65 70 62Q92 65 101 103Z\" fill=\"#7c3aed\"/>\n  <circle cx=\"70\" cy=\"55\" r=\"19\" fill=\"#fed7aa\"/>\n  <path d=\"M48 48Q70 13 99 49L84 47Q71 37 48 48Z\" fill=\"#4338ca\"/>\n  <path d=\"M61 56h5M75 56h5\" stroke=\"#312e81\" stroke-width=\"4\"/>\n  <path d=\"M64 66Q70 71 76 66\" fill=\"none\" stroke=\"#be123c\" stroke-width=\"2\"/>\n  <g class=\"wand\">\n    <path d=\"M84 78L116 39\" stroke=\"#92400e\" stroke-width=\"5\"/>\n    <path d=\"M116 31L119 38L127 39L121 44L123 52L116 48L109 52L111 44L105 39L113 38Z\" fill=\"#fde047\"/>\n  </g>\n</svg>"
+];
+
 function maxScore() {
 
   return (
@@ -6023,6 +6186,8 @@ function maxScore() {
 let lastAnimal = -1;
 
 let lastMini = -1;
+
+let lastHardMini = -1;
 
 
 
@@ -6070,6 +6235,50 @@ function pickAnimal(previous) {
 */
 
 function miniCheer() {
+
+  if (
+    $("mode").value === "write"
+  ) {
+
+    let index =
+      Math.floor(
+        Math.random() *
+        HARD_REWARDS.length
+      );
+
+
+    if (
+      index === lastHardMini
+    ) {
+
+      index =
+        (
+          index +
+          1 +
+          Math.floor(
+            Math.random() *
+            (HARD_REWARDS.length - 1)
+          )
+        )
+        % HARD_REWARDS.length;
+
+    }
+
+
+    lastHardMini =
+      index;
+
+
+    return (
+      '<span class="mini hard-reward animal-box">' +
+
+      HARD_REWARDS[index] +
+
+      "</span>"
+    );
+
+  }
+
 
   lastMini =
     pickAnimal(lastMini);
