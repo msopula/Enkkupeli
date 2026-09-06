@@ -3635,6 +3635,14 @@ function checkChoice(
 
 
 
+// Kirjoitusvastauksessa vain kirjaimet vaikuttavat tarkistukseen.
+function normalizeWrittenAnswer(text) {
+  return String(text)
+    .normalize("NFC")
+    .toLowerCase()
+    .replace(/[^\p{L}]/gu, "");
+}
+
 function checkWritten() {
 
   if (locked) {
@@ -3643,7 +3651,7 @@ function checkWritten() {
 
 
   const answer =
-    normalize(
+    normalizeWrittenAnswer(
       $("writeInput")
         .value
     );
@@ -3664,12 +3672,12 @@ function checkWritten() {
   ]
 
   .map(
-    normalize
+    normalizeWrittenAnswer
   );
 
 
   answerResult(
-    accepted.includes(
+    answer.length > 0 && accepted.includes(
       answer
     )
   );
