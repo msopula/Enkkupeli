@@ -1267,6 +1267,22 @@ body.demo-only .stats,
 body.demo-only .progress,
 body.demo-only details { display: none; }
 body.demo-only .card { margin-top: 0; }
+
+/* Hilla and Lilli: play bow, ball chase, return and a shared jump. */
+.fin-duo-hilla {animation-name:fin-duo-hilla}
+.fin-duo-lilli {animation-name:fin-duo-lilli}
+.fin-duo-bow {animation-name:fin-duo-bow;transform-origin:5px 14px}
+.fin-duo-tail {animation-name:fin-duo-tail;transform-origin:-30px 10px}
+.fin-duo-ball {animation-name:fin-duo-ball}
+.fin-duo-intro {animation-name:fin-duo-intro}
+@keyframes fin-duo-bow {0%,7%{transform:none}15%,22%{transform:translateY(14px) rotate(14deg)}29%,100%{transform:none}}
+@keyframes fin-duo-tail {0%,20%,40%,60%,80%,100%{transform:rotate(-9deg)}10%,30%,50%,70%,90%{transform:rotate(9deg)}}
+@keyframes fin-duo-hilla {0%{transform:translateX(-100px)}9%,25%{transform:none}39%{transform:translate(135px,-9px)}47%{transform:translate(150px,0) scaleX(-1)}60%{transform:translate(-30px,-12px) scaleX(-1)}68%{transform:translate(-35px,0) scaleX(-1)}75%{transform:none}83%{transform:translateY(-30px)}90%,100%{transform:none}}
+@keyframes fin-duo-lilli {0%{transform:translateX(130px)}12%,25%{transform:none}37%{transform:translate(-82px,-20px)}43%{transform:translate(-10px,0) scaleX(-1)}53%{transform:translate(65px,-15px) scaleX(-1)}60%{transform:translate(55px,0)}70%{transform:translate(-125px,-14px)}77%{transform:none}83%{transform:translateY(-38px)}90%,100%{transform:none}}
+@keyframes fin-duo-ball {0%,25%{transform:translate(242px,264px)}38%{transform:translate(405px,238px)}44%{transform:translate(418px,264px)}60%{transform:translate(90px,237px)}68%{transform:translate(72px,264px)}77%,100%{transform:translate(242px,264px)}}
+@keyframes fin-duo-intro {0%{opacity:0}6%,23%{opacity:1}30%,100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){.writing-finale .fin-duo-intro{opacity:0}}
+
 </style>
 
 </head>
@@ -6143,6 +6159,11 @@ const WRITING_FINAL_SCENES = [
     "title": "Lillin koulutushetki",
     "description": "Lilli, volpino italiano, istuu, antaa tassun ja tekee bravuurinsa: pyörähtää kokonaisen kierroksen. Sitten Lilli saa herkun ja hypähtää ilosta.",
     "svg": "<svg viewBox=\"0 0 480 320\" role=\"img\" aria-label=\"Lillin koulutushetki: istu, tassu ja palkinto\">\n<rect width=\"480\" height=\"320\" fill=\"#e8f2e8\"/><circle cx=\"405\" cy=\"53\" r=\"30\" fill=\"#fff0bf\"/>\n<path d=\"M0 220Q140 174 280 219T480 213V320H0\" fill=\"#b4cda2\"/><path d=\"M0 272Q200 232 480 267V320H0\" fill=\"#8eae7c\"/>\n<ellipse cx=\"230\" cy=\"286\" rx=\"114\" ry=\"16\" fill=\"#60885e\" opacity=\".25\"/>\n<rect x=\"125\" y=\"269\" width=\"210\" height=\"22\" rx=\"11\" fill=\"#c9b1d8\"/>\n<!-- Trainer kneels beside Lilli; the hand reaches out for a paw. -->\n<path d=\"M384 215q-34 15-39 63h34l17-32 27 32h24l-18-63\" fill=\"#50677d\"/>\n<path d=\"M377 152q31-14 51 3l8 70h-65z\" fill=\"#e99d7e\"/>\n<circle cx=\"402\" cy=\"124\" r=\"24\" fill=\"#f2c8ab\"/><path d=\"M378 126q-5-40 28-31 22 4 21 29l-14-15-36 17\" fill=\"#785640\"/>\n<path d=\"M384 147q16 10 34-1\" stroke=\"#f2c8ab\" stroke-width=\"9\"/>\n<g class=\"fin-lilli-hand\"><path d=\"M380 169 343 199 286 199\" fill=\"none\" stroke=\"#f2c8ab\" stroke-width=\"13\" stroke-linecap=\"round\"/><ellipse cx=\"285\" cy=\"198\" rx=\"14\" ry=\"6\" fill=\"#f2c8ab\"/></g>\n<g class=\"fin-lilli-spin\" fill=\"none\" stroke=\"#9d84c8\" stroke-width=\"5\" stroke-linecap=\"round\"><path d=\"M151 211q70-61 143 0\"/><path d=\"m151 211 15-2-8-13\"/><path d=\"M295 224q-72 61-144 0\"/><path d=\"m151 224 9 12 13-8\"/></g><g transform=\"translate(223 206)\"><g class=\"fin-lilli-dog\">\n<!-- Curled plume, pointed ears and fluffy white coat. -->\n<g class=\"fin-lilli-tail\"><path d=\"M-24 36C-89 28-87-30-50-32C-20-34-12-3-35 5C-47 10-60 0-51-8\" fill=\"none\" stroke=\"#cbd2d9\" stroke-width=\"22\" stroke-linecap=\"round\"/><path d=\"M-24 34C-88 25-83-30-50-30C-23-31-16-5-36 2C-45 5-54 0-51-7\" fill=\"none\" stroke=\"#fffdf8\" stroke-width=\"18\" stroke-linecap=\"round\"/></g>\n<g class=\"fin-lilli-sit\"><path d=\"M-28 5-39 21-31 29-39 41-30 47-34 62Q-5 80 31 62L37 45 29 29 32 14 20 1Z\" fill=\"#fffdf8\" stroke=\"#cbd2d9\" stroke-width=\"2\"/><ellipse cx=\"-20\" cy=\"62\" rx=\"18\" ry=\"12\" fill=\"#f0f1ee\"/><path d=\"M-11 38-13 71\" stroke=\"#cbd2d9\" stroke-width=\"13\" stroke-linecap=\"round\"/><path d=\"M-11 36-13 69\" stroke=\"#fffdf8\" stroke-width=\"10\" stroke-linecap=\"round\"/>\n<g class=\"fin-lilli-paw\"><path d=\"M18 32 21 65\" stroke=\"#cbd2d9\" stroke-width=\"14\" stroke-linecap=\"round\"/><path d=\"M18 31 21 64\" stroke=\"#fffdf8\" stroke-width=\"11\" stroke-linecap=\"round\"/><ellipse cx=\"23\" cy=\"66\" rx=\"10\" ry=\"6\" fill=\"#fffdf8\"/></g></g>\n<g class=\"fin-lilli-head\"><path d=\"M-28-20-28-57-5-34M28-20 28-57 5-34\" fill=\"#fffdf8\" stroke=\"#cbd2d9\" stroke-width=\"2\"/><path d=\"m-23-45 2 20 10-7m34-13-2 20-10-7\" fill=\"#ebc7c5\"/><path d=\"M-28-28-36-15-30-8-35 2-25 5-22 15 22 15 25 5 35 2 30-8 36-15 28-28Q0-49-28-28\" fill=\"#fffdf8\" stroke=\"#cbd2d9\" stroke-width=\"2\"/><circle cx=\"-12\" cy=\"-17\" r=\"4\" fill=\"#28313d\"/><circle cx=\"12\" cy=\"-17\" r=\"4\" fill=\"#28313d\"/><circle cx=\"-11\" cy=\"-18\" r=\"1.3\" fill=\"white\"/><circle cx=\"13\" cy=\"-18\" r=\"1.3\" fill=\"white\"/><path d=\"M-16-4Q0-18 16-4L0 10Z\" fill=\"#edf0ef\"/><ellipse cy=\"-4\" rx=\"6\" ry=\"4\" fill=\"#28313d\"/><path d=\"M0 0v5m0 0q-6 5-10 0m10 0q6 5 10 0\" fill=\"none\" stroke=\"#28313d\" stroke-width=\"2\"/><path class=\"fin-lilli-tongue\" d=\"M-4 8v6q4 7 8 0V8\" fill=\"#ea8e9d\"/><path d=\"M-22 18q22 10 44 0\" fill=\"none\" stroke=\"#9d84c8\" stroke-width=\"6\"/><circle cy=\"25\" r=\"5\" fill=\"#efc366\"/></g></g></g>\n<g class=\"fin-lilli-treat\"><circle cx=\"281\" cy=\"196\" r=\"5\" fill=\"#ae743e\"/><circle cx=\"284\" cy=\"194\" r=\"2\" fill=\"#d3a167\"/></g>\n<g font-family=\"system-ui\" font-size=\"20\" font-weight=\"800\" text-anchor=\"middle\" fill=\"#35483d\">\n<g class=\"fin-lilli-cue1\"><rect x=\"143\" y=\"31\" width=\"194\" height=\"44\" rx=\"22\" fill=\"#fff8e9\"/><text x=\"240\" y=\"60\">Lilli, istu!</text></g>\n<g class=\"fin-lilli-cue2\"><rect x=\"143\" y=\"31\" width=\"194\" height=\"44\" rx=\"22\" fill=\"#fff8e9\"/><text x=\"240\" y=\"60\">Anna tassu!</text></g>\n<g class=\"fin-lilli-cue3\"><rect x=\"143\" y=\"31\" width=\"194\" height=\"44\" rx=\"22\" fill=\"#fff8e9\"/><text x=\"240\" y=\"60\">Pyöri!</text></g><g class=\"fin-lilli-cue4\"><rect x=\"143\" y=\"31\" width=\"194\" height=\"44\" rx=\"22\" fill=\"#fff8e9\"/><text x=\"240\" y=\"60\">Hyvä Lilli!</text></g>\n</g><g class=\"fin-message\"><rect x=\"98\" y=\"27\" width=\"284\" height=\"50\" rx=\"25\" fill=\"#fff8e9\"/><text x=\"240\" y=\"58\" text-anchor=\"middle\" font-family=\"system-ui\" font-weight=\"800\" font-size=\"19\" fill=\"#35483d\">Hienosti harjoiteltu!</text></g></svg>"
+  },
+  {
+    "title": "Hilla ja Lilli leikkivät",
+    "description": "Hilla kutsuu Lillin leikkiin. Kaverukset lähtevät pallon perään, vaihtavat suuntaa ja päättävät leikin yhteiseen ilohyppyyn.",
+    "svg": "<svg viewBox=\"0 0 480 320\" role=\"img\" aria-label=\"Hilla-stabyhoun ja Lilli-volpino italiano leikkivät pallolla\"><rect width=\"480\" height=\"320\" fill=\"#e7f2f1\"/><circle cx=\"410\" cy=\"49\" r=\"27\" fill=\"#fff0bf\"/><path d=\"M0 199q130-55 260 0t220 0v121H0\" fill=\"#b4cc9f\"/><path d=\"M0 258q210-45 480 0v62H0\" fill=\"#91b782\"/><path d=\"M15 192h450m-425-30v57m65-65v56m310-56v56m65-48v57\" stroke=\"#ece3c5\" stroke-width=\"7\" stroke-linecap=\"round\"/>\n<g transform=\"translate(135 207)\"><g class=\"fin-duo-hilla\"><path class=\"fin-duo-tail\" d=\"M-39 9Q-86-4-90-27\" fill=\"none\" stroke=\"#263240\" stroke-width=\"13\" stroke-linecap=\"round\"/><ellipse cy=\"12\" rx=\"48\" ry=\"27\" fill=\"#fffaf0\"/><path d=\"M-40-1q20-33 47-11l-7 34-33 5z\" fill=\"#263240\"/><path d=\"m-26 29-6 32m59-33 4 33\" stroke=\"#fffaf0\" stroke-width=\"13\" stroke-linecap=\"round\"/><g class=\"fin-duo-bow\"><ellipse cx=\"30\" cy=\"-9\" rx=\"26\" ry=\"27\" fill=\"#263240\"/><path d=\"M10-25Q-14-32-8 3Q-3 23 13 18Z\" fill=\"#1a2534\"/><path d=\"M32-34q-9 17-5 35l18 4-8-22z\" fill=\"#fffaf0\"/><path d=\"M36-2q13-2 27 8l-4 13-23 1-10-12\" fill=\"#fffaf0\"/><circle cx=\"40\" cy=\"-11\" r=\"3\" fill=\"#aa794e\"/><circle cx=\"41\" cy=\"-11\" r=\"1.6\" fill=\"#18232d\"/><ellipse cx=\"61\" cy=\"7\" rx=\"6\" ry=\"4\" fill=\"#18232d\"/><path d=\"M43 17q8 5 13-1\" fill=\"none\" stroke=\"#263240\" stroke-width=\"2\"/><path d=\"M11 23q12 7 26 0\" fill=\"none\" stroke=\"#eb9878\" stroke-width=\"6\"/></g></g></g>\n<g transform=\"translate(342 232) scale(.8)\"><g class=\"fin-duo-lilli\"><g transform=\"scale(-1 1)\"><path class=\"fin-duo-tail\" d=\"M-26 9Q-73-25-46-41Q-24-46-33-23\" fill=\"none\" stroke=\"#ced5da\" stroke-width=\"19\" stroke-linecap=\"round\"/><path d=\"M-26 9Q-73-25-46-41Q-24-46-33-23\" fill=\"none\" stroke=\"#fffdf5\" stroke-width=\"14\" stroke-linecap=\"round\"/><ellipse cy=\"12\" rx=\"35\" ry=\"23\" fill=\"#fffdf5\" stroke=\"#bdc8d1\" stroke-width=\"2\"/><path d=\"m-12 23-5 28m38-29 5 29\" stroke=\"#fffdf5\" stroke-width=\"12\" stroke-linecap=\"round\"/><g class=\"fin-duo-bow\"><path d=\"m5-15 1-31 21 18m13 10 15-24 2 31\" fill=\"#fffdf5\" stroke=\"#bdc8d1\" stroke-width=\"2\"/><path d=\"m11-36 2 14 8-6m26-5 5-8v16\" fill=\"#efbdc4\"/><path d=\"M5-22-4-7 2 0-4 9 9 12 14 24 36 21 43 13 58 8 48-6 44-22Q25-38 5-22\" fill=\"#fffdf5\" stroke=\"#bdc8d1\" stroke-width=\"2\"/><circle cx=\"32\" cy=\"-8\" r=\"3\" fill=\"#25334b\"/><path d=\"m44 2 12 3-8 6\" fill=\"#25334b\"/><path d=\"M40 14q7 5 11-2\" fill=\"none\" stroke=\"#25334b\" stroke-width=\"2\"/><path d=\"M4 19q13 8 31 2\" fill=\"none\" stroke=\"#b497d9\" stroke-width=\"5\"/></g></g></g></g>\n<g class=\"fin-duo-ball\" transform=\"translate(242 264)\"><circle r=\"12\" fill=\"#ec9a76\"/><path d=\"M-9-7q12 2 17 15M-8 8q6-9 17-13\" fill=\"none\" stroke=\"#fff0ca\" stroke-width=\"3\"/></g>\n<g font-family=\"system-ui\" font-size=\"16\" font-weight=\"700\" text-anchor=\"middle\" fill=\"#344c42\"><text x=\"113\" y=\"304\">Hilla</text><text x=\"349\" y=\"304\">Lilli</text></g>\n<g class=\"fin-duo-intro\"><rect x=\"100\" y=\"25\" width=\"280\" height=\"45\" rx=\"22\" fill=\"#fff8e9\"/><text x=\"240\" y=\"54\" text-anchor=\"middle\" font-family=\"system-ui\" font-size=\"18\" font-weight=\"800\" fill=\"#344c42\">Leikitään yhdessä!</text></g>\n<g class=\"fin-message\"><rect x=\"83\" y=\"25\" width=\"314\" height=\"45\" rx=\"22\" fill=\"#fff8e9\"/><text x=\"240\" y=\"54\" text-anchor=\"middle\" font-family=\"system-ui\" font-size=\"18\" font-weight=\"800\" fill=\"#344c42\">Kaverukset iloitsevat kanssasi!</text></g></svg>"
   }
 ];
 let lastWritingFinale = -1;
@@ -6528,21 +6549,26 @@ function showRequestedDemo() {
       window.location.search
     ).get("demo");
 
-  if (demo !== "lilli") return false;
+  const demoTitles = {
+    lilli: "Lillin koulutushetki",
+    "hilla-lilli": "Hilla ja Lilli leikkivät"
+  };
+  const demoTitle = demoTitles[demo];
+  if (!demoTitle) return false;
 
   document.body.classList.add("demo-only");
   $("mode").value = "write";
   $("gameArea").classList.add("hidden");
   $("finishArea").classList.remove("hidden");
   $("finishTitle").textContent =
-    "Lillin koulutushetki";
+    demoTitle;
   $("finishText").textContent =
-    "Volpino italianon animaatiodemo";
+    "Eläintarinan animaatiodemo";
   $("restartBtn")
     .classList
     .add("hidden");
 
-  showWritingFinale("Lillin koulutushetki");
+  showWritingFinale(demoTitle);
   return true;
 }
 
