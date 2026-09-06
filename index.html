@@ -1497,6 +1497,14 @@ body.demo-only .card { margin-top: 0; }
 
 
 <button
+  id="replayFinaleBtn"
+  class="secondary hidden"
+>
+  Katso uudelleen
+</button>
+
+
+<button
   id="restartBtn"
   class="primary"
 >
@@ -6230,6 +6238,22 @@ function showWritingFinale(requestedTitle = "") {
   $("animalCheer").textContent = scene.description;
   $("celebration").classList.remove("hidden");
   $("finishIcon").classList.add("hidden");
+
+  $("replayFinaleBtn").onclick = () => {
+    $("animalStage").innerHTML = "";
+
+    requestAnimationFrame(
+      () =>
+        showWritingFinale(
+          scene.title
+        )
+    );
+  };
+
+  $("replayFinaleBtn")
+    .classList
+    .remove("hidden");
+
   return true;
 }
 
@@ -6296,6 +6320,10 @@ function showCelebration() {
 
 function hideCelebration() {
   $("animalStage").classList.remove("writing-finale");
+
+  $("replayFinaleBtn")
+    .classList
+    .add("hidden");
 
   $("celebration")
     .classList
@@ -6506,19 +6534,10 @@ function showRequestedDemo() {
     "Lillin koulutushetki";
   $("finishText").textContent =
     "Volpino italianon animaatiodemo";
-  $("restartBtn").textContent =
-    "Katso uudelleen";
+  $("restartBtn")
+    .classList
+    .add("hidden");
 
-  const replay = () => {
-    hideCelebration();
-    requestAnimationFrame(
-      () => showWritingFinale(
-        "Lillin koulutushetki"
-      )
-    );
-  };
-
-  $("restartBtn").onclick = replay;
   showWritingFinale("Lillin koulutushetki");
   return true;
 }
