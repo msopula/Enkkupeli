@@ -1442,203 +1442,338 @@ summary {
 <script>
 
 const WORDS = [
-
   [
     "Funny families",
     "Hauskoja perheitä"
   ],
-
   [
     "funny",
     "hassu, hauska"
   ],
-
   [
     "a family",
     "perhe"
   ],
-
   [
     "families",
     "perheet"
   ],
-
   [
     "Meet the Nutty family",
     "Tutustu Nuttyn perheeseen"
   ],
-
   [
     "Hello!",
     "Hei!"
   ],
-
   [
     "My name's",
     "Minun nimeni on"
   ],
-
   [
     "my",
-    "minun"
+    "minun",
+    true
   ],
-
   [
     "a name",
     "nimi"
   ],
-
   [
     "Hi!",
     "Moi!"
   ],
-
   [
     "I'm",
     "Minä olen"
   ],
-
   [
     "Nice to meet you.",
     "Mukava tavata."
   ],
-
   [
     "nice",
     "mukava, kiva"
   ],
-
   [
     "meet",
     "tavata"
   ],
-
   [
     "you",
     "sinä, sinut"
   ],
-
   [
     "We live in London!",
     "Me asumme Lontoossa!"
   ],
-
   [
     "London",
     "Lontoo"
   ],
-
   [
     "we",
     "me"
   ],
-
   [
     "live",
     "asua"
   ],
-
   [
     "Hi, there!",
     "Moi, sinä siellä!"
   ],
-
   [
     "What's your name?",
     "Mikä sinun nimesi on?"
   ],
-
   [
     "what",
-    "mikä"
+    "mikä, mitä",
+    true
   ],
-
   [
     "is",
     "on"
   ],
-
   [
     "your",
-    "sinun"
+    "sinun",
+    true
   ],
-
   [
     "too",
     "myös"
   ],
-
   [
     "What's your family name?",
     "Mikä sukunimesi on?"
   ],
-
   [
     "a family name",
     "sukunimi"
   ],
-
   [
     "Oh",
     "Ai"
   ],
-
   [
     "really",
     "todellako"
   ],
-
   [
     "What's so funny?",
     "Mikä on niin hauskaa?"
   ],
-
   [
     "Huh?",
     "Häh?"
+  ],
+  [
+    "Crazy cats",
+    "Hupsuja kissoja",
+    true
+  ],
+  [
+    "crazy",
+    "hupsu, hassu",
+    true
+  ],
+  [
+    "a cat, cats",
+    "kissa, kissat",
+    true
+  ],
+  [
+    "How are you?",
+    "Kuinka voit? Mitä kuuluu?",
+    true
+  ],
+  [
+    "how",
+    "kuinka, miten",
+    true
+  ],
+  [
+    "are",
+    "olet",
+    true
+  ],
+  [
+    "I'm good.",
+    "Minä voin hyvin.",
+    true
+  ],
+  [
+    "good",
+    "hyvä",
+    true
+  ],
+  [
+    "I",
+    "minä",
+    true
+  ],
+  [
+    "like",
+    "pitää, tykätä",
+    true
+  ],
+  [
+    "a garden",
+    "puutarha",
+    true
+  ],
+  [
+    "it's (it is)",
+    "se on",
+    true
+  ],
+  [
+    "so",
+    "niin",
+    true
+  ],
+  [
+    "Thank you.",
+    "Kiitos.",
+    true
+  ],
+  [
+    "What's your favourite colour?",
+    "Mikä on sinun lempivärisi?",
+    true
+  ],
+  [
+    "favourite",
+    "lempi-, suosikki",
+    true
+  ],
+  [
+    "a colour",
+    "väri",
+    true
+  ],
+  [
+    "love",
+    "rakastaa, pitää jostakin",
+    true
+  ],
+  [
+    "a tent",
+    "teltta",
+    true
+  ],
+  [
+    "that",
+    "tuo, se",
+    true
+  ],
+  [
+    "that's (that is)",
+    "se on",
+    true
+  ],
+  [
+    "a basketball shirt",
+    "koripallopaita",
+    true
+  ],
+  [
+    "sorry",
+    "anteeksi",
+    true
+  ],
+  [
+    "a T-shirt",
+    "T-paita",
+    true
+  ],
+  [
+    "chilli",
+    "chili",
+    true
+  ],
+  [
+    "and",
+    "ja",
+    true
+  ],
+  [
+    "salt",
+    "suola",
+    true
+  ],
+  [
+    "mustard",
+    "sinappi",
+    true
+  ],
+  [
+    "pepper",
+    "pippuri",
+    true
+  ],
+  [
+    "four",
+    "neljä",
+    true
   ]
-
 ];
 
 
 
 const ALIASES = {
-
   "I'm": [
     "I am"
   ],
-
   "My name's": [
     "My name is"
   ],
-
   "What's your name?": [
     "What is your name",
     "Whats your name"
   ],
-
   "What's your family name?": [
     "What is your family name",
     "Whats your family name"
   ],
-
   "What's so funny?": [
     "What is so funny",
     "Whats so funny"
   ],
-
   "Nice to meet you.": [
     "Nice to meet you"
   ],
-
   "We live in London!": [
     "We live in London"
   ],
-
   "Hi, there!": [
     "Hi there"
+  ],
+  "I'm good.": [
+    "I'm good",
+    "I am good"
+  ],
+  "it's (it is)": [
+    "it's",
+    "it is"
+  ],
+  "that's (that is)": [
+    "that's",
+    "that is"
+  ],
+  "How are you?": [
+    "How are you"
+  ],
+  "Thank you.": [
+    "Thank you"
+  ],
+  "What's your favourite colour?": [
+    "What's your favourite colour",
+    "What is your favourite colour",
+    "Whats your favourite colour"
   ]
-
 };
 
 
@@ -2127,6 +2262,43 @@ function isTypable(entry) {
 
 
 
+function weightedShuffle(array) {
+
+  /*
+    Uudet sanat on merkitty kolmannella
+    arvolla. Paino 3 tarkoittaa, että ne
+    nousevat kierrokselle kolminkertaisella
+    todennäköisyydellä vanhoihin verrattuna.
+    Jokainen sana voi silti esiintyä
+    kierroksella vain kerran.
+  */
+
+  return [...array]
+
+    .map(word => ({
+
+      word,
+
+      key:
+        -Math.log(Math.random()) /
+        (word[2] ? 3 : 1)
+
+    }))
+
+    .sort(
+      (a, b) =>
+        a.key - b.key
+    )
+
+    .map(
+      item =>
+        item.word
+    );
+
+}
+
+
+
 function roundPool() {
 
   const mode =
@@ -2163,7 +2335,7 @@ function buildRound() {
 
 
   queue =
-    shuffle(pool)
+    weightedShuffle(pool)
       .slice(
         0,
         roundSize
