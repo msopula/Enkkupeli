@@ -6530,6 +6530,146 @@ if (!showRequestedDemo()) {
 
 </script>
 
+
+<style>
+.subject-tabs{display:flex;gap:8px;margin-top:12px}.subject-tabs button{flex:1}
+.subject-tabs button[aria-pressed="true"]{background:#166534;color:white}
+.ymppa-symbol{display:grid;place-items:center;min-height:190px;margin:12px 0;background:#f8fafc;border-radius:16px}
+.ymppa-symbol svg{width:180px;height:180px}
+.ymppa-caption{color:#52645a;text-align:center;font-size:14px}
+.ymppa-bank{padding:0 14px 14px;display:grid;gap:8px}
+.ymppa-bank figure{display:flex;align-items:center;gap:14px;margin:0;padding:8px;border-bottom:1px solid #eee}
+.ymppa-bank svg{width:70px;height:70px;flex-shrink:0}
+.ymppa-feedback{min-height:65px;font-weight:700;padding:12px 0}
+.ymppa-result .stage{margin:auto}.ymppa-result button{margin-top:12px;width:100%}
+body.demo-only .subject-tabs,body.demo-only #ymppa{display:none!important}
+</style>
+<script>
+(() => {
+  // Separate subject state preserves the English game and its current round.
+  const hero=document.querySelector(".hero");
+  const english=document.createElement("div");
+  english.id="englishSubject";
+  while(hero.nextElementSibling) english.append(hero.nextElementSibling);
+  hero.after(english);
+  const tabs=document.createElement("nav");
+  tabs.className="subject-tabs";tabs.setAttribute("aria-label","Valitse oppiaine");
+  tabs.innerHTML='<button type="button" class="secondary" id="englishTab" aria-pressed="true">📚 Enkkupeli</button><button type="button" class="secondary" id="ymppaTab" aria-pressed="false">🌿 Ymppäpeli</button>';
+  hero.after(tabs);
+  const panel=document.createElement("section");
+  panel.id="ymppa";panel.className="hidden";
+  panel.innerHTML='<div class="card"><label for="ymppaTopic"><b>Mitä harjoitellaan?</b></label><select id="ymppaTopic"><option value="traffic">Liikennemerkit</option><option value="directions">Ilmansuunnat</option><option value="simple">Kuvakartan merkit</option><option value="city">Kaupunkikartan merkit</option><option value="terrain">Maastokartan merkit</option><option value="all">Kaikki sekaisin</option></select><p class="ymppa-caption">Katso kuvaa ja valitse oikea vastaus. Voit yrittää rauhassa uudelleen.</p></div><div class="card" id="ymppaRound"><div class="stats"><div class="stat"><small>Osattu</small><span id="ymppaProgress"></span></div><div class="stat"><small>Ensi yrittämällä</small><span id="ymppaScore"></span></div></div><div class="progress"><div id="ymppaBar"></div></div><p class="ymppa-caption" id="ymppaContext"></p><h2 class="prompt" id="ymppaPrompt"></h2><div class="ymppa-symbol" id="ymppaSymbol"></div><div class="answers" id="ymppaAnswers"></div><div class="ymppa-feedback" id="ymppaFeedback" role="status" aria-live="polite"></div><button type="button" class="primary next hidden" id="ymppaNext">Seuraava →</button></div><div class="card ymppa-result hidden" id="ymppaResult"></div><details id="ymppaStudy"><summary>🔎 Tutki merkkejä ja ilmansuuntia</summary><div class="ymppa-bank" id="ymppaBank"></div></details>';
+  english.after(panel);
+  const el=id=>document.getElementById(id);
+  const svg=body=>'<svg viewBox="0 0 120 120" role="img" aria-label="Tehtävän kuva">'+body+'</svg>';
+  const bike='<g fill="none" stroke="currentColor" stroke-width="3"><circle cx="31" cy="77" r="16"/><circle cx="89" cy="77" r="16"/><path d="M31 77 49 48 66 77H31L45 55H79L89 77M66 77 79 44H88M42 47H56"/></g>';
+  const person='<circle cx="59" cy="27" r="7"/><path d="M55 38 65 38 70 59 85 71 80 77 63 63 63 58 60 75 76 94 69 99 53 80 40 98 33 94 49 71 52 51 40 65 34 60Z"/>';
+  const family='<g transform="translate(-10 3) scale(.88)">'+person+'</g><g transform="translate(48 43) scale(.47)">'+person+'</g>';
+  const blue=body=>svg('<circle cx="60" cy="60" r="55" fill="#0969ae" stroke="white" stroke-width="2"/><g fill="white" color="white">'+body+'</g>');
+  const ban=(body,slash=true)=>svg('<circle cx="60" cy="60" r="53" fill="#ffdf00" stroke="#cf292c" stroke-width="12"/><g fill="#171717" color="#171717">'+body+'</g>'+(slash?'<path d="M24 23 97 97" stroke="#cf292c" stroke-width="11"/>':''));
+  const warning=body=>svg('<path d="M60 6 115 108H5Z" fill="#cf292c" stroke="#cf292c" stroke-linejoin="round" stroke-width="5"/><path d="M60 27 99 98H21Z" fill="#ffdf00"/><g fill="#171717" color="#171717">'+body+'</g>');
+  const square=body=>svg('<rect x="5" y="12" width="110" height="96" rx="3" fill="#0969ae"/><g fill="white">'+body+'</g>');
+  const list=[];
+  const add=(group,label,picture,note="")=>list.push({group,label,picture,note});
+  add("traffic","Suojatie",square('<path d="M60 20 108 101H12Z"/><g fill="#161616"><path d="m28 86-8 12h12l8-12zm23 0-8 12h12l8-12zm23 0-8 12h12l8-12z"/><g transform="translate(20 12) scale(.65)">'+person+'</g></g>'));
+  add("traffic","Pihakatu",square('<path d="m75 42 16-14 17 14v27H96V53H86v16H75Z"/><g transform="translate(-5 27) scale(.65)">'+person+'</g><path d="M15 31h37l5 24H10Zm7 4-4 12h30l-3-12Z" fill-rule="evenodd"/><circle cx="18" cy="56" r="4"/><circle cx="49" cy="56" r="4"/><g transform="translate(60 58) scale(.4)">'+person+'</g><circle cx="69" cy="92" r="4"/>'));
+  add("traffic","Yksisuuntainen tie",square('<path d="M100 47H48V29L16 60 48 91V73H100Z"/>'));
+  add("traffic","Jalkakäytävä",blue(family));
+  add("traffic","Pyörätie",blue(bike));
+  add("traffic","Yhdistetty pyörätie ja jalkakäytävä",blue('<g transform="translate(26 -3) scale(.53)">'+family+'</g><g transform="translate(12 46) scale(.8)">'+bike+'</g>'));
+  add("traffic","Pyörätie ja jalkakäytävä vierekkäin",blue('<path d="M60 10V110" stroke="white" stroke-width="3"/><g transform="translate(1 26) scale(.5)">'+bike+'</g><g transform="translate(64 28) scale(.48)">'+family+'</g>'));
+  add("traffic","Liikenteenjakaja",blue('<path d="m32 21 43 43 13-13v42H47l13-13-43-43Z"/>'));
+  add("traffic","Jalankulku kielletty",ban(person));
+  add("traffic","Polkupyörällä ajo kielletty",ban(bike));
+  add("traffic","Kielletty ajosuunta",svg('<circle cx="60" cy="60" r="55" fill="#cf292c"/><rect x="19" y="48" width="82" height="24" fill="#ffdf00"/>'));
+  add("traffic","Ajoneuvolla ajo kielletty",ban("",false));
+  add("traffic","Pakollinen pysäyttäminen",svg('<path d="M37 5H83L115 37V83L83 115H37L5 83V37Z" fill="#cf292c" stroke="white" stroke-width="3"/><text x="60" y="73" text-anchor="middle" fill="white" font-family="sans-serif" font-weight="bold" font-size="32">STOP</text>'));
+  add("traffic","Väistämisvelvollisuus risteyksessä",svg('<path d="M5 10H115L60 111Z" fill="#cf292c" stroke="#cf292c" stroke-width="5" stroke-linejoin="round"/><path d="M25 23H95L60 87Z" fill="#ffdf00"/>'));
+  add("traffic","Lapsia",warning('<g transform="translate(23 33) scale(.62)">'+family+'</g>'));
+  add("traffic","Tienristeys",warning('<path d="m42 50 18 18 18-18 9 9-18 18 18 18H69l-9-9-9 9H33l18-18-18-18Z"/>'));
+  add("traffic","Tietyö",warning('<circle cx="69" cy="47" r="6"/><path d="m61 53 10 6-4 13 14 10-3 4-19-11 1-11-9 13-3 19H39l4-24Z"/><path d="m66 67 23 28" stroke="#171717" stroke-width="3"/><path d="M74 98 87 84 99 98Z"/>'));
+  add("traffic","Epätasainen tie",warning('<path d="M27 98V88Q39 67 49 85Q60 103 69 85Q81 66 94 89V98Z"/>'));
+
+  const block=(color,stroke="#777")=>svg('<rect x="20" y="36" width="80" height="48" fill="'+color+'" stroke="'+stroke+'" stroke-width="2"/>');
+  const building=svg('<path d="M28 78V44H65V29H86V78Z" fill="#282721"/>');
+  const water=block("#9bd0e9","#397b9b");
+  const path=svg('<path d="M12 80Q40 31 63 58T108 39" fill="none" stroke="#555" stroke-width="4" stroke-dasharray="12 8"/>');
+  const road=svg('<path d="M8 78Q43 34 69 59T112 39" fill="none" stroke="#6e5145" stroke-width="17"/><path d="M8 78Q43 34 69 59T112 39" fill="none" stroke="#ca4c38" stroke-width="12"/>');
+  add("simple","Pelto",block("#eddb46"));add("simple","Metsä",svg('<path d="M37 90 60 29 83 90" fill="none" stroke="#303b2d" stroke-width="4"/>'));
+  add("simple","Rakennus",building);add("simple","Tie",road);add("simple","Polku",path);add("simple","Vesialue",water);
+  add("city","Tie tai katu",svg('<path d="M4 40H116M4 67H46V115M74 115V67H116" fill="none" stroke="#8a8166" stroke-width="3"/><path d="M4 54H116M60 54V115" fill="none" stroke="#f4eccd" stroke-width="24"/>'));
+  add("city","Julkinen rakennus",building);add("city","Puisto tai viheralue",block("#91bda4"));add("city","Vesialue",water);
+  add("city","Matkailutoimisto",svg('<rect x="28" y="28" width="64" height="64" fill="#24754f"/><text x="60" y="81" fill="white" text-anchor="middle" font-size="64" font-weight="bold" font-family="serif">i</text>'));
+  add("terrain","Rakennus",building);add("terrain","Piha-alue",block("#d8d4a7"));
+  add("terrain","Pelto",block("#efc34f"));add("terrain","Niitty",svg('<rect x="20" y="36" width="80" height="48" fill="#fff7de" stroke="#777"/>'+[30,45,60,75,90].map(x=>'<path d="M'+x+' 46v2m0 12v2m0 12v2" stroke="#d4b980" stroke-width="2"/>').join("")));
+  add("terrain","Tie",svg('<path d="M8 84 110 36" stroke="#6b5846" stroke-width="14"/><path d="M8 84 110 36" stroke="#d7b383" stroke-width="8"/>'));
+  add("terrain","Polku",path);add("terrain","Vesialue",water);add("terrain","Metsä",block("#fff"),"Tässä maastokartassa tavallinen metsä on valkoinen.");
+  add("terrain","Vaikeakulkuinen metsä",block("#c2d6a1"));add("terrain","Suo",svg([35,48,61,74,87].map(y=>'<path d="M20 '+y+'H100" stroke="#85bbd1" stroke-width="2"/>').join("")));
+  add("terrain","Iso kivi tai kivi",svg('<circle cx="44" cy="60" r="9"/><circle cx="79" cy="60" r="4"/>'));
+  add("terrain","Jyrkänne",svg('<path d="M15 50H105M25 50V63M40 50V63M55 50V63M70 50V63M85 50V63M100 50V63" stroke="#252525" stroke-width="4"/>'));
+  add("terrain","Avokallio",svg('<ellipse cx="60" cy="60" rx="32" ry="15" fill="#c1babb"/>'));
+  add("terrain","Korkeuskäyrät",svg('<g fill="none" stroke="#b98a57" stroke-width="2"><ellipse cx="60" cy="60" rx="44" ry="26"/><ellipse cx="60" cy="60" rx="30" ry="17"/><ellipse cx="60" cy="60" rx="15" ry="8"/></g>'));
+  add("terrain","Oja tai puro",svg('<path d="M12 78Q48 64 67 66T110 42" fill="none" stroke="#72aac4" stroke-width="3"/>'));
+  add("terrain","Silta",svg('<path d="M20 38 30 46H90L100 38M20 82 30 74H90L100 82" fill="none" stroke="#62564d" stroke-width="3"/>'));
+  const dirs=["Pohjoinen","Koillinen","Itä","Kaakko","Etelä","Lounas","Länsi","Luode"];
+  dirs.forEach((name,i)=>add("directions",name,svg('<circle cx="60" cy="64" r="43" fill="white" stroke="#bccbc3"/><path d="M60 23V105M19 64H101M30 34 90 94M30 94 90 34" stroke="#d2ddd6" stroke-width="2"/><text x="60" y="14" font-size="11" text-anchor="middle" fill="#486453">P</text><g transform="rotate('+i*45+' 60 64)"><path d="M60 25 72 49H65V91H55V49H48Z" fill="#19724a"/></g>'),i%2?"Väli-ilmansuunta":"Pääilmansuunta"));
+  const names={traffic:"Liikennemerkit",directions:"Ilmansuunnat – pohjoinen on ylhäällä",simple:"Kuvakartta",city:"Kaupunkikartta",terrain:"Maastokartta"};
+  const randomize=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+  let questions=[],position=0,firstCorrect=0,missed=false,answered=false,scene=null;
+  function pool(){return list.filter(q=>el("ymppaTopic").value==="all"||q.group===el("ymppaTopic").value);}
+  function study(){el("ymppaBank").innerHTML=pool().map(q=>'<figure>'+q.picture+'<figcaption><b>'+q.label+'</b><br><small>'+names[q.group]+(q.note?" · "+q.note:"")+'</small></figcaption></figure>').join("");}
+  function start(){questions=randomize(pool()).slice(0,10);position=0;firstCorrect=0;el("ymppaResult").classList.add("hidden");el("ymppaResult").innerHTML="";el("ymppaRound").classList.remove("hidden");el("ymppaStudy").open=false;study();render();}
+  function render(){
+    missed=false;answered=false;
+    const q=questions[position];
+    el("ymppaProgress").textContent=position+" / "+questions.length;
+    el("ymppaScore").textContent=firstCorrect+" / "+position;
+    el("ymppaBar").style.width=100*position/questions.length+"%";
+    el("ymppaContext").textContent=names[q.group];
+    el("ymppaPrompt").textContent=q.group==="directions"?"Mihin ilmansuuntaan nuoli osoittaa?":"Mitä tämä merkki tarkoittaa?";
+    el("ymppaSymbol").innerHTML=q.picture;
+    el("ymppaFeedback").textContent="";
+    el("ymppaNext").classList.add("hidden");
+    const others=randomize(list.filter(x=>x.group===q.group&&x.label!==q.label)).slice(0,3);
+    el("ymppaAnswers").replaceChildren();
+    randomize([q,...others]).forEach(choice=>{
+      const b=document.createElement("button");b.type="button";b.className="answer";b.textContent=choice.label;
+      b.onclick=()=>{
+        if(answered)return;
+        if(choice!==q){missed=true;b.disabled=true;b.classList.add("wrong");el("ymppaFeedback").textContent="Ei vielä. Katso kuvaa uudelleen ja kokeile toista vastausta.";return;}
+        answered=true;if(!missed)firstCorrect++;b.classList.add("correct");
+        el("ymppaAnswers").querySelectorAll("button").forEach(x=>x.disabled=true);
+        el("ymppaFeedback").textContent="Oikein! "+q.label+"."+(q.note?" "+q.note:"");
+        el("ymppaProgress").textContent=(position+1)+" / "+questions.length;
+        el("ymppaScore").textContent=firstCorrect+" / "+(position+1);
+        el("ymppaBar").style.width=100*(position+1)/questions.length+"%";
+        el("ymppaNext").textContent=position+1===questions.length?"Katso palkinto 🎉":"Seuraava →";
+        el("ymppaNext").classList.remove("hidden");el("ymppaNext").focus();
+      };
+      el("ymppaAnswers").append(b);
+    });
+  }
+  function finish(){
+    el("ymppaRound").classList.add("hidden");el("ymppaResult").classList.remove("hidden");
+    scene=WRITING_FINAL_SCENES[Math.floor(Math.random()*WRITING_FINAL_SCENES.length)];
+    el("ymppaResult").innerHTML='<h2>🎉 Hienosti harjoiteltu!</h2><p>Osasit kaikki '+questions.length+' tehtävää! Ensi yrittämällä oikein: '+firstCorrect+' / '+questions.length+'.</p><div class="stage animal-box writing-finale" id="ymppaReward"></div><p id="ymppaSceneName"></p><button type="button" class="secondary" id="ymppaReplay">Katso uudelleen</button><button type="button" class="primary" id="ymppaRestart">Pelaa uudelleen</button>';
+    const replay=()=>{el("ymppaReward").innerHTML=scene.svg;};
+    el("ymppaSceneName").textContent=scene.title;replay();
+    el("ymppaReplay").onclick=replay;el("ymppaRestart").onclick=start;el("ymppaRestart").focus();
+  }
+  el("ymppaNext").onclick=()=>{if(!answered)return;position++;if(position===questions.length)finish();else render();};
+  el("ymppaTopic").onchange=start;
+  function subject(ymppa){
+    english.classList.toggle("hidden",ymppa);panel.classList.toggle("hidden",!ymppa);
+    el("englishTab").setAttribute("aria-pressed",String(!ymppa));el("ymppaTab").setAttribute("aria-pressed",String(ymppa));
+    hero.querySelector("p").textContent=ymppa?"Ympäristöopin harjoittelupeli":"Englannin sanapeli";
+    if(ymppa&&!questions.length)start();
+  }
+  el("englishTab").onclick=()=>subject(false);el("ymppaTab").onclick=()=>subject(true);
+  if(new URLSearchParams(location.search).get("subject")==="ymppa"&&!document.body.classList.contains("demo-only"))subject(true);
+})();
+</script>
+
 </body>
 </html>
 
