@@ -1411,6 +1411,13 @@ body.demo-only .card { margin-top: 0; }
 .ml-scene .ml-move-minni{transform:translate(216px,275px)}.ml-scene .ml-move-lilli{transform:translate(385px,275px)}
 .ml-scene .ml-intro,.ml-scene .ml-middle{opacity:0}.ml-scene .ml-outro,.ml-scene .ml-heart{opacity:1}}
 
+
+.ml-scene .ml-bark{animation:ml-bark 18s linear both}
+.ml-scene .ml-mouth{transform-origin:70px -34px;animation:ml-mouth 18s linear both}
+@keyframes ml-bark{0%,11%,18%,21%,29%,44%,52%,66%,74%,100%{opacity:0}12%,17%,22%,28%,45%,51%,67%,73%{opacity:1}}
+@keyframes ml-mouth{0%,11%,14%,17%,21%,24%,28%,44%,47%,51%,66%,69%,73%,100%{transform:scaleY(.1)}12%,15%,22%,25%,45%,48%,67%,70%{transform:scaleY(1)}}
+@media(prefers-reduced-motion:reduce){.ml-scene .ml-bark,.ml-scene .ml-mouth{opacity:0}}
+
 </style>
 
 </head>
@@ -6192,8 +6199,8 @@ const WRITING_FINAL_SCENES = [
   },
 {
   "title": "Minnin ja Lillin kohtaaminen",
-  "description": "Maltankoira Minni ja Lilli nuuhkivat toisiaan, kumartavat leikkiin ja loikkivat yhdessä. Uusi ystävyys alkaa!",
-  "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"ml-scene\" viewBox=\"0 0 600 400\" role=\"img\" aria-label=\"Maltankoira Minni ja volpino italiano Lilli tapaavat puistossa. Ne nuuhkivat, kumartavat leikkiin ja loikkivat iloisesti yhdessä.\">\n<defs><linearGradient id=\"ml-bg\" x2=\"0\" y2=\"1\"><stop stop-color=\"#c3e3e9\"/><stop offset=\"1\" stop-color=\"#fff3da\"/></linearGradient><linearGradient id=\"ml-fur\" x2=\".3\" y2=\"1\"><stop stop-color=\"#fffdf8\"/><stop offset=\".6\" stop-color=\"#f8f6ec\"/><stop offset=\"1\" stop-color=\"#e3e8df\"/></linearGradient></defs>\n<rect width=\"600\" height=\"400\" fill=\"url(#ml-bg)\"/><circle cx=\"505\" cy=\"76\" r=\"34\" fill=\"#fff4c0\"/>\n<g fill=\"#fff\" opacity=\".5\"><ellipse cx=\"85\" cy=\"103\" rx=\"69\" ry=\"14\"/><ellipse cx=\"389\" cy=\"69\" rx=\"51\" ry=\"10\"/></g>\n<path d=\"M0 232Q118 178 244 232T600 214V400H0Z\" fill=\"#a2c7a3\"/><path d=\"M0 287Q168 243 317 279T600 267V400H0Z\" fill=\"#7dad89\"/>\n<path d=\"M-20 354Q251 259 621 343\" fill=\"none\" stroke=\"#e4d7b9\" stroke-width=\"61\"/>\n<g fill=\"#4d8268\" opacity=\".7\"><path d=\"M33 259 40 244 41 262 51 252 47 268M552 271 562 251 561 276 577 260 571 281\"/></g>\n<g fill=\"#f7e7b0\"><circle cx=\"61\" cy=\"321\" r=\"4\"/><circle cx=\"70\" cy=\"313\" r=\"3\"/><circle cx=\"545\" cy=\"335\" r=\"4\"/><circle cx=\"535\" cy=\"329\" r=\"3\"/></g>\n<ellipse cx=\"216\" cy=\"300\" rx=\"64\" ry=\"9\" fill=\"#40654f\" opacity=\".13\"/><ellipse cx=\"385\" cy=\"300\" rx=\"68\" ry=\"9\" fill=\"#40654f\" opacity=\".13\"/>\n<g class=\"ml-move-minni\"><g transform=\"scale(.92)\">\n<g class=\"ml-tail\"><path d=\"M-43-29Q-81-73-66-82Q-42-77-51-48\" fill=\"#fffaf2\" stroke=\"#c7d3d6\" stroke-width=\"2\"/><path d=\"M-66-76Q-72-60-51-40\" fill=\"none\" stroke=\"#dfe4df\" stroke-width=\"4\"/></g>\n<g transform=\"translate(-29 0)\"><g class=\"ml-leg ml-leg-alt\"><path d=\"M0-17 2 6\" stroke=\"#c8d2d0\" stroke-width=\"14\" stroke-linecap=\"round\"/></g></g>\n<g transform=\"translate(25 0)\"><g class=\"ml-leg ml-leg-alt\"><path d=\"M0-17 2 6\" stroke=\"#c8d2d0\" stroke-width=\"13\" stroke-linecap=\"round\"/></g></g>\n<g class=\"ml-body\">\n<path d=\"M-49-43Q-37-62-9-56Q22-62 40-36L38-14 28-9 20-14 12-8 3-13-9-7-21-12-33-8-44-17Z\" fill=\"url(#ml-fur)\" stroke=\"#becbcf\" stroke-width=\"2\"/>\n<path d=\"m-32-41-4 24m20-29-3 30m20-32-2 32m17-29 3 24\" stroke=\"#d9e1de\" stroke-width=\"2\" fill=\"none\" stroke-linecap=\"round\"/>\n<g transform=\"translate(-31 0)\"><g class=\"ml-leg\"><path d=\"M0-21-3 24q8 6 17 0\" fill=\"#fffaf1\" stroke=\"#becbcf\" stroke-width=\"2\"/><path d=\"M2-9 1 20m5-9v10\" stroke=\"#e0e4df\" stroke-width=\"2\"/></g></g>\n<g transform=\"translate(28 0)\"><g class=\"ml-leg ml-leg-alt\"><path d=\"M0-22-2 23q8 6 16 0\" fill=\"#fffaf1\" stroke=\"#becbcf\" stroke-width=\"2\"/><path d=\"M3-9 2 20m5-9v10\" stroke=\"#e0e4df\" stroke-width=\"2\"/></g></g>\n<g class=\"ml-head\">\n<path class=\"ml-ear\" d=\"M17-69Q-4-85-9-56L-8-19 0-24 6-19 15-29 23-55Z\" fill=\"#f2f3eb\" stroke=\"#becbcf\" stroke-width=\"2\"/>\n<path d=\"M11-70Q33-94 57-74L66-55 78-44Q80-30 65-25L46-20 25-29 12-39 6-52Z\" fill=\"url(#ml-fur)\" stroke=\"#becbcf\" stroke-width=\"2\"/>\n<path d=\"M29-77Q19-57 23-40M36-80Q32-66 35-58\" fill=\"none\" stroke=\"#dde3de\" stroke-width=\"2\"/><path class=\"ml-ear\" d=\"M20-73Q1-76 1-50L4-18 12-24 19-22 25-45Z\" fill=\"#fffaf3\" stroke=\"#c8d3d3\" stroke-width=\"2\"/><path d=\"M10-59 11-30m6-24-2 23\" stroke=\"#e2e5df\" stroke-width=\"2\"/>\n<ellipse cx=\"49\" cy=\"-54\" rx=\"5\" ry=\"6\" fill=\"#263940\"/><circle cx=\"51\" cy=\"-56\" r=\"1.8\" fill=\"#fff\"/>\n<ellipse cx=\"69\" cy=\"-37\" rx=\"13\" ry=\"10\" fill=\"#fffcf4\"/><ellipse cx=\"78\" cy=\"-42\" rx=\"6\" ry=\"4.5\" fill=\"#25343a\"/>\n<path d=\"M78-38q-3 12-16 7\" fill=\"none\" stroke=\"#687779\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n<path d=\"M63-30q2 12 8 8l2-8\" fill=\"#e9a6ab\"/>\n</g></g></g></g>\n<g class=\"ml-move-lilli\"><g transform=\"scale(-1 1)\">\n<g class=\"ml-tail\"><path d=\"M-44-31C-90-47-90-94-60-90Q-30-83-45-61Q-51-76-64-69Q-66-57-43-55Z\" fill=\"#fff8e9\" stroke=\"#c7d3d6\" stroke-width=\"2\"/></g>\n<g transform=\"translate(-29 0)\"><g class=\"ml-leg ml-leg-alt\"><path d=\"M0-17 2 6\" stroke=\"#c8d2d0\" stroke-width=\"14\" stroke-linecap=\"round\"/></g></g>\n<g transform=\"translate(25 0)\"><g class=\"ml-leg ml-leg-alt\"><path d=\"M0-17 2 6\" stroke=\"#c8d2d0\" stroke-width=\"13\" stroke-linecap=\"round\"/></g></g>\n<g class=\"ml-body\">\n<path d=\"M-49-43Q-37-62-9-56Q22-62 40-36L38-14 28-9 20-14 12-8 3-13-9-7-21-12-33-8-44-17Z\" fill=\"url(#ml-fur)\" stroke=\"#becbcf\" stroke-width=\"2\"/>\n<path d=\"m-17-52 8 12 7-14 7 12 9-9\" fill=\"none\" stroke=\"#fff\" stroke-width=\"4\"/>\n<g transform=\"translate(-31 0)\"><g class=\"ml-leg\"><path d=\"M0-21-3 24q8 6 17 0\" fill=\"#fffaf1\" stroke=\"#becbcf\" stroke-width=\"2\"/><path d=\"M2-9 1 20m5-9v10\" stroke=\"#e0e4df\" stroke-width=\"2\"/></g></g>\n<g transform=\"translate(28 0)\"><g class=\"ml-leg ml-leg-alt\"><path d=\"M0-22-2 23q8 6 16 0\" fill=\"#fffaf1\" stroke=\"#becbcf\" stroke-width=\"2\"/><path d=\"M3-9 2 20m5-9v10\" stroke=\"#e0e4df\" stroke-width=\"2\"/></g></g>\n<g class=\"ml-head\">\n<path d=\"m12-64 4-43 27 27m4-1 22-24 1 46\" fill=\"#fff7e7\" stroke=\"#becbcf\" stroke-width=\"2\"/><path d=\"m21-94 2 24 12-9m22-1 7-13-1 23\" fill=\"#e6c1ba\"/>\n<path d=\"M11-70Q33-94 57-74L66-55 78-44Q80-30 65-25L46-20 25-29 12-39 6-52Z\" fill=\"url(#ml-fur)\" stroke=\"#becbcf\" stroke-width=\"2\"/>\n<path d=\"m19-39-13 5 11 6-5 8 17-4\" fill=\"#fff9ec\"/>\n<ellipse cx=\"49\" cy=\"-54\" rx=\"5\" ry=\"6\" fill=\"#263940\"/><circle cx=\"51\" cy=\"-56\" r=\"1.8\" fill=\"#fff\"/>\n<ellipse cx=\"69\" cy=\"-37\" rx=\"13\" ry=\"10\" fill=\"#fffcf4\"/><ellipse cx=\"78\" cy=\"-42\" rx=\"6\" ry=\"4.5\" fill=\"#25343a\"/>\n<path d=\"M78-38q-3 12-16 7\" fill=\"none\" stroke=\"#687779\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n<path d=\"M63-30q2 12 8 8l2-8\" fill=\"#e9a6ab\"/>\n</g></g></g></g>\n<g text-anchor=\"middle\" font-family=\"system-ui,sans-serif\" fill=\"#294f52\"><g class=\"ml-intro\"><text x=\"300\" y=\"55\" font-size=\"26\" font-weight=\"800\">Kuka sieltä tulee?</text><text x=\"300\" y=\"82\" font-size=\"16\">Minni ja Lilli kohtaavat puistossa</text></g><g class=\"ml-middle\"><text x=\"300\" y=\"55\" font-size=\"25\" font-weight=\"800\">Hei kaveri! Leikitäänkö?</text></g><g class=\"ml-outro\"><text x=\"300\" y=\"55\" font-size=\"27\" font-weight=\"800\">Tästä alkaa ystävyys ♥</text><text x=\"300\" y=\"83\" font-size=\"16\">Hienosti harjoiteltu!</text></g><text x=\"205\" y=\"345\" font-size=\"18\" font-weight=\"800\">Minni</text><text x=\"392\" y=\"345\" font-size=\"18\" font-weight=\"800\">Lilli</text><text x=\"300\" y=\"377\" font-size=\"12\" letter-spacing=\"2\">PIENET TASSUT · SUURI ILO</text></g>\n<path class=\"ml-heart\" d=\"M300 159C264 135 281 114 300 134C319 114 336 135 300 159Z\" fill=\"#dc8599\"/>\n</svg>"
+  "description": "Minni ja Lilli kohtaavat puistossa. Lilli haukkuu innokkaasti, kaverukset nuuhkivat ja loikkivat leikkiin!",
+  "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"ml-scene\" viewBox=\"0 0 600 400\" role=\"img\" aria-label=\"Maltankoira Minni ja volpino italiano Lilli tapaavat puistossa. Ne nuuhkivat, kumartavat leikkiin ja loikkivat iloisesti yhdessä.\">\n<defs><linearGradient id=\"ml-bg\" x2=\"0\" y2=\"1\"><stop stop-color=\"#c3e3e9\"/><stop offset=\"1\" stop-color=\"#fff3da\"/></linearGradient><linearGradient id=\"ml-fur\" x2=\".3\" y2=\"1\"><stop stop-color=\"#fffdf8\"/><stop offset=\".6\" stop-color=\"#f8f6ec\"/><stop offset=\"1\" stop-color=\"#e3e8df\"/></linearGradient></defs>\n<rect width=\"600\" height=\"400\" fill=\"url(#ml-bg)\"/><circle cx=\"505\" cy=\"76\" r=\"34\" fill=\"#fff4c0\"/>\n<g fill=\"#fff\" opacity=\".5\"><ellipse cx=\"85\" cy=\"103\" rx=\"69\" ry=\"14\"/><ellipse cx=\"389\" cy=\"69\" rx=\"51\" ry=\"10\"/></g>\n<path d=\"M0 232Q118 178 244 232T600 214V400H0Z\" fill=\"#a2c7a3\"/><path d=\"M0 287Q168 243 317 279T600 267V400H0Z\" fill=\"#7dad89\"/>\n<path d=\"M-20 354Q251 259 621 343\" fill=\"none\" stroke=\"#e4d7b9\" stroke-width=\"61\"/>\n<g fill=\"#4d8268\" opacity=\".7\"><path d=\"M33 259 40 244 41 262 51 252 47 268M552 271 562 251 561 276 577 260 571 281\"/></g>\n<g fill=\"#f7e7b0\"><circle cx=\"61\" cy=\"321\" r=\"4\"/><circle cx=\"70\" cy=\"313\" r=\"3\"/><circle cx=\"545\" cy=\"335\" r=\"4\"/><circle cx=\"535\" cy=\"329\" r=\"3\"/></g>\n<ellipse cx=\"216\" cy=\"300\" rx=\"64\" ry=\"9\" fill=\"#40654f\" opacity=\".13\"/><ellipse cx=\"385\" cy=\"300\" rx=\"68\" ry=\"9\" fill=\"#40654f\" opacity=\".13\"/>\n<g class=\"ml-move-minni\"><g transform=\"scale(.92)\">\n<g class=\"ml-tail\"><path d=\"M-43-29Q-81-73-66-82Q-42-77-51-48\" fill=\"#fffaf2\" stroke=\"#c7d3d6\" stroke-width=\"2\"/><path d=\"M-66-76Q-72-60-51-40\" fill=\"none\" stroke=\"#dfe4df\" stroke-width=\"4\"/></g>\n<g transform=\"translate(-29 0)\"><g class=\"ml-leg ml-leg-alt\"><path d=\"M0-17 2 6\" stroke=\"#c8d2d0\" stroke-width=\"14\" stroke-linecap=\"round\"/></g></g>\n<g transform=\"translate(25 0)\"><g class=\"ml-leg ml-leg-alt\"><path d=\"M0-17 2 6\" stroke=\"#c8d2d0\" stroke-width=\"13\" stroke-linecap=\"round\"/></g></g>\n<g class=\"ml-body\">\n<path d=\"M-49-43Q-37-62-9-56Q22-62 40-36L38-14 28-9 20-14 12-8 3-13-9-7-21-12-33-8-44-17Z\" fill=\"url(#ml-fur)\" stroke=\"#becbcf\" stroke-width=\"2\"/>\n<path d=\"m-32-41-4 24m20-29-3 30m20-32-2 32m17-29 3 24\" stroke=\"#d9e1de\" stroke-width=\"2\" fill=\"none\" stroke-linecap=\"round\"/>\n<g transform=\"translate(-31 0)\"><g class=\"ml-leg\"><path d=\"M0-21-3 24q8 6 17 0\" fill=\"#fffaf1\" stroke=\"#becbcf\" stroke-width=\"2\"/><path d=\"M2-9 1 20m5-9v10\" stroke=\"#e0e4df\" stroke-width=\"2\"/></g></g>\n<g transform=\"translate(28 0)\"><g class=\"ml-leg ml-leg-alt\"><path d=\"M0-22-2 23q8 6 16 0\" fill=\"#fffaf1\" stroke=\"#becbcf\" stroke-width=\"2\"/><path d=\"M3-9 2 20m5-9v10\" stroke=\"#e0e4df\" stroke-width=\"2\"/></g></g>\n<g class=\"ml-head\">\n<path class=\"ml-ear\" d=\"M17-69Q-4-85-9-56L-8-19 0-24 6-19 15-29 23-55Z\" fill=\"#f2f3eb\" stroke=\"#becbcf\" stroke-width=\"2\"/>\n<path d=\"M11-70Q33-94 57-74L66-55 78-44Q80-30 65-25L46-20 25-29 12-39 6-52Z\" fill=\"url(#ml-fur)\" stroke=\"#becbcf\" stroke-width=\"2\"/>\n<path d=\"M29-77Q19-57 23-40M36-80Q32-66 35-58\" fill=\"none\" stroke=\"#dde3de\" stroke-width=\"2\"/><path class=\"ml-ear\" d=\"M20-73Q1-76 1-50L4-18 12-24 19-22 25-45Z\" fill=\"#fffaf3\" stroke=\"#c8d3d3\" stroke-width=\"2\"/><path d=\"M10-59 11-30m6-24-2 23\" stroke=\"#e2e5df\" stroke-width=\"2\"/>\n<ellipse cx=\"49\" cy=\"-54\" rx=\"5\" ry=\"6\" fill=\"#263940\"/><circle cx=\"51\" cy=\"-56\" r=\"1.8\" fill=\"#fff\"/>\n<ellipse cx=\"69\" cy=\"-37\" rx=\"13\" ry=\"10\" fill=\"#fffcf4\"/><ellipse cx=\"78\" cy=\"-42\" rx=\"6\" ry=\"4.5\" fill=\"#25343a\"/>\n<path d=\"M78-38q-3 12-16 7\" fill=\"none\" stroke=\"#687779\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n<path d=\"M63-30q2 12 8 8l2-8\" fill=\"#e9a6ab\"/>\n</g></g></g></g>\n<g class=\"ml-move-lilli\"><g class=\"ml-bark\"><text x=\"-65\" y=\"-115\" text-anchor=\"middle\" font-family=\"system-ui\" font-size=\"20\" font-weight=\"900\" fill=\"#604f85\">HAU HAU!</text></g><g transform=\"scale(-1 1)\">\n<g class=\"ml-tail\"><path d=\"M-44-31C-90-47-90-94-60-90Q-30-83-45-61Q-51-76-64-69Q-66-57-43-55Z\" fill=\"#fff8e9\" stroke=\"#c7d3d6\" stroke-width=\"2\"/></g>\n<g transform=\"translate(-29 0)\"><g class=\"ml-leg ml-leg-alt\"><path d=\"M0-17 2 6\" stroke=\"#c8d2d0\" stroke-width=\"14\" stroke-linecap=\"round\"/></g></g>\n<g transform=\"translate(25 0)\"><g class=\"ml-leg ml-leg-alt\"><path d=\"M0-17 2 6\" stroke=\"#c8d2d0\" stroke-width=\"13\" stroke-linecap=\"round\"/></g></g>\n<g class=\"ml-body\">\n<path d=\"M-49-43Q-37-62-9-56Q22-62 40-36L38-14 28-9 20-14 12-8 3-13-9-7-21-12-33-8-44-17Z\" fill=\"url(#ml-fur)\" stroke=\"#becbcf\" stroke-width=\"2\"/>\n<path d=\"m-17-52 8 12 7-14 7 12 9-9\" fill=\"none\" stroke=\"#fff\" stroke-width=\"4\"/>\n<g transform=\"translate(-31 0)\"><g class=\"ml-leg\"><path d=\"M0-21-3 24q8 6 17 0\" fill=\"#fffaf1\" stroke=\"#becbcf\" stroke-width=\"2\"/><path d=\"M2-9 1 20m5-9v10\" stroke=\"#e0e4df\" stroke-width=\"2\"/></g></g>\n<g transform=\"translate(28 0)\"><g class=\"ml-leg ml-leg-alt\"><path d=\"M0-22-2 23q8 6 16 0\" fill=\"#fffaf1\" stroke=\"#becbcf\" stroke-width=\"2\"/><path d=\"M3-9 2 20m5-9v10\" stroke=\"#e0e4df\" stroke-width=\"2\"/></g></g>\n<g class=\"ml-head\">\n<path d=\"m12-64 4-43 27 27m4-1 22-24 1 46\" fill=\"#fff7e7\" stroke=\"#becbcf\" stroke-width=\"2\"/><path d=\"m21-94 2 24 12-9m22-1 7-13-1 23\" fill=\"#e6c1ba\"/>\n<path d=\"M11-70Q33-94 57-74L66-55 78-44Q80-30 65-25L46-20 25-29 12-39 6-52Z\" fill=\"url(#ml-fur)\" stroke=\"#becbcf\" stroke-width=\"2\"/>\n<path d=\"m19-39-13 5 11 6-5 8 17-4\" fill=\"#fff9ec\"/>\n<ellipse cx=\"49\" cy=\"-54\" rx=\"5\" ry=\"6\" fill=\"#263940\"/><circle cx=\"51\" cy=\"-56\" r=\"1.8\" fill=\"#fff\"/>\n<ellipse cx=\"69\" cy=\"-37\" rx=\"13\" ry=\"10\" fill=\"#fffcf4\"/><ellipse cx=\"78\" cy=\"-42\" rx=\"6\" ry=\"4.5\" fill=\"#25343a\"/>\n<ellipse class=\"ml-mouth\" cx=\"70\" cy=\"-29\" rx=\"8\" ry=\"7\" fill=\"#6c4249\"/><path d=\"M78-38q-3 12-16 7\" fill=\"none\" stroke=\"#687779\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n<path d=\"M63-30q2 12 8 8l2-8\" fill=\"#e9a6ab\"/>\n</g></g></g></g>\n<g text-anchor=\"middle\" font-family=\"system-ui,sans-serif\" fill=\"#294f52\"><g class=\"ml-intro\"><text x=\"300\" y=\"55\" font-size=\"26\" font-weight=\"800\">Kuka sieltä tulee?</text><text x=\"300\" y=\"82\" font-size=\"16\">Minni ja Lilli kohtaavat puistossa</text></g><g class=\"ml-middle\"><text x=\"300\" y=\"55\" font-size=\"25\" font-weight=\"800\">Hei kaveri! Leikitäänkö?</text></g><g class=\"ml-outro\"><text x=\"300\" y=\"55\" font-size=\"27\" font-weight=\"800\">Tästä alkaa ystävyys ♥</text><text x=\"300\" y=\"83\" font-size=\"16\">Hienosti harjoiteltu!</text></g><text x=\"205\" y=\"345\" font-size=\"18\" font-weight=\"800\">Minni</text><text x=\"392\" y=\"345\" font-size=\"18\" font-weight=\"800\">Lilli</text><text x=\"300\" y=\"377\" font-size=\"12\" letter-spacing=\"2\">PIENET TASSUT · SUURI ILO</text></g>\n<path class=\"ml-heart\" d=\"M300 159C264 135 281 114 300 134C319 114 336 135 300 159Z\" fill=\"#dc8599\"/>\n</svg>"
 }
 ];
 let lastWritingFinale = -1;
@@ -6265,6 +6272,74 @@ function miniCheer() {
   return '<span class="mini animal-box">' + CUTE_ANIMALS[lastMini].svg + "</span>";
 }
 
+
+let minniAudioContext = null;
+let minniSoundEnabled = false;
+let minniBarkTimers = [];
+let minniNoiseBuffer = null;
+function stopMinniBarks() {
+  minniBarkTimers.forEach(clearTimeout);
+  minniBarkTimers = [];
+}
+function playMinniBark() {
+  const ctx = minniAudioContext;
+  if (!ctx || ctx.state !== "running" || document.hidden ||
+      !$("animalStage").querySelector(".ml-scene") ||
+      $("finishArea").classList.contains("hidden")) return;
+  if (!minniNoiseBuffer) {
+    minniNoiseBuffer = ctx.createBuffer(1, Math.ceil(ctx.sampleRate * .16), ctx.sampleRate);
+    const data = minniNoiseBuffer.getChannelData(0);
+    for (let i=0;i<data.length;i++) data[i] = Math.random()*2-1;
+  }
+  const t=ctx.currentTime;
+  const gain=ctx.createGain();
+  gain.gain.setValueAtTime(0,t);
+  gain.gain.linearRampToValueAtTime(.19,t+.012);
+  gain.gain.exponentialRampToValueAtTime(.001,t+.16);
+  gain.connect(ctx.destination);
+  const noise=ctx.createBufferSource(); noise.buffer=minniNoiseBuffer;
+  const filter=ctx.createBiquadFilter(); filter.type="bandpass";filter.frequency.value=950;filter.Q.value=.9;
+  noise.connect(filter);filter.connect(gain);noise.start(t);noise.stop(t+.17);
+  const voice=ctx.createOscillator();voice.type="sawtooth";
+  voice.frequency.setValueAtTime(340,t);voice.frequency.exponentialRampToValueAtTime(150,t+.15);
+  const voiceGain=ctx.createGain();voiceGain.gain.value=.22;
+  voice.connect(voiceGain);voiceGain.connect(gain);voice.start(t);voice.stop(t+.17);
+  noise.onended=()=>{noise.disconnect();filter.disconnect();};
+  voice.onended=()=>{voice.disconnect();voiceGain.disconnect();gain.disconnect();};
+}
+function setupMinniSound(scene) {
+  stopMinniBarks();
+  let button=$("minniSoundBtn");
+  if (!button) {
+    button=document.createElement("button");button.id="minniSoundBtn";
+    button.type="button";button.className="secondary";
+    $("replayFinaleBtn").before(button);
+  }
+  const active=scene.title==="Minnin ja Lillin kohtaaminen";
+  button.classList.toggle("hidden",!active);
+  button.textContent=minniSoundEnabled?"🔇 Äänet pois":"🔊 Kuuntele Lillin haukahdukset";
+  button.setAttribute("aria-pressed",String(minniSoundEnabled));
+  button.onclick=async()=>{
+    if (minniSoundEnabled) {
+      minniSoundEnabled=false;stopMinniBarks();
+      button.textContent="🔊 Kuuntele Lillin haukahdukset";button.setAttribute("aria-pressed","false");return;
+    }
+    const AudioContext=window.AudioContext||window.webkitAudioContext;
+    if (!AudioContext) {button.textContent="Selain ei tue ääntä";return;}
+    try {
+      minniAudioContext ||= new AudioContext();
+      await minniAudioContext.resume();
+      minniSoundEnabled=true;
+      showWritingFinale("Minnin ja Lillin kohtaaminen");
+    } catch {button.textContent="Ääni ei käynnistynyt – kokeile uudelleen";}
+  };
+  if (active && minniSoundEnabled) {
+    [2.16,2.70,3.96,4.50,8.10,8.64,12.06,12.60].forEach(seconds=>
+      minniBarkTimers.push(setTimeout(playMinniBark,seconds*1000)));
+  }
+}
+document.addEventListener("visibilitychange",()=>{if(document.hidden)stopMinniBarks();});
+
 function showWritingFinale(requestedTitle = "") {
   const count = WRITING_FINAL_SCENES.length;
   let index;
@@ -6289,6 +6364,7 @@ function showWritingFinale(requestedTitle = "") {
   const scene = WRITING_FINAL_SCENES[index];
   $("animalStage").classList.add("writing-finale");
   $("animalStage").innerHTML = scene.svg;
+  setupMinniSound(scene);
   $("animalName").textContent = scene.title;
   $("animalCheer").textContent = scene.description;
   $("celebration").classList.remove("hidden");
@@ -6374,6 +6450,8 @@ function showCelebration() {
 
 
 function hideCelebration() {
+  stopMinniBarks();
+  $("minniSoundBtn")?.classList.add("hidden");
   $("animalStage").classList.remove("writing-finale");
 
   $("replayFinaleBtn")
@@ -6822,6 +6900,7 @@ body.demo-only .subject-tabs,body.demo-only #ymppa{display:none!important}
   el("ymppaNext").onclick=()=>{if(!answered)return;position++;if(position===questions.length)finish();else render();};
   el("ymppaTopic").onchange=start;
   function subject(ymppa){
+    stopMinniBarks();
     english.classList.toggle("hidden",ymppa);panel.classList.toggle("hidden",!ymppa);
     el("englishTab").setAttribute("aria-pressed",String(!ymppa));el("ymppaTab").setAttribute("aria-pressed",String(ymppa));
     hero.querySelector("p").textContent=ymppa?"Ympäristöopin harjoittelupeli":"Englannin sanapeli";
