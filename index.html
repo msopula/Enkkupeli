@@ -1365,6 +1365,23 @@ body.demo-only .card { margin-top: 0; }
 @keyframes fp-stars{0%,84%{opacity:0}90%,100%{opacity:1}}
 @media(prefers-reduced-motion:reduce){.forest-play .fp-squirrel{animation:none;transform:translate(272px,272px)}.forest-play .fp-galago{animation:none;transform:translate(331px,274px)}.forest-play .fp-firefly{animation:none;transform:translate(300px,220px)}.forest-play .fp-wing,.forest-play .fp-tail,.forest-play .fp-g-tail,.forest-play .fp-ears,.forest-play .fp-glow{animation:none}.forest-play .fp-intro,.forest-play .fp-chase{animation:none;opacity:0}.forest-play .fp-finale,.forest-play .fp-stars{animation:none;opacity:1}}
 
+
+
+/* Lilli and Hilla count from one to twenty on a playful number trail. */
+.stage.writing-finale:has(.number-trail){max-width:640px;aspect-ratio:3/2;background:#e6f5f0}
+.number-trail .na-dot{opacity:.28;transform-box:fill-box;transform-origin:center;animation:na-dot .75s var(--delay) ease-out both}
+.number-trail .na-lilli,.number-trail .na-hilla{transform-box:view-box;animation-duration:14s;animation-fill-mode:both;animation-timing-function:cubic-bezier(.45,.05,.35,1)}
+.number-trail .na-lilli{animation-name:na-lilli}.number-trail .na-hilla{animation-name:na-hilla}
+.number-trail .na-tail{transform-box:fill-box;transform-origin:15% 55%;animation:na-wag .28s ease-in-out infinite alternate}
+.number-trail .na-ears{transform-box:fill-box;transform-origin:50% 90%;animation:na-ears .48s ease-in-out infinite alternate}
+.number-trail .na-finish{animation:na-finish 14s both}.number-trail .na-stars{animation:na-stars 14s both}
+@keyframes na-dot{0%{opacity:.28;transform:scale(.72)}60%{opacity:1;transform:scale(1.3)}100%{opacity:1;transform:scale(1)}}
+@keyframes na-lilli{0%{transform:translate(-45px,272px) scale(.78)}42%{transform:translate(530px,272px) scale(.78)}49%{transform:translate(530px,177px) scale(.78)}90%{transform:translate(36px,177px) scale(.78)}94%{transform:translate(230px,119px) scale(.94) rotate(-8deg)}97%{transform:translate(230px,102px) scale(.94) rotate(7deg)}100%{transform:translate(230px,119px) scale(.94)}}
+@keyframes na-hilla{0%,4%{transform:translate(-75px,280px) scale(.66)}44%{transform:translate(505px,280px) scale(.66)}51%{transform:translate(505px,186px) scale(.66)}91%{transform:translate(12px,186px) scale(.66)}95%{transform:translate(332px,126px) scale(.8) rotate(8deg)}98%{transform:translate(332px,108px) scale(.8) rotate(-7deg)}100%{transform:translate(332px,126px) scale(.8)}}
+@keyframes na-wag{from{transform:rotate(-18deg)}to{transform:rotate(20deg)}}@keyframes na-ears{from{transform:rotate(-4deg)}to{transform:rotate(5deg)}}
+@keyframes na-finish{0%,83%{opacity:0;transform:translateY(-18px)}91%,100%{opacity:1;transform:none}}@keyframes na-stars{0%,88%{opacity:0;transform:scale(.4)}94%{opacity:1;transform:scale(1.2)}100%{opacity:1;transform:scale(1)}}
+@media(prefers-reduced-motion:reduce){.number-trail .na-dot,.number-trail .na-lilli,.number-trail .na-hilla,.number-trail .na-tail,.number-trail .na-ears,.number-trail .na-finish,.number-trail .na-stars{animation:none!important;opacity:1}.number-trail .na-lilli{transform:translate(230px,119px) scale(.94)}.number-trail .na-hilla{transform:translate(332px,126px) scale(.8)}}
+
 </style>
 
 </head>
@@ -1715,6 +1732,106 @@ const WORDS = [
   [
     "grey",
     "harmaa"
+  ],
+  [
+    "one",
+    "yksi",
+    5
+  ],
+  [
+    "two",
+    "kaksi",
+    5
+  ],
+  [
+    "three",
+    "kolme",
+    5
+  ],
+  [
+    "four",
+    "neljä",
+    5
+  ],
+  [
+    "five",
+    "viisi",
+    5
+  ],
+  [
+    "six",
+    "kuusi",
+    5
+  ],
+  [
+    "seven",
+    "seitsemän",
+    5
+  ],
+  [
+    "eight",
+    "kahdeksan",
+    5
+  ],
+  [
+    "nine",
+    "yhdeksän",
+    5
+  ],
+  [
+    "ten",
+    "kymmenen",
+    5
+  ],
+  [
+    "eleven",
+    "yksitoista",
+    5
+  ],
+  [
+    "twelve",
+    "kaksitoista",
+    5
+  ],
+  [
+    "thirteen",
+    "kolmetoista",
+    5
+  ],
+  [
+    "fourteen",
+    "neljätoista",
+    5
+  ],
+  [
+    "fifteen",
+    "viisitoista",
+    5
+  ],
+  [
+    "sixteen",
+    "kuusitoista",
+    5
+  ],
+  [
+    "seventeen",
+    "seitsemäntoista",
+    5
+  ],
+  [
+    "eighteen",
+    "kahdeksantoista",
+    5
+  ],
+  [
+    "nineteen",
+    "yhdeksäntoista",
+    5
+  ],
+  [
+    "twenty",
+    "kaksikymmentä",
+    5
   ]
 ];
 
@@ -2225,10 +2342,10 @@ function isTypable(entry) {
 function weightedShuffle(array) {
 
   /*
-    Uudet sanat on merkitty kolmannella
-    arvolla. Paino 3 tarkoittaa, että ne
-    nousevat kierrokselle kolminkertaisella
-    todennäköisyydellä vanhoihin verrattuna.
+    Kolmas arvo on sanan paino.
+    Numerot 1–20 käyttävät painoa 5,
+    joten niitä tulee kierrokselle
+    selvästi vanhoja sanoja useammin.
     Jokainen sana voi silti esiintyä
     kierroksella vain kerran.
   */
@@ -2241,7 +2358,10 @@ function weightedShuffle(array) {
 
       key:
         -Math.log(Math.random()) /
-        (word[2] ? 3 : 1)
+        Math.max(
+          1,
+          Number(word[2]) || 1
+        )
 
     }))
 
@@ -3137,13 +3257,29 @@ function showChoices(index) {
     };
 
 
+  const numberQuestion =
+    Number(current.word[2]) === 5;
+
+
+  /*
+    Numerokysymyksissä kaikki
+    vastausvaihtoehdot ovat numeroita,
+    jotta harjoitus pysyy mielekkäänä.
+  */
+
   const vocabPool =
 
     shuffle(
-      WORDS.map(
-        word =>
-          word[index]
-      )
+      WORDS
+        .filter(
+          word =>
+            !numberQuestion ||
+            Number(word[2]) === 5
+        )
+        .map(
+          word =>
+            word[index]
+        )
     );
 
 
@@ -3165,10 +3301,12 @@ function showChoices(index) {
 
   const decoyCount =
 
-    1 +
-    Math.floor(
-      Math.random() * 2
-    );
+    numberQuestion
+      ? 0
+      : 1 +
+        Math.floor(
+          Math.random() * 2
+        );
 
 
   const alternatives =
@@ -6017,7 +6155,12 @@ const WRITING_FINAL_SCENES = [
   "title": "Liito-oravan ja galagon kuutamoleikki",
   "description": "Liito-orava liitää, galago loikkii! Kaverukset seuraavat tulikärpästä oksalta toiselle ja päätyvät vierekkäin yhteiselle oksalle.",
   "svg": "<svg class=\"forest-play\" viewBox=\"0 0 600 400\" role=\"img\" aria-label=\"Liito-orava liitää ja suurisilmäinen galago loikkii oksalta toiselle tulikärpäsen perässä. Lopuksi ne kohtaavat ja painautuvat iloisesti vierekkäin.\">\n<defs>\n <linearGradient id=\"fp-sky\" x2=\"0\" y2=\"1\"><stop stop-color=\"#14283f\"/><stop offset=\"1\" stop-color=\"#315953\"/></linearGradient>\n <linearGradient id=\"fp-fur\" x2=\".6\" y2=\"1\"><stop stop-color=\"#e2e2db\"/><stop offset=\"1\" stop-color=\"#8f9f9f\"/></linearGradient>\n <linearGradient id=\"fp-gfur\" x2=\".3\" y2=\"1\"><stop stop-color=\"#d4b293\"/><stop offset=\"1\" stop-color=\"#9d7a65\"/></linearGradient>\n <radialGradient id=\"fp-light\"><stop stop-color=\"#fff2a1\" stop-opacity=\".6\"/><stop offset=\"1\" stop-color=\"#fff2a1\" stop-opacity=\"0\"/></radialGradient>\n</defs>\n<rect width=\"600\" height=\"400\" fill=\"url(#fp-sky)\"/>\n<g fill=\"#9bb7b0\" opacity=\".13\"><path d=\"M46 400 57 63 74 400ZM512 400 531 38 555 400ZM107 400 124 129 146 400ZM442 400 456 145 480 400Z\"/></g>\n<circle cx=\"503\" cy=\"65\" r=\"48\" fill=\"url(#fp-light)\"/><circle cx=\"503\" cy=\"65\" r=\"24\" fill=\"#f6e9b9\"/><circle cx=\"513\" cy=\"57\" r=\"23\" fill=\"#1b3245\"/>\n<g fill=\"#e5e9cf\" opacity=\".65\"><circle cx=\"132\" cy=\"45\" r=\"1.4\"/><circle cx=\"214\" cy=\"100\" r=\"1.5\"/><circle cx=\"384\" cy=\"81\" r=\"1.2\"/><circle cx=\"427\" cy=\"32\" r=\"1.4\"/><circle cx=\"73\" cy=\"112\" r=\"1.5\"/><circle cx=\"348\" cy=\"25\" r=\"1.2\"/></g>\n<!-- Broad landing branches make each glide and leap readable. -->\n<g fill=\"none\" stroke-linecap=\"round\"><path d=\"M21 420Q48 210 27-25M580 420Q555 180 578-25\" stroke=\"#233b3c\" stroke-width=\"39\"/><path d=\"M30 220Q83 216 154 222M562 267Q492 264 397 266M20 299Q103 284 190 288M576 347Q399 312 226 314\" stroke=\"#705747\" stroke-width=\"18\"/><path d=\"M31 215Q89 211 150 217M560 261Q490 258 402 261M27 293Q110 279 187 283M566 340Q399 306 234 309\" stroke=\"#a38d64\" stroke-width=\"4\"/>\n<path d=\"M30 212 52 192m491 69 26-21m-439 44-21-17m268 47 33-19\" stroke=\"#705747\" stroke-width=\"8\"/></g>\n<g fill=\"#507965\"><ellipse cx=\"54\" cy=\"189\" rx=\"17\" ry=\"7\" transform=\"rotate(-25 54 189)\"/><ellipse cx=\"520\" cy=\"244\" rx=\"18\" ry=\"8\" transform=\"rotate(-30 520 244)\"/><ellipse cx=\"111\" cy=\"266\" rx=\"15\" ry=\"7\" transform=\"rotate(22 111 266)\"/><ellipse cx=\"411\" cy=\"293\" rx=\"19\" ry=\"8\" transform=\"rotate(-24 411 293)\"/></g>\n<g class=\"fp-squirrel\">\n <g class=\"fp-tail\"><path d=\"M-4 23C-37 40-65 23-61-2C-56-34-39-17-42 0Q-40 12-11 8Z\" fill=\"url(#fp-fur)\" stroke=\"#849998\" stroke-width=\"1.5\"/><path d=\"M-51-8Q-59 25-23 28\" fill=\"none\" stroke=\"#f0eee5\" stroke-width=\"3\" stroke-linecap=\"round\"/></g>\n <g class=\"fp-wing\"><path d=\"M-17-15-52-28Q-51-2-48 20L-32 35Q0 19 32 35L48 20Q51-2 52-28L17-15Z\" fill=\"#a6b7b3\" stroke=\"#dbe1d6\" stroke-width=\"2\"/>\n <path d=\"M-17-12-45-21Q-34 3-30 25L-11 20M17-12 45-21Q34 3 30 25L11 20\" fill=\"#d6ded5\"/>\n <g fill=\"#f2ece0\"><ellipse cx=\"-51\" cy=\"-27\" rx=\"8\" ry=\"5\" transform=\"rotate(20 -51 -27)\"/><ellipse cx=\"51\" cy=\"-27\" rx=\"8\" ry=\"5\" transform=\"rotate(-20 51 -27)\"/><ellipse cx=\"-32\" cy=\"34\" rx=\"8\" ry=\"5\"/><ellipse cx=\"32\" cy=\"34\" rx=\"8\" ry=\"5\"/></g></g>\n <ellipse cy=\"8\" rx=\"22\" ry=\"30\" fill=\"url(#fp-fur)\"/><ellipse cy=\"12\" rx=\"15\" ry=\"23\" fill=\"#f5f1e5\"/>\n <path d=\"M-25-28Q-39-59-23-56L-10-37M25-28Q39-59 23-56L10-37\" fill=\"#b6c1bc\" stroke=\"#dde3d8\" stroke-width=\"2\"/><path d=\"m-25-47 5 14m45-14-5 14\" stroke=\"#d5b5af\" stroke-width=\"6\" stroke-linecap=\"round\"/>\n <path d=\"M-30-27Q-24-47 0-43Q24-47 30-27L34-13 27-14Q26 0 0 4Q-26 0-27-14L-34-13Z\" fill=\"url(#fp-fur)\"/>\n <ellipse cx=\"-15\" cy=\"-23\" rx=\"10\" ry=\"12\" fill=\"#f5f1e8\"/><ellipse cx=\"15\" cy=\"-23\" rx=\"10\" ry=\"12\" fill=\"#f5f1e8\"/>\n <g fill=\"#1b303a\"><ellipse cx=\"-14\" cy=\"-23\" rx=\"7\" ry=\"9\"/><ellipse cx=\"14\" cy=\"-23\" rx=\"7\" ry=\"9\"/></g><g fill=\"white\"><circle cx=\"-12\" cy=\"-26\" r=\"2.8\"/><circle cx=\"16\" cy=\"-26\" r=\"2.8\"/></g>\n <ellipse cy=\"-9\" rx=\"14\" ry=\"9\" fill=\"#f7f2e6\"/><path d=\"M-5-12Q0-15 5-12L0-7Z\" fill=\"#4c5352\"/><path d=\"M0-7v4m-7-1q7 8 14 0\" fill=\"none\" stroke=\"#6c7066\" stroke-width=\"1.5\" stroke-linecap=\"round\"/>\n</g>\n<g class=\"fp-galago\">\n <g class=\"fp-g-tail\"><path d=\"M-12 15C-48 20-53 55-26 55Q-3 51-16 40\" fill=\"none\" stroke=\"#9c7d68\" stroke-width=\"13\" stroke-linecap=\"round\"/><path d=\"M-43 33Q-47 50-31 51\" fill=\"none\" stroke=\"#ceb08f\" stroke-width=\"3\" stroke-linecap=\"round\"/></g>\n <ellipse cy=\"10\" rx=\"19\" ry=\"27\" fill=\"url(#fp-gfur)\"/><ellipse cy=\"14\" rx=\"12\" ry=\"19\" fill=\"#ead8b8\"/>\n <path d=\"M-13 25-19 34-5 35M13 25 19 34 5 35\" fill=\"none\" stroke=\"#c5a78a\" stroke-width=\"9\" stroke-linecap=\"round\"/>\n <path d=\"M-17 0-27 13-22 20M17 0 27 13 22 20\" fill=\"none\" stroke=\"#b99a7e\" stroke-width=\"7\" stroke-linecap=\"round\"/>\n <g class=\"fp-ears\"><ellipse cx=\"-27\" cy=\"-39\" rx=\"14\" ry=\"23\" fill=\"#c2a68c\" transform=\"rotate(-25 -27 -39)\"/><ellipse cx=\"27\" cy=\"-39\" rx=\"14\" ry=\"23\" fill=\"#c2a68c\" transform=\"rotate(25 27 -39)\"/><ellipse cx=\"-27\" cy=\"-40\" rx=\"9\" ry=\"17\" fill=\"#dfaeb0\" transform=\"rotate(-25 -27 -40)\"/><ellipse cx=\"27\" cy=\"-40\" rx=\"9\" ry=\"17\" fill=\"#dfaeb0\" transform=\"rotate(25 27 -40)\"/><path d=\"m-31-49 6 18m6 0-4-9m54-9-6 18m-6 0 4-9\" fill=\"none\" stroke=\"#f1c8be\" stroke-width=\"2\" stroke-linecap=\"round\"/></g>\n <path d=\"M-30-26Q-27-46 0-42Q27-46 30-26Q33-4 0 2Q-33-4-30-26\" fill=\"url(#fp-gfur)\"/>\n <path d=\"M0-36Q-10-45-22-34Q-35-21-19-10L0-6 19-10Q35-21 22-34Q10-45 0-36Z\" fill=\"#e7d5b6\"/>\n <g fill=\"#423a34\"><ellipse cx=\"-14\" cy=\"-25\" rx=\"12\" ry=\"14\"/><ellipse cx=\"14\" cy=\"-25\" rx=\"12\" ry=\"14\"/></g>\n <g fill=\"#dca65b\"><ellipse cx=\"-13\" cy=\"-24\" rx=\"9\" ry=\"11\"/><ellipse cx=\"13\" cy=\"-24\" rx=\"9\" ry=\"11\"/></g>\n <g fill=\"#172832\"><ellipse cx=\"-12\" cy=\"-24\" rx=\"6\" ry=\"10\"/><ellipse cx=\"12\" cy=\"-24\" rx=\"6\" ry=\"10\"/></g><g fill=\"white\"><circle cx=\"-10\" cy=\"-28\" r=\"3.4\"/><circle cx=\"14\" cy=\"-28\" r=\"3.4\"/></g>\n <ellipse cy=\"-8\" rx=\"11\" ry=\"8\" fill=\"#efdfc4\"/><path d=\"M-5-11Q0-14 5-11L0-6Z\" fill=\"#72504a\"/><path d=\"M-6-3q6 7 12 0\" fill=\"none\" stroke=\"#796757\" stroke-width=\"1.5\" stroke-linecap=\"round\"/>\n</g>\n<g class=\"fp-firefly\"><circle class=\"fp-glow\" r=\"25\" fill=\"url(#fp-light)\"/><ellipse cx=\"-5\" cy=\"-4\" rx=\"6\" ry=\"3\" fill=\"#d8eee0\" opacity=\".65\" transform=\"rotate(25 -5 -4)\"/><ellipse cx=\"5\" cy=\"-4\" rx=\"6\" ry=\"3\" fill=\"#d8eee0\" opacity=\".65\" transform=\"rotate(-25 5 -4)\"/><circle r=\"4\" fill=\"#fff1a4\"/></g>\n<g class=\"fp-stars\" fill=\"#efcd83\"><path d=\"m220 239 2 6 6 2-6 2-2 6-2-6-6-2 6-2Zm166-6 2 6 6 2-6 2-2 6-2-6-6-2 6-2Z\"/><path d=\"M300 192c-20-13-9-25 0-15 9-10 20 2 0 15\" fill=\"#e9a0a7\"/></g>\n<g text-anchor=\"middle\" font-family=\"system-ui,sans-serif\" fill=\"#f7edcf\"><g class=\"fp-intro\"><text x=\"285\" y=\"43\" font-size=\"23\" font-weight=\"750\">Leikitäänkö kuutamossa?</text><text x=\"285\" y=\"67\" font-size=\"14\" fill=\"#bccfc3\">Liito-orava ja galago</text></g><text class=\"fp-chase\" x=\"285\" y=\"43\" font-size=\"21\" font-weight=\"700\">Sinä loikit, minä liidän!</text><g class=\"fp-finale\"><text x=\"300\" y=\"44\" font-size=\"25\" font-weight=\"750\">Paras leikkikaveri ♥</text><text x=\"300\" y=\"69\" font-size=\"16\" fill=\"#d1dfcb\">Hienosti harjoiteltu!</text></g><text x=\"300\" y=\"375\" font-size=\"12\" fill=\"#adc8b8\" letter-spacing=\"2\">PIENI SEIKKAILU KUUTAMOSSA</text></g>\n</svg>"
-}
+},
+  {
+    "title": "Lillin ja Hillan numerorata",
+    "description": "Lilli ja Hilla juoksevat yhdessä numerot 1–20, loikkaavat maaliin ja juhlivat onnistumista.",
+    "svg": "<svg class=\"number-trail\" viewBox=\"0 0 600 400\" role=\"img\" aria-label=\"Lilli ja Hilla juoksevat numeroradan yhdestä kahteenkymmeneen ja juhlivat maalissa.\">\n<defs><linearGradient id=\"na-sky\" x2=\"0\" y2=\"1\"><stop stop-color=\"#bfe8f1\"/><stop offset=\"1\" stop-color=\"#f8f1d8\"/></linearGradient><linearGradient id=\"na-grass\" x2=\"0\" y2=\"1\"><stop stop-color=\"#a8d39d\"/><stop offset=\"1\" stop-color=\"#6eaa70\"/></linearGradient></defs>\n<rect width=\"600\" height=\"400\" fill=\"url(#na-sky)\"/><circle cx=\"515\" cy=\"62\" r=\"31\" fill=\"#fff1a9\"/><path d=\"M0 210Q110 170 220 211T425 203T600 215V400H0Z\" fill=\"url(#na-grass)\"/><path d=\"M29 275H570M570 272Q589 233 555 177H28\" fill=\"none\" stroke=\"#fff\" stroke-opacity=\".55\" stroke-width=\"45\" stroke-linecap=\"round\"/>\n<g transform=\"translate(42 272)\"><g class=\"na-dot\" style=\"--delay:0.35s\"><circle r=\"18\" fill=\"#fff4c7\" stroke=\"#e0a93c\" stroke-width=\"2\"/><text y=\"5\" text-anchor=\"middle\" font-family=\"system-ui,sans-serif\" font-size=\"13\" font-weight=\"850\" fill=\"#34404b\">1</text></g></g><g transform=\"translate(99 272)\"><g class=\"na-dot\" style=\"--delay:0.78s\"><circle r=\"18\" fill=\"#fff4c7\" stroke=\"#e0a93c\" stroke-width=\"2\"/><text y=\"5\" text-anchor=\"middle\" font-family=\"system-ui,sans-serif\" font-size=\"13\" font-weight=\"850\" fill=\"#34404b\">2</text></g></g><g transform=\"translate(156 272)\"><g class=\"na-dot\" style=\"--delay:1.21s\"><circle r=\"18\" fill=\"#fff4c7\" stroke=\"#e0a93c\" stroke-width=\"2\"/><text y=\"5\" text-anchor=\"middle\" font-family=\"system-ui,sans-serif\" font-size=\"13\" font-weight=\"850\" fill=\"#34404b\">3</text></g></g><g transform=\"translate(213 272)\"><g class=\"na-dot\" style=\"--delay:1.64s\"><circle r=\"18\" fill=\"#fff4c7\" stroke=\"#e0a93c\" stroke-width=\"2\"/><text y=\"5\" text-anchor=\"middle\" font-family=\"system-ui,sans-serif\" font-size=\"13\" font-weight=\"850\" fill=\"#34404b\">4</text></g></g><g transform=\"translate(270 272)\"><g class=\"na-dot\" style=\"--delay:2.07s\"><circle r=\"18\" fill=\"#fff4c7\" stroke=\"#e0a93c\" stroke-width=\"2\"/><text y=\"5\" text-anchor=\"middle\" font-family=\"system-ui,sans-serif\" font-size=\"13\" font-weight=\"850\" fill=\"#34404b\">5</text></g></g><g transform=\"translate(327 272)\"><g class=\"na-dot\" style=\"--delay:2.50s\"><circle r=\"18\" fill=\"#fff4c7\" stroke=\"#e0a93c\" stroke-width=\"2\"/><text y=\"5\" text-anchor=\"middle\" font-family=\"system-ui,sans-serif\" font-size=\"13\" font-weight=\"850\" fill=\"#34404b\">6</text></g></g><g transform=\"translate(384 272)\"><g class=\"na-dot\" style=\"--delay:2.93s\"><circle r=\"18\" fill=\"#fff4c7\" stroke=\"#e0a93c\" stroke-width=\"2\"/><text y=\"5\" text-anchor=\"middle\" font-family=\"system-ui,sans-serif\" font-size=\"13\" font-weight=\"850\" fill=\"#34404b\">7</text></g></g><g transform=\"translate(441 272)\"><g class=\"na-dot\" style=\"--delay:3.36s\"><circle r=\"18\" fill=\"#fff4c7\" stroke=\"#e0a93c\" stroke-width=\"2\"/><text y=\"5\" text-anchor=\"middle\" font-family=\"system-ui,sans-serif\" font-size=\"13\" font-weight=\"850\" fill=\"#34404b\">8</text></g></g><g transform=\"translate(498 272)\"><g class=\"na-dot\" style=\"--delay:3.79s\"><circle r=\"18\" fill=\"#fff4c7\" stroke=\"#e0a93c\" stroke-width=\"2\"/><text y=\"5\" text-anchor=\"middle\" font-family=\"system-ui,sans-serif\" font-size=\"13\" font-weight=\"850\" fill=\"#34404b\">9</text></g></g><g transform=\"translate(555 272)\"><g class=\"na-dot\" style=\"--delay:4.22s\"><circle r=\"18\" fill=\"#fff4c7\" stroke=\"#e0a93c\" stroke-width=\"2\"/><text y=\"5\" text-anchor=\"middle\" font-family=\"system-ui,sans-serif\" font-size=\"13\" font-weight=\"850\" fill=\"#34404b\">10</text></g></g><g transform=\"translate(555 177)\"><g class=\"na-dot\" style=\"--delay:4.65s\"><circle r=\"18\" fill=\"#e9dcff\" stroke=\"#8065bd\" stroke-width=\"2\"/><text y=\"5\" text-anchor=\"middle\" font-family=\"system-ui,sans-serif\" font-size=\"13\" font-weight=\"850\" fill=\"#34404b\">11</text></g></g><g transform=\"translate(498 177)\"><g class=\"na-dot\" style=\"--delay:5.08s\"><circle r=\"18\" fill=\"#e9dcff\" stroke=\"#8065bd\" stroke-width=\"2\"/><text y=\"5\" text-anchor=\"middle\" font-family=\"system-ui,sans-serif\" font-size=\"13\" font-weight=\"850\" fill=\"#34404b\">12</text></g></g><g transform=\"translate(441 177)\"><g class=\"na-dot\" style=\"--delay:5.51s\"><circle r=\"18\" fill=\"#e9dcff\" stroke=\"#8065bd\" stroke-width=\"2\"/><text y=\"5\" text-anchor=\"middle\" font-family=\"system-ui,sans-serif\" font-size=\"13\" font-weight=\"850\" fill=\"#34404b\">13</text></g></g><g transform=\"translate(384 177)\"><g class=\"na-dot\" style=\"--delay:5.94s\"><circle r=\"18\" fill=\"#e9dcff\" stroke=\"#8065bd\" stroke-width=\"2\"/><text y=\"5\" text-anchor=\"middle\" font-family=\"system-ui,sans-serif\" font-size=\"13\" font-weight=\"850\" fill=\"#34404b\">14</text></g></g><g transform=\"translate(327 177)\"><g class=\"na-dot\" style=\"--delay:6.37s\"><circle r=\"18\" fill=\"#e9dcff\" stroke=\"#8065bd\" stroke-width=\"2\"/><text y=\"5\" text-anchor=\"middle\" font-family=\"system-ui,sans-serif\" font-size=\"13\" font-weight=\"850\" fill=\"#34404b\">15</text></g></g><g transform=\"translate(270 177)\"><g class=\"na-dot\" style=\"--delay:6.80s\"><circle r=\"18\" fill=\"#e9dcff\" stroke=\"#8065bd\" stroke-width=\"2\"/><text y=\"5\" text-anchor=\"middle\" font-family=\"system-ui,sans-serif\" font-size=\"13\" font-weight=\"850\" fill=\"#34404b\">16</text></g></g><g transform=\"translate(213 177)\"><g class=\"na-dot\" style=\"--delay:7.23s\"><circle r=\"18\" fill=\"#e9dcff\" stroke=\"#8065bd\" stroke-width=\"2\"/><text y=\"5\" text-anchor=\"middle\" font-family=\"system-ui,sans-serif\" font-size=\"13\" font-weight=\"850\" fill=\"#34404b\">17</text></g></g><g transform=\"translate(156 177)\"><g class=\"na-dot\" style=\"--delay:7.66s\"><circle r=\"18\" fill=\"#e9dcff\" stroke=\"#8065bd\" stroke-width=\"2\"/><text y=\"5\" text-anchor=\"middle\" font-family=\"system-ui,sans-serif\" font-size=\"13\" font-weight=\"850\" fill=\"#34404b\">18</text></g></g><g transform=\"translate(99 177)\"><g class=\"na-dot\" style=\"--delay:8.09s\"><circle r=\"18\" fill=\"#e9dcff\" stroke=\"#8065bd\" stroke-width=\"2\"/><text y=\"5\" text-anchor=\"middle\" font-family=\"system-ui,sans-serif\" font-size=\"13\" font-weight=\"850\" fill=\"#34404b\">19</text></g></g><g transform=\"translate(42 177)\"><g class=\"na-dot\" style=\"--delay:8.52s\"><circle r=\"18\" fill=\"#e9dcff\" stroke=\"#8065bd\" stroke-width=\"2\"/><text y=\"5\" text-anchor=\"middle\" font-family=\"system-ui,sans-serif\" font-size=\"13\" font-weight=\"850\" fill=\"#34404b\">20</text></g></g>\n<g class=\"na-lilli\"><g class=\"na-tail\"><path d=\"M-27 6Q-57-13-42-34Q-28-49-18-27Q-37-31-31-13\" fill=\"none\" stroke=\"#f7f3e8\" stroke-width=\"15\" stroke-linecap=\"round\"/><path d=\"M-27 6Q-50-10-40-27\" fill=\"none\" stroke=\"#d8d5cc\" stroke-width=\"2\"/></g><ellipse cx=\"0\" cy=\"4\" rx=\"31\" ry=\"21\" fill=\"#f6f3e9\" stroke=\"#d8d5cc\" stroke-width=\"2\"/><path d=\"M-20 18v22m36-22v22\" stroke=\"#eee9dc\" stroke-width=\"12\" stroke-linecap=\"round\"/><g class=\"na-ears\"><path d=\"M8-20 16-52 29-24M42-16 48-48 59-17\" fill=\"#f6f3e9\" stroke=\"#d8d5cc\" stroke-width=\"2\"/><path d=\"m18-42 5 18m25-14 2 19\" stroke=\"#e8c4c8\" stroke-width=\"5\" stroke-linecap=\"round\"/></g><circle cx=\"34\" cy=\"-13\" r=\"26\" fill=\"#f8f5ec\" stroke=\"#d8d5cc\" stroke-width=\"2\"/><ellipse cx=\"48\" cy=\"-4\" rx=\"18\" ry=\"13\" fill=\"#fffaf0\"/><circle cx=\"28\" cy=\"-18\" r=\"3.5\" fill=\"#2e3135\"/><circle cx=\"31\" cy=\"-19\" r=\"1\" fill=\"white\"/><path d=\"m61-8 7 4-7 4Z\" fill=\"#33383b\"/><path d=\"M47 7q8 7 15-1\" fill=\"none\" stroke=\"#775d59\" stroke-width=\"2\" stroke-linecap=\"round\"/><path d=\"M8-1q12-13 25-4\" fill=\"none\" stroke=\"#fff\" stroke-width=\"4\"/></g>\n<g class=\"na-hilla\"><g class=\"na-tail\"><path d=\"M-25 8Q-48-7-38-26\" fill=\"none\" stroke=\"#30343a\" stroke-width=\"11\" stroke-linecap=\"round\"/></g><ellipse cx=\"0\" cy=\"7\" rx=\"29\" ry=\"19\" fill=\"#f7f4e8\" stroke=\"#3c4146\" stroke-width=\"2\"/><path d=\"M-16 18v20m32-20v20\" stroke=\"#f3efe4\" stroke-width=\"10\" stroke-linecap=\"round\"/><path d=\"M-19-1Q0-18 23-2\" fill=\"none\" stroke=\"#842f4b\" stroke-width=\"7\"/><path d=\"m-4-9 5 31\" stroke=\"#842f4b\" stroke-width=\"5\"/><g class=\"na-ears\"><path d=\"M8-18 13-48 27-24M39-19 46-45 56-16\" fill=\"#282d32\"/><path d=\"m15-40 5 17m26-14 2 17\" stroke=\"#936f75\" stroke-width=\"4\" stroke-linecap=\"round\"/></g><circle cx=\"34\" cy=\"-12\" r=\"25\" fill=\"#f7f3e8\" stroke=\"#353a3f\" stroke-width=\"2\"/><path d=\"M10-17Q17-39 34-35Q51-38 59-17L52-9Q34-20 17-8Z\" fill=\"#2c3136\"/><ellipse cx=\"49\" cy=\"-3\" rx=\"17\" ry=\"12\" fill=\"#fffaf0\"/><circle cx=\"29\" cy=\"-16\" r=\"3.5\" fill=\"#252a30\"/><circle cx=\"31\" cy=\"-17\" r=\"1\" fill=\"white\"/><path d=\"m61-7 7 4-7 4Z\" fill=\"#30343a\"/><path d=\"M46 8q8 6 15-1\" fill=\"none\" stroke=\"#775d59\" stroke-width=\"2\" stroke-linecap=\"round\"/></g>\n<g class=\"na-finish\" text-anchor=\"middle\" font-family=\"system-ui,sans-serif\"><rect x=\"140\" y=\"24\" width=\"320\" height=\"68\" rx=\"28\" fill=\"#fff\" stroke=\"#7651b8\" stroke-width=\"3\"/><text x=\"300\" y=\"54\" font-size=\"22\" font-weight=\"900\" fill=\"#5b379a\">1–20 osattu!</text><text x=\"300\" y=\"78\" font-size=\"15\" font-weight=\"700\" fill=\"#476258\">Lilli ja Hilla pääsivät maaliin</text></g>\n<g class=\"na-stars\" fill=\"#ffd55a\"><path d=\"m105 78 5 13 13 5-13 5-5 13-5-13-13-5 13-5Zm395 15 4 11 11 4-11 4-4 11-4-11-11-4 11-4Z\"/><path d=\"M300 146c-23-17-14-34 0-20 14-14 23 3 0 20\" fill=\"#e985a6\"/></g><text x=\"300\" y=\"374\" text-anchor=\"middle\" font-family=\"system-ui,sans-serif\" font-size=\"13\" font-weight=\"800\" letter-spacing=\"2\" fill=\"#355c47\">NUMERORATA 1–20</text></svg>"
+  }
 ];
 let lastWritingFinale = -1;
 
@@ -6406,7 +6549,8 @@ function showRequestedDemo() {
     lilli: "Lillin koulutushetki",
     "hilla-lilli": "Hilla ja Lilli leikkivät",
     "lilli-pusut": "Lillin ruutupusut",
-    "liito-orava-galago": "Liito-oravan ja galagon kuutamoleikki"
+    "liito-orava-galago": "Liito-oravan ja galagon kuutamoleikki",
+    numerot: "Lillin ja Hillan numerorata"
   };
   const demoTitle = demoTitles[demo];
   if (!demoTitle) return false;
