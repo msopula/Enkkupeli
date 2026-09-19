@@ -1418,6 +1418,27 @@ body.demo-only .card { margin-top: 0; }
 @keyframes ml-mouth{0%,11%,14%,17%,21%,24%,28%,44%,47%,51%,66%,69%,73%,100%{transform:scaleY(.1)}12%,15%,22%,25%,45%,48%,67%,70%{transform:scaleY(1)}}
 @media(prefers-reduced-motion:reduce){.ml-scene .ml-bark,.ml-scene .ml-mouth{opacity:0}}
 
+
+/* A calm, five-pull teamwork reward, scoped to Aurora and Lilli. */
+.stage.writing-finale:has(.al-scene){max-width:640px;aspect-ratio:3/2;background:#dbeee6}
+.al-scene .al-tail{transform-origin:481px 245px;animation:al-wag .4s ease-in-out infinite alternate}
+.al-scene .al-hair{transform-origin:173px 128px;animation:al-hair 2s ease-in-out infinite alternate}
+.al-scene .al-pull{transform-box:view-box}
+.al-scene.al-pulling .al-pull{animation:al-pull .95s ease-in-out both}
+.al-scene.al-pulling .al-tail{animation-duration:.15s}
+.al-scene .al-heart{opacity:0;transform-origin:300px 110px}
+.al-scene.al-won .al-heart{opacity:1;animation:al-heart 1.2s ease-out both}
+.al-scene .al-progress circle{fill:#fff9e8;stroke:#a7bcb0;stroke-width:2}
+.al-scene .al-progress circle.al-done{fill:#f8c757;stroke:#c4942b}
+.aurora-controls{display:grid;gap:8px;width:100%;margin:10px 0}
+.aurora-controls p{margin:0;font-size:16px;color:#34594b;text-align:center}
+.aurora-controls button{width:100%}
+@keyframes al-pull{0%,100%{transform:translateX(0)}28%{transform:translateX(-16px) rotate(-1deg)}60%{transform:translateX(13px) rotate(1deg)}82%{transform:translateX(-5px)}}
+@keyframes al-wag{from{transform:rotate(-14deg)}to{transform:rotate(15deg)}}
+@keyframes al-hair{from{transform:rotate(-2deg)}to{transform:rotate(3deg)}}
+@keyframes al-heart{0%{transform:scale(.2);opacity:0}65%{transform:scale(1.15);opacity:1}100%{transform:scale(1);opacity:1}}
+@media(prefers-reduced-motion:reduce){.al-scene *{animation:none!important}.al-scene.al-won .al-heart{opacity:1}}
+
 </style>
 
 </head>
@@ -1715,7 +1736,8 @@ const WORDS = [
   ],
   [
     "is",
-    "on"
+    "on",
+    5
   ],
   [
     "your",
@@ -1868,8 +1890,132 @@ const WORDS = [
     "twenty",
     "kaksikymmentä",
     5
+  ],
+  [
+    "What time is it?",
+    "Paljonko kello on?",
+    5
+  ],
+  [
+    "what",
+    "mitä, mikä",
+    5
+  ],
+  [
+    "time",
+    "aika",
+    5
+  ],
+  [
+    "Good morning.",
+    "Hyvää huomenta.",
+    5
+  ],
+  [
+    "please",
+    "ole kiltti, kiitos",
+    5
+  ],
+  [
+    "where",
+    "missä",
+    5
+  ],
+  [
+    "In Paris it's ten.",
+    "Pariisissa kello on kymmenen.",
+    5
+  ],
+  [
+    "Paris",
+    "Pariisi",
+    5
+  ],
+  [
+    "Really?",
+    "Todellako?",
+    5
+  ],
+  [
+    "yes",
+    "kyllä",
+    5
+  ],
+  [
+    "but",
+    "mutta",
+    5
+  ],
+  [
+    "here",
+    "täällä",
+    5
+  ],
+  [
+    "this",
+    "tämä",
+    5
+  ],
+  [
+    "England",
+    "Englanti",
+    5
+  ],
+  [
+    "so",
+    "joten",
+    5
+  ],
+  [
+    "It's nine o'clock.",
+    "Kello on yhdeksän.",
+    5
+  ],
+  [
+    "Thank you.",
+    "Kiitos.",
+    5
+  ],
+  [
+    "You're welcome.",
+    "Ole hyvä.",
+    5
+  ],
+  [
+    "and",
+    "ja",
+    5
+  ],
+  [
+    "you're",
+    "sinä olet",
+    5
+  ],
+  [
+    "funny",
+    "hauska, hassu",
+    5
+  ],
+  [
+    "very",
+    "todella",
+    5
+  ],
+  [
+    "much",
+    "paljon",
+    5
+  ],
+  [
+    "Moscow",
+    "Moskova",
+    5
   ]
 ];
+
+const NUMBER_WORDS = new Set(["one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen","twenty"]);
+function isNumberWord(word) { return NUMBER_WORDS.has(word[0]); }
+
 
 
 
@@ -1886,6 +2032,22 @@ const ALIASES = {
   ],
   "grey": [
     "gray"
+  ],
+  "you're": [
+    "you are"
+  ],
+  "You're welcome.": [
+    "You are welcome."
+  ],
+  "It's nine o'clock.": [
+    "It is nine o'clock.",
+    "Its nine oclock"
+  ],
+  "In Paris it's ten.": [
+    "In Paris it is ten."
+  ],
+  "What time is it?": [
+    "What time is it"
   ]
 };
 
@@ -2379,7 +2541,7 @@ function weightedShuffle(array) {
 
   /*
     Kolmas arvo on sanan paino.
-    Numerot 1–20 käyttävät painoa 5,
+    Numerot 1–20 ja uusi kuvan sanasto käyttävät painoa 5,
     joten niitä tulee kierrokselle
     selvästi vanhoja sanoja useammin.
     Jokainen sana voi silti esiintyä
@@ -3294,7 +3456,7 @@ function showChoices(index) {
 
 
   const numberQuestion =
-    Number(current.word[2]) === 5;
+    isNumberWord(current.word);
 
 
   /*
@@ -3310,7 +3472,7 @@ function showChoices(index) {
         .filter(
           word =>
             !numberQuestion ||
-            Number(word[2]) === 5
+            isNumberWord(word)
         )
         .map(
           word =>
@@ -6201,6 +6363,11 @@ const WRITING_FINAL_SCENES = [
   "title": "Minnin ja Lillin kohtaaminen",
   "description": "Minni ja Lilli kohtaavat puistossa. Lilli haukkuu innokkaasti, kaverukset nuuhkivat ja loikkivat leikkiin!",
   "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"ml-scene\" viewBox=\"0 0 600 400\" role=\"img\" aria-label=\"Maltankoira Minni ja volpino italiano Lilli tapaavat puistossa. Ne nuuhkivat, kumartavat leikkiin ja loikkivat iloisesti yhdessä.\">\n<defs><linearGradient id=\"ml-bg\" x2=\"0\" y2=\"1\"><stop stop-color=\"#c3e3e9\"/><stop offset=\"1\" stop-color=\"#fff3da\"/></linearGradient><linearGradient id=\"ml-fur\" x2=\".3\" y2=\"1\"><stop stop-color=\"#fffdf8\"/><stop offset=\".6\" stop-color=\"#f8f6ec\"/><stop offset=\"1\" stop-color=\"#e3e8df\"/></linearGradient></defs>\n<rect width=\"600\" height=\"400\" fill=\"url(#ml-bg)\"/><circle cx=\"505\" cy=\"76\" r=\"34\" fill=\"#fff4c0\"/>\n<g fill=\"#fff\" opacity=\".5\"><ellipse cx=\"85\" cy=\"103\" rx=\"69\" ry=\"14\"/><ellipse cx=\"389\" cy=\"69\" rx=\"51\" ry=\"10\"/></g>\n<path d=\"M0 232Q118 178 244 232T600 214V400H0Z\" fill=\"#a2c7a3\"/><path d=\"M0 287Q168 243 317 279T600 267V400H0Z\" fill=\"#7dad89\"/>\n<path d=\"M-20 354Q251 259 621 343\" fill=\"none\" stroke=\"#e4d7b9\" stroke-width=\"61\"/>\n<g fill=\"#4d8268\" opacity=\".7\"><path d=\"M33 259 40 244 41 262 51 252 47 268M552 271 562 251 561 276 577 260 571 281\"/></g>\n<g fill=\"#f7e7b0\"><circle cx=\"61\" cy=\"321\" r=\"4\"/><circle cx=\"70\" cy=\"313\" r=\"3\"/><circle cx=\"545\" cy=\"335\" r=\"4\"/><circle cx=\"535\" cy=\"329\" r=\"3\"/></g>\n<ellipse cx=\"216\" cy=\"300\" rx=\"64\" ry=\"9\" fill=\"#40654f\" opacity=\".13\"/><ellipse cx=\"385\" cy=\"300\" rx=\"68\" ry=\"9\" fill=\"#40654f\" opacity=\".13\"/>\n<g class=\"ml-move-minni\"><g transform=\"scale(.92)\">\n<g class=\"ml-tail\"><path d=\"M-43-29Q-81-73-66-82Q-42-77-51-48\" fill=\"#fffaf2\" stroke=\"#c7d3d6\" stroke-width=\"2\"/><path d=\"M-66-76Q-72-60-51-40\" fill=\"none\" stroke=\"#dfe4df\" stroke-width=\"4\"/></g>\n<g transform=\"translate(-29 0)\"><g class=\"ml-leg ml-leg-alt\"><path d=\"M0-17 2 6\" stroke=\"#c8d2d0\" stroke-width=\"14\" stroke-linecap=\"round\"/></g></g>\n<g transform=\"translate(25 0)\"><g class=\"ml-leg ml-leg-alt\"><path d=\"M0-17 2 6\" stroke=\"#c8d2d0\" stroke-width=\"13\" stroke-linecap=\"round\"/></g></g>\n<g class=\"ml-body\">\n<path d=\"M-49-43Q-37-62-9-56Q22-62 40-36L38-14 28-9 20-14 12-8 3-13-9-7-21-12-33-8-44-17Z\" fill=\"url(#ml-fur)\" stroke=\"#becbcf\" stroke-width=\"2\"/>\n<path d=\"m-32-41-4 24m20-29-3 30m20-32-2 32m17-29 3 24\" stroke=\"#d9e1de\" stroke-width=\"2\" fill=\"none\" stroke-linecap=\"round\"/>\n<g transform=\"translate(-31 0)\"><g class=\"ml-leg\"><path d=\"M0-21-3 24q8 6 17 0\" fill=\"#fffaf1\" stroke=\"#becbcf\" stroke-width=\"2\"/><path d=\"M2-9 1 20m5-9v10\" stroke=\"#e0e4df\" stroke-width=\"2\"/></g></g>\n<g transform=\"translate(28 0)\"><g class=\"ml-leg ml-leg-alt\"><path d=\"M0-22-2 23q8 6 16 0\" fill=\"#fffaf1\" stroke=\"#becbcf\" stroke-width=\"2\"/><path d=\"M3-9 2 20m5-9v10\" stroke=\"#e0e4df\" stroke-width=\"2\"/></g></g>\n<g class=\"ml-head\">\n<path class=\"ml-ear\" d=\"M17-69Q-4-85-9-56L-8-19 0-24 6-19 15-29 23-55Z\" fill=\"#f2f3eb\" stroke=\"#becbcf\" stroke-width=\"2\"/>\n<path d=\"M11-70Q33-94 57-74L66-55 78-44Q80-30 65-25L46-20 25-29 12-39 6-52Z\" fill=\"url(#ml-fur)\" stroke=\"#becbcf\" stroke-width=\"2\"/>\n<path d=\"M29-77Q19-57 23-40M36-80Q32-66 35-58\" fill=\"none\" stroke=\"#dde3de\" stroke-width=\"2\"/><path class=\"ml-ear\" d=\"M20-73Q1-76 1-50L4-18 12-24 19-22 25-45Z\" fill=\"#fffaf3\" stroke=\"#c8d3d3\" stroke-width=\"2\"/><path d=\"M10-59 11-30m6-24-2 23\" stroke=\"#e2e5df\" stroke-width=\"2\"/>\n<ellipse cx=\"49\" cy=\"-54\" rx=\"5\" ry=\"6\" fill=\"#263940\"/><circle cx=\"51\" cy=\"-56\" r=\"1.8\" fill=\"#fff\"/>\n<ellipse cx=\"69\" cy=\"-37\" rx=\"13\" ry=\"10\" fill=\"#fffcf4\"/><ellipse cx=\"78\" cy=\"-42\" rx=\"6\" ry=\"4.5\" fill=\"#25343a\"/>\n<path d=\"M78-38q-3 12-16 7\" fill=\"none\" stroke=\"#687779\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n<path d=\"M63-30q2 12 8 8l2-8\" fill=\"#e9a6ab\"/>\n</g></g></g></g>\n<g class=\"ml-move-lilli\"><g class=\"ml-bark\"><text x=\"-65\" y=\"-115\" text-anchor=\"middle\" font-family=\"system-ui\" font-size=\"20\" font-weight=\"900\" fill=\"#604f85\">HAU HAU!</text></g><g transform=\"scale(-1 1)\">\n<g class=\"ml-tail\"><path d=\"M-44-31C-90-47-90-94-60-90Q-30-83-45-61Q-51-76-64-69Q-66-57-43-55Z\" fill=\"#fff8e9\" stroke=\"#c7d3d6\" stroke-width=\"2\"/></g>\n<g transform=\"translate(-29 0)\"><g class=\"ml-leg ml-leg-alt\"><path d=\"M0-17 2 6\" stroke=\"#c8d2d0\" stroke-width=\"14\" stroke-linecap=\"round\"/></g></g>\n<g transform=\"translate(25 0)\"><g class=\"ml-leg ml-leg-alt\"><path d=\"M0-17 2 6\" stroke=\"#c8d2d0\" stroke-width=\"13\" stroke-linecap=\"round\"/></g></g>\n<g class=\"ml-body\">\n<path d=\"M-49-43Q-37-62-9-56Q22-62 40-36L38-14 28-9 20-14 12-8 3-13-9-7-21-12-33-8-44-17Z\" fill=\"url(#ml-fur)\" stroke=\"#becbcf\" stroke-width=\"2\"/>\n<path d=\"m-17-52 8 12 7-14 7 12 9-9\" fill=\"none\" stroke=\"#fff\" stroke-width=\"4\"/>\n<g transform=\"translate(-31 0)\"><g class=\"ml-leg\"><path d=\"M0-21-3 24q8 6 17 0\" fill=\"#fffaf1\" stroke=\"#becbcf\" stroke-width=\"2\"/><path d=\"M2-9 1 20m5-9v10\" stroke=\"#e0e4df\" stroke-width=\"2\"/></g></g>\n<g transform=\"translate(28 0)\"><g class=\"ml-leg ml-leg-alt\"><path d=\"M0-22-2 23q8 6 16 0\" fill=\"#fffaf1\" stroke=\"#becbcf\" stroke-width=\"2\"/><path d=\"M3-9 2 20m5-9v10\" stroke=\"#e0e4df\" stroke-width=\"2\"/></g></g>\n<g class=\"ml-head\">\n<path d=\"m12-64 4-43 27 27m4-1 22-24 1 46\" fill=\"#fff7e7\" stroke=\"#becbcf\" stroke-width=\"2\"/><path d=\"m21-94 2 24 12-9m22-1 7-13-1 23\" fill=\"#e6c1ba\"/>\n<path d=\"M11-70Q33-94 57-74L66-55 78-44Q80-30 65-25L46-20 25-29 12-39 6-52Z\" fill=\"url(#ml-fur)\" stroke=\"#becbcf\" stroke-width=\"2\"/>\n<path d=\"m19-39-13 5 11 6-5 8 17-4\" fill=\"#fff9ec\"/>\n<ellipse cx=\"49\" cy=\"-54\" rx=\"5\" ry=\"6\" fill=\"#263940\"/><circle cx=\"51\" cy=\"-56\" r=\"1.8\" fill=\"#fff\"/>\n<ellipse cx=\"69\" cy=\"-37\" rx=\"13\" ry=\"10\" fill=\"#fffcf4\"/><ellipse cx=\"78\" cy=\"-42\" rx=\"6\" ry=\"4.5\" fill=\"#25343a\"/>\n<ellipse class=\"ml-mouth\" cx=\"70\" cy=\"-29\" rx=\"8\" ry=\"7\" fill=\"#6c4249\"/><path d=\"M78-38q-3 12-16 7\" fill=\"none\" stroke=\"#687779\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n<path d=\"M63-30q2 12 8 8l2-8\" fill=\"#e9a6ab\"/>\n</g></g></g></g>\n<g text-anchor=\"middle\" font-family=\"system-ui,sans-serif\" fill=\"#294f52\"><g class=\"ml-intro\"><text x=\"300\" y=\"55\" font-size=\"26\" font-weight=\"800\">Kuka sieltä tulee?</text><text x=\"300\" y=\"82\" font-size=\"16\">Minni ja Lilli kohtaavat puistossa</text></g><g class=\"ml-middle\"><text x=\"300\" y=\"55\" font-size=\"25\" font-weight=\"800\">Hei kaveri! Leikitäänkö?</text></g><g class=\"ml-outro\"><text x=\"300\" y=\"55\" font-size=\"27\" font-weight=\"800\">Tästä alkaa ystävyys ♥</text><text x=\"300\" y=\"83\" font-size=\"16\">Hienosti harjoiteltu!</text></g><text x=\"205\" y=\"345\" font-size=\"18\" font-weight=\"800\">Minni</text><text x=\"392\" y=\"345\" font-size=\"18\" font-weight=\"800\">Lilli</text><text x=\"300\" y=\"377\" font-size=\"12\" letter-spacing=\"2\">PIENET TASSUT · SUURI ILO</text></g>\n<path class=\"ml-heart\" d=\"M300 159C264 135 281 114 300 134C319 114 336 135 300 159Z\" fill=\"#dc8599\"/>\n</svg>"
+},
+{
+  "title": "Auroran ja Lillin köydenveto",
+  "description": "Auta Auroraa ja Lilliä leikkimään! Vedä köydestä viisi kertaa rauhalliseen tahtiin.",
+  "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"al-scene\" viewBox=\"0 0 600 400\" role=\"img\" aria-label=\"Vaaleahiuksinen 9-vuotias Aurora ja valkoinen pystykorvainen Lilli leikkivät köysilelulla pihalla.\">\n<defs><linearGradient id=\"al-sky\" x2=\"0\" y2=\"1\"><stop stop-color=\"#c0e5ed\"/><stop offset=\"1\" stop-color=\"#fdf0d3\"/></linearGradient><linearGradient id=\"al-fur\" x2=\".3\" y2=\"1\"><stop stop-color=\"#fffdf3\"/><stop offset=\"1\" stop-color=\"#e0e6dc\"/></linearGradient></defs>\n<rect width=\"600\" height=\"400\" fill=\"url(#al-sky)\"/><circle cx=\"510\" cy=\"67\" r=\"31\" fill=\"#fff2ae\"/>\n<path d=\"M0 234Q115 194 276 237T600 226V400H0Z\" fill=\"#aed0a1\"/><path d=\"M0 293Q265 238 600 289V400H0Z\" fill=\"#7da987\"/>\n<path d=\"M27 316Q288 281 573 318\" fill=\"none\" stroke=\"#e2d4b8\" stroke-width=\"31\" stroke-linecap=\"round\"/>\n<g fill=\"#e7edce\"><circle cx=\"63\" cy=\"293\" r=\"4\"/><circle cx=\"73\" cy=\"286\" r=\"3\"/><circle cx=\"541\" cy=\"309\" r=\"4\"/></g>\n<g text-anchor=\"middle\" font-family=\"system-ui,sans-serif\" fill=\"#294d4a\"><text x=\"300\" y=\"40\" font-size=\"24\" font-weight=\"850\">Auroran ja Lillin köydenveto</text><text class=\"al-caption\" x=\"300\" y=\"67\" font-size=\"16\">Lilli on valmis leikkiin!</text></g>\n<g class=\"al-pull\">\n<!-- Aurora: child proportions, fair hair, both hands holding the toy. -->\n<g class=\"al-hair\"><path d=\"M163 109Q119 127 125 187Q146 201 160 177L177 141Z\" fill=\"#e6bd64\" stroke=\"#cda254\" stroke-width=\"2\"/><path d=\"M144 134Q133 161 144 187\" fill=\"none\" stroke=\"#f7da87\" stroke-width=\"6\"/></g>\n<path d=\"M169 213 161 264 142 297M194 216 205 260 221 296\" fill=\"none\" stroke=\"#5d79a4\" stroke-width=\"20\" stroke-linecap=\"round\"/>\n<path d=\"M132 292q-9 15 18 17h12l-2-13M212 292q-3 14 16 15h20q4-9-17-14\" fill=\"#f5e9d3\" stroke=\"#647a85\" stroke-width=\"2\"/>\n<path d=\"M161 162Q178 157 195 168L210 222Q181 236 154 221Z\" fill=\"#c089ae\" stroke=\"#99617f\" stroke-width=\"2\"/>\n<path d=\"M169 169 187 204 246 218M194 177 213 199 253 217\" fill=\"none\" stroke=\"#edc5a6\" stroke-width=\"12\" stroke-linecap=\"round\"/>\n<path d=\"m166 172 14 26m17-20 12 17\" stroke=\"#c089ae\" stroke-width=\"17\" stroke-linecap=\"round\"/>\n<path d=\"M176 151v16\" stroke=\"#edc5a6\" stroke-width=\"13\"/>\n<ellipse cx=\"177\" cy=\"133\" rx=\"28\" ry=\"32\" fill=\"#f2d1b2\" stroke=\"#d1a285\" stroke-width=\"1.5\"/>\n<path d=\"M150 137Q137 97 174 95Q212 94 208 134L190 116Q173 135 150 124Z\" fill=\"#f2d382\" stroke=\"#d1aa5e\" stroke-width=\"2\"/>\n<path d=\"M153 112Q176 98 195 110\" fill=\"none\" stroke=\"#ffe6a0\" stroke-width=\"5\" stroke-linecap=\"round\"/>\n<circle cx=\"168\" cy=\"137\" r=\"2.8\" fill=\"#364b58\"/><circle cx=\"189\" cy=\"136\" r=\"2.8\" fill=\"#364b58\"/><path d=\"m179 138-2 7h4M168 151q11 10 22-1\" fill=\"none\" stroke=\"#a36d62\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n<ellipse cx=\"159\" cy=\"148\" rx=\"5\" ry=\"3\" fill=\"#e6aaa0\" opacity=\".65\"/>\n<!-- Rope endpoints remain attached to hands and muzzle during each pull. -->\n<path d=\"M249 218Q295 231 369 218\" fill=\"none\" stroke=\"#7b659a\" stroke-width=\"13\" stroke-linecap=\"round\"/>\n<path d=\"M249 218Q295 231 369 218\" fill=\"none\" stroke=\"#d6b6d9\" stroke-width=\"4\" stroke-dasharray=\"5 8\"/>\n<path d=\"m265 218-8 12m98-16 5 12\" stroke=\"#a386b9\" stroke-width=\"6\" stroke-linecap=\"round\"/>\n<circle cx=\"246\" cy=\"218\" r=\"7\" fill=\"#f2d1b2\"/><circle cx=\"253\" cy=\"217\" r=\"6\" fill=\"#f2d1b2\"/>\n<!-- Lilli: pointed ears, white fluffy coat and curled tail. -->\n<g class=\"al-tail\"><path d=\"M479 245C528 234 534 199 509 195Q485 193 486 213Q502 203 505 215Q500 230 479 230Z\" fill=\"url(#al-fur)\" stroke=\"#b9c9c7\" stroke-width=\"2\"/></g>\n<path d=\"M418 247 405 300m65-50 20 48\" stroke=\"#d2ded5\" stroke-width=\"13\" stroke-linecap=\"round\"/>\n<path d=\"M406 225Q448 213 481 235L487 255 474 267 460 261 448 267 435 260 421 266 410 255Z\" fill=\"url(#al-fur)\" stroke=\"#b9c9c7\" stroke-width=\"2\"/>\n<path d=\"M422 251 414 301q-10 7-20 1m72-47 3 46q10 7 19 0\" fill=\"none\" stroke=\"#fffbef\" stroke-width=\"13\" stroke-linecap=\"round\"/>\n<path d=\"m374 189 4-37 23 29m8 3 21-30 3 43\" fill=\"#fffbed\" stroke=\"#b9c9c7\" stroke-width=\"2\"/><path d=\"m381 165 2 22 10-6m22 2 11-17-1 24\" fill=\"#e6c6c0\"/>\n<path d=\"M370 190Q394 170 420 189L436 219 426 236 412 231 403 243 391 231 378 228 371 218 354 217Q350 206 370 202Z\" fill=\"url(#al-fur)\" stroke=\"#b9c9c7\" stroke-width=\"2\"/>\n<ellipse cx=\"369\" cy=\"212\" rx=\"16\" ry=\"10\" fill=\"#fffdf6\"/><ellipse cx=\"356\" cy=\"207\" rx=\"6\" ry=\"4\" fill=\"#30454c\"/><ellipse cx=\"389\" cy=\"199\" rx=\"4.5\" ry=\"5.5\" fill=\"#30454c\"/><circle cx=\"387\" cy=\"197\" r=\"1.5\" fill=\"white\"/><path d=\"M359 218h17\" stroke=\"#687b7e\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n</g>\n<path class=\"al-heart\" d=\"M300 145C262 120 276 99 300 120C324 99 338 120 300 145Z\" fill=\"#da849d\"/>\n<g class=\"al-progress\"><circle cx=\"244\" cy=\"358\" r=\"9\"/><circle cx=\"272\" cy=\"358\" r=\"9\"/><circle cx=\"300\" cy=\"358\" r=\"9\"/><circle cx=\"328\" cy=\"358\" r=\"9\"/><circle cx=\"356\" cy=\"358\" r=\"9\"/></g>\n<text x=\"300\" y=\"388\" text-anchor=\"middle\" font-family=\"system-ui\" font-size=\"12\" fill=\"#eff6df\">YHDESSÄ LEIKKIMINEN ON PARASTA</text>\n</svg>"
 }
 ];
 let lastWritingFinale = -1;
@@ -6276,39 +6443,46 @@ function miniCheer() {
 let minniAudioContext = null;
 let minniSoundEnabled = false;
 let minniBarkTimers = [];
-let minniNoiseBuffer = null;
+let minniBarkBuffer = null;
+const minniBarkSources = new Set();
+// "Barking of a dog" by Amada44, CC BY-SA 3.0.
+// https://commons.wikimedia.org/wiki/File:Barking_of_a_dog.ogg
+// Adaptation: 0.12–0.65 s excerpt, 22050 Hz mono WAV, short edge fades.
+// This adapted audio remains licensed under CC BY-SA 3.0.
+const MINNI_BARK_WAV = "UklGRqZYAABXQVZFZm10IBAAAAABAAEAIlYAAESsAAACABAATElTVBoAAABJTkZPSVNGVA4AAABMYXZmNjAuMTYuMTAwAGRhdGFgWAAAmP+s/w8A4/+M/3D/6/60/or+xP7x/mD/r/+s/z0ABQBHAMn/2f/h/77/8v/c/xUAw/9FACwABAB9AKoA0ACRAI4AmwDYAHsAdwB9AK8ANQAYALcAmADqAOYACwHdAOkAmQCVAH0AdgDOAMwA1gDiAPQA0QBWAREBBwGcAEIARgD3//D/if+k/3T/R/+l/0X/pv+J/57/r/+I/6D/cf9j/5H/2v98/6D/jP+9/wwA6P9EAAQAGwDm/yQA3/9a/zj/hf6w/lr+o/63/gX/kv8TALkARwF/AXwBBgHy/5j/3v6s/ov+hP4R/zL/w//m/wYAHAD7/zoAEQAeACkAIgAvADcAiwCfAJQAmQCxANIA8QBYAOQAagAwADEAkP+G/xX/r/+e/5j/tP+Z/1kANwBOAG0ARgAlADEA3P/3/4v/uf+7/5b/CwAuAIkAaACGAH8APAD//5T/dv9E/3b/jv/a/1YAZQCMAIkApQCdAIAAOwAwAOn/wP+c/x7/a/9R/1//if+o/xQAVAC0ALEA3ACwAFkACQDD/7X/kv+J/+//FACqANkA6QAjARoB9gCyAJMAhwBPADwAz/+C/zf/9/75/uT+EP8s/33/dP+q/9n/HABhAEUAWwAzAA0A3f/m/wkAPwBYACMA7v/2//P/5/8GAOb/uP/2/3P/qP+B/2b/nv+P/5j/kf+u/wMAEwDv/6v/M/83/0X/fv+a/9n/3v+g/7f/R/+M/43/dv+1/6L/1P/f/3YAov+8//7/R/9b/xQAt/91/5MAHQDJ/9P/kf9Q/8T/DADx//D//f/2/8L/DgD+/3n/MAC//0v/wP/+/+T/HgCPAPcA+QCkAKMAhwDr/33/0P/F/93/2f8UALEAWgDf/+D/BwCT/8X/+P8iAEAANgDxAOwA2wCkAIUAfgBnAOz/sP/O/2r/k//a/+//UABWAJQAbgBoAIsAgACLAMEAAwFEAXEBYQFCAS4B8ACaAPL/dv+T/zr/Fv8I/1X/gf/L/6z/av/r//b/0f8OAP//tf+t//D/MgAIAGYAuACfAE4AQQCf/0T/Jv+c/q3+6v4V/4f/x//P/zIAGADT/zgAPwBJALYA5QAJAfEAnQCVAFMAVQCnAJQANgAGANj/DwA2AFYAqACrAOQAOwHvAOgAfwAPALX/Sv93/77/v//g/xcAJADq/+b/3v/p/4n/c/+B/1b/oP/x/woAVABfACQA4f91/yT/3P7F/rn+Cf9D/3f/sv/e/9X/qv8c/w//Lf8S/zn/oP8QAF4ATgA6ADQA+/+c/0X/Av8t/y//Yv+2/7P/7v8OAMb/of9U/1r/sv+B/8L/2v/s/zEA2P8gAAkAwP8MANX/DwCFAJsAoADfAPUAtgDSAOsA4gDXAHwAaABKAAcAwf+2/5X/zf8RAF0AmACyAL0AlAB2AFYAMADj/6H/i/9+/67/uf8CAAkAEQA4ABIA//+CALMAAgE+ATkB4QCmAE0A3f/M//P/jf+Z/4f/sf/p/9z/EgAQAEsAcQB2AGUAlAB5AJgAhgDdAHEAEwAnABoAzP+M/9L/Vf9K/4f/fP9t/6f//v8gAMEAuQDLAMUAjQBZAJX/Rf9X/zr/Bf8H/z//Df9d/47/+v89AP3/k/9e///+8v5S/z3/Kv+H/9H/q//E/9X/zP/S/xsADgAsAPn/yf/C/7f/pf84/5//K//d/tn+Kv9a/1T/cP+d/6P/of+f/5n/Kf8J/y3/Vf9e/53/sv/6/1sAhQC5AJEAWwA8AC0A5//H//P/3/9sABAAPQBMACYALgAtAP//JQDj/3MABwEMATkBUwFJAT0BDwHYAM0ATwDF/1n/AAD9/wwANQCXAPkADwHYANwAdwCKAHcACQDC/7v/r/8GAFUATQCmAIAAcgBnAGMAbwBsAO//yf+x/zwAbACzADkBIwHSAIgAlgDN/57/Jf8v/zX/Jf9D/6b/DQBDAGAAegCAAHsAPgAIAL3/jv9U/xL/z/4w/0f/o/8XAGMAiACGAF4AMwAvAPv/4P/R//b/0//I//T/rv/L/2b/jf/T/0//YP+z/87/tf/Z////rv9y/xn/5/70/lz/BwAAACYAmQDtAGwAQgBcAOP/yf+n/1j/6f7b/mv/e/8c/4j/KgAXAD0AmQDLAMcAZwBwABoAqv9G/2L/k/9J/5P/wP/J/7v/FAAKAJf/4/9CACMAFQD9/93/sf/Y/8b/Pf9N/4j/W/95/7D/+//j/+n/wf8a/z7/Mf83/5T/zv8QAIcAJQHOAMcAmQCIAAgAHgAPAKr/3v9uAC0ASABOAEEAbACtAMEArAC1AMIAFgH2ABUBuABWABgANwD1/+H/IADp/7j/OgBgAOH/z//u/6v/tv89AO3/4f+n/yb/fv8i/w7/Jf/t/tv+Ff9f/5r/Xf8vAAUAv//t/3cAcwBeAE8ASQAFAMn/yP/7/zAAbgDlAEABzgGqAbABPwEGAQ8BvACpAJEAPwFNAX0BBQLDAZYBSQFSAS0BywCTAEIApQAJATYBTwFeAQACHwIGAtoBwgElAX0ATgAvAMj/Xv8g/+z+O/8g/6v+tf5R/sL9Vf3K/Hz8Wvz5++b7V/wx/Dr85fx4/XL9fv1S/Zb9KP4F/ij+3/6j/z4AtwB1AKQA0ADEAN4AVgBPAG4AfwCMAIYA5wBMAYkBAgKgAsMCuQKoAhMCywHuASIBCQH7APYA1wCcAKcAUgASAMj/gf9I/xP/yP4G/93+Vv5c/mD+j/6O/nL+nv4Y/p79uf3P/eL98v0Q/gn+Cv5R/o/+2f47/4T/4P/R/yMAaACWAAkBNwGYAbwBfAGZAZwBfAFCAQUBjgClAJgArwB4AF8ACwDZ/+b/f/8KAKb/IP9g/8P/eP83/xL/YP/t/mn+3v6T/oz+qP5l/83/FQANAcMBMALPAmcDCQQMBBIEYQT1A+sD9gTJBBEFSwV6BUQFGQVBBY8FTQXPBLoEJAS4A4kCqgHDAEv/Wf49/UL8+Pur++P7o/tq+3n73PsA/FH7BPv/+pP6kfrb+vH6JPt6+z37YPyE/Qf9Wf04/lD/jv8AAPgA3gDeAD4BngHRAZkBkAJzA3wD6gMxBGcErASqBJ4EUAQGBD0EtwNCA+ICVAKhATQB3wAfAE3/1P5B/of9xfy4+yv7xfox+vT5+/lD+SP5W/lk+U35Zfmi+Q36bPqQ+hH7x/u1+xH8/Pv8+0z8Bf0z/tH++f5V/yUAnQCsAI4BmgIQA8ADZAQEBWwF+AVaBpQGUQbRBnwHAgiHCOQI9ghjCRAKPgqJCSMJuAiyBwgGhwRHAzEB6P7j/ZH9VPyI+s/57fk7+cL3F/dV9+P2wPWJ9WD24vbP9nT3jPjR+PP49vl8+1T8ePw2/bX+XgB+AewBngKQAycEdwTqBK0FWwb0BqYHUwggCcQJ8AlECkALyAstC7wKdQrQCLwFDwOAAVL/pvzD+qD5+viL97v1+/Sm9Ljzg/Ez8MvwefA98KfxbPNN9Fv0ufZW+j786v2h/z8C+gQ8BiwIywojDb0OLg/lEPcRgxHfEUgSohKDEXQPtg6lDQ8MeQlVBgoFygJiABf/T/5P/T/7K/qs+WP3FvZX9VL0ZvMM81zzX/Ki8fzxPfE28JHwWPH98a/yyPRh9pr3wfnv+2j8Pv0V/7UAwgDGACQCkANjBPQFYgeBCAQJ4QjcCKoHhwYiBTQDaAGT/uv7ZPvM+jj7KPvw+4X+xP84AYcD+QWyCfwKWQxtDs0OnQ9IDtUNZw5tC18JtwepBVYEAQF9APv/wf2V/J369vnE+LD28PbK9Yz1KfZj9kT4/fiz+az6fPut/MP8hv2P/R/9u/zI+bD4cfhV92T3ava19k74OPi2+Ob5Zvvr/GD+eQCrAlYFswbTBqkGogVaBH8CsP+U/YH7mfgz9+H3MPjC+aH9CgFPBk0Ksg3mE9IXiRkeGuEZEBusGEUUhBLsD2gMrgfgBY8FVgPXAbH/lv5g/on7k/rL+pD5k/j09XX1w/U29ef0wvW6+Jz6xPvp/dMARwMuARv/G/+R+tD0r/Cu7hTs++Zv5efm6Oi46yrtAfLx9XX48fu7/FX/h//D/Mf7JPwd/KL6hvxRAm4H+g0vExkawiRJKW8sri+GMeUuLSgSIpQcQROEClADSP5o+4f2zPaw91H7ZP2H/HH/r/+D/Qb7Jfi/9c3yV+6P7PHtZ+9z8dX1ovvv/LH+Ef7G/eL7/vaP7y/pYuXh3wDalthH2ircCd4w4ifqse7U9M/5OwCuAiQFVwjACooOsRKQFwMe4CS4KcItbzPlOPw5pDlvNWsxrylbIGgX1AzfAeT3B/AP7JLqC+vR7AvvN/Tg92n5lPq8+nf5V/Ug9BHzFfHb7ubsSe1C7bDrsupF7OXppeYK5K7i7d/V2/HZDtjI1QLUqtYJ2hfe4OO763zygvzmCOoSCB2mJosydDkePo5CH0dpSO5FdUSJROY/xzY+Makt9CO6GAsRrwim/hj3kvIp7QPpn+dt6BPoOubF6Ijrdes+7EfwfPKd7w3vdfE17f/kB+Ko3rnWtc/Ey7jGRsOFwfLAP8Hxw67H6Mxy1YLd/OYR8/T9twrvGMkmfTUhQjNOBFWKXHtj9mK+YrNhJVqpTz5IKj93MdAjBhlADB4CXPsI8iTvLO0+5ujlaOjP6uPnWuyj8o3to+yo7zbpk+MK4bPaztDZxeHBAraYrd6snqXIpOuigKTcqyO0jr2sxCjTP+fl9SoM9SasOo5Nq2A2cX17/3//f99+RHt/drpnoVrbUTdDmC8mIpYWHQbU+4z2dO9H6ZLoL+jx56LqiewL7nTxC/Cr7G3tr+k34LzYmNDvwOWu6KYCoOiVQ5FxkCOTzpmIoSatwLevww7SXuRb/GYP+iORO4ZPqV5DbPZ4Wn5QfbV/gH8kdpNspWNEWMRGmjWuJ8sWawm3+83ww+sb56fjquOy5zjrtuxU8Rn0bPLk8SPsruW43tvRTcFFscikzpWhhwSEAoIAg+iMBZr1pyK4b88M5dv1/gu4I7cyYEAZU8ljmmqJb5B6/38jfzp+h33Yeedu0F8IUntC8i4IGakHOPmn6FresNoL2svbFeAo5Z7o8Otn7XDozuIL23zOC79LsESkfpYVi8yFYIRRhv2O/50ksFbB5NWY7tsDvhQjJbs25kMbSt1T8F7SYz1mPWtgcrB1/XTzcidvAWj9WuFIUznCJ9IR+/668hTrU+Rv4efgqeIA5vbnDOqr6+3matqrzmXDbLK0oq2Xe4ylgQCAsIcNkiKgsLNOyrXi9vlsDugjpDZ9PjVC2EojUhJQN1DaV71aoFouXqNiOGNQYYpbTFBPRCU3BSVrFIYJGP3N8S/sO+tq6gnrLuyu6WPkotzRz/HAh7K8onyTdojAgQCAbIJNkWChjbERyiPjA/ZPCCogGzLpN9dA5kfrRt5Gakp0S75Lkk+WUsNSqFkTXrBX0lJQS2M8xCvrIVoWTAdn/WP3nvFw7/DvD+zm5w/gW9KvxIy7HrBJnpCP2ofugQCAaoexl0epSbqRzyPqxgPDGIgpNjhjQtZEdELUQyFGFETPPww/PUNYRXVFeEuKUf9OJEfLQUM/ezTaJyUeiBO9Bwr86vJf69Tg0tR2yBbBiboJrhSiG53bmnOTr5APmjilFKvsta7LPeBf78EA4BTMJB8u9TOSOdJA/0FuOyI4qDxhPJc0hzhZQRZA2T7URAdJHURoP/M7aDOdJ94VcgA68Lnf08uDxN/AZbXmq3mv4LPlrWG0y74Ju5K4i790xh7MqtfN5C3r0PSUA3EKARjPJS0oyyiPL/E18zWuO0dBnDvEOQY9XjqcO+U9LjpkL88puR8CD+kEXfoQ6xPfNdye1QjQXdKh0uTMsMtez2zOS87K1HPbu9305N3qruu4723zzPNj8lX65v/qAkYPohsaI7MoXS60MfUxUDMvL7UmhiE/F74J+wJg/8T5tfJR9Xz8v/09A6MJewdQAV36L/T17LDnXOdw40jnD+5/8Cr3eP2G/ZD78PyWAKv/IgEXBI4AFP60/Xz60Pfj8qfuA+yh6ezwq/vVAfID6gwtFxYSHBKEHr4bVA0/DNcLFwD5+pD+Qfsn+WgB3v4TAQoNAw5NBqILFRG8CMIKFhSeEYsNkBHmDcwEEv739AXnUNz51RbR/NDc0wDZm+DK55zuqfb4+EL8RwCl/zcCQwfpDKwOpxS6G7wbax3YHdoZVhiFGAQX6BhXGQoZeRanFRsXNBIsCx0BZvYA60bfruCz5avheuZc8pH33vhQAY8IIv1i9OLwCOfV4WXi+9+b4O3meOoV7tb78wfzBXkMwxfrGKMd2SV3JzokDCTHIAcVjA7rBmL33+u452Tr1O2z7p/5JwcQCc8HCxGwE18GkP5//BzyJu347xTvfPOl/U7+u/zDBFYHr/1u/twGFARoAncGkQfqA4MAbf6598DtruX34OXiYOjb8Ab9FAZIEDgYTxsPH+Easw+fBA3/EPlc8n32ffvP9y38pALUBdYJ3A/JEy4QvBOFFo0UABR7DwIHxvsm7wLkiNou0yHQZNHA2XTm5vUuAqsLRBjUGpsUnhIiDwcCSvp2+k/5bfgaAccFJweKEBwUzhOdF3scwBgXFeAXjBNEC4AFWvrT7A7ixNla0z/Sydw944TtZwJqEFwVghrGIboYnwoKBnv6aepd5sbl2+PE6F7xLvXl/NkH2woiEV4bMB34GiEgsiCuGIQTuQwy/YjtkOFY2BnWBNgx4LfryPvVCR4SrBrhG1AX0w3VAeX72PUj8VnzuPlMABUEOgqEDrsOWRA9EMANgg9gETgM4wjxBW3+yO+a5XbeedHX0NzWa96+6KD6BA2eE8UeiieoIxsbmxE2CJT64vEe76rr9+458oX2TP1MBIQKvQzNEOAU+xQCFuUY/xUgEJcI7//a8m/lI9/O2InWVdqt44Pxrv1lCVkThRjSFXMRUworAVX7kfYV9BH3c/2FApQGbA3kD7YQPxayFaoT4xW6FH0N1gZ5Apr1beSE2n7ScM0L0kHbOOYL+m0NvhbRIaQv9CnIHKQXMgxX+OvwH/Bx58rmHOwZ7Try5PxEA+MHCREsFiIYexw3HecWFw/VBAH4U+m+3FzVqtA81bneEeqr+nEOaBpSH2EniShdGKYLDQXR95ftXewx8yP2ev69CJ8PLxmeHOQdWhvlGX4YqRBVCvkB2/KQ4jPUTcqvw2HEY8yv1uXq9QIEFMwiXDAXMvkmCx4+FEwCufOg7fLms+KT5aft4/L9/VEGQAwNGZ0fPSMTJCMlWhv8DTUDx/US5gTWm9EP0QnVV9vW6bf98QdWGEAkYij/JdIY+Q4nAaH2pOtI5rftbO2d9TsDwg16FfEc1iGPHd0d5xzlEBMF6v+P7Bva+dK2y0fGCMeZ0pfeePXEC6QZMi56Nlswkig+I6QQMPwV9lDpQeGT4b3kL+o58V/9+APBDvIYBx6FIvgh6x3cE0MHp/jb6XLWEc0My+vJFtJJ4Ff17AMjGBcqGi5EMUgoqRzDDYT/VPN+597qsett7j78gwgGEOsaFifrJeUkSSWYGrAM/gFj82zdntBkxxLBLsT5yO3aqfKKBEQXwi8POlc1ijTBK5EUJwLG9P/kf9v12WbYI97q6gf3YwR3FCQeqCFtJ8wn6B6+FGAHDPbu4O7QOcyoxdHIsdE74lz3JwijH5gz+DotOAMvxiUxEhYA+fM96cHimuCe5//ytvzxCeIYcyG7I38nLCPFF78K4vq259TUA8iDvhbAd8EjzKbmPvt0DRkpXzuOOsU7njuaJ8kRbgNo8Vjgb9oI1qDVteDD6j35zwz/GkskJir+LsInchtoDO/4O+JkzP7DKr2jvoDIF9oX8OAD/h6xNCxCU0NoO6IyBB9XCyf7Y+6Q4nvcm+C55gj0UAKkEZ4f9iZwLAUotiD/EDn+t+kN1LfEBLvlucK69sg44dj2UA8VK3g9fj8WRpVCeC35GWcImvBU2qvU2szXyZLUpt6L7+0FzhfsI1gx5jU4KkggaxFN+3reT85fwy+5mLs2xbjedvESBhApWTy0R+1H+EgHOpYfXhHi+3DoK9z+1VPXMdzB6lP5RwwIHc4jySxJLQofmA3q/9PmNM2GwfK7abIquLjPouG09ycXITHhPYlFKUz6P1cvShtKBsruEdxG0YvJls6i1AriKvkpDbUeSi3ZOTo07CgCHSMGWOoY0RjGh7iys068hMzD4zj3SBfhMjhCY0rVSzlJtTX6IVsOkvnZ58/aeNjj2dni1u4tAb4URx/rKV8wXyZDFeoGw/Cx1KHGo77Lr4+y0Man1MPqYQzUJms0rkVOUqxHijzMK0USjfjU4TTUN8dcxVnKkNVi6iz9IxVPKUg1CjTFL+4jNg2y9Lzc+ckTvMi0s7i+yXTguvFBDgUxUkEPR6BTh1GAOyYoxBcj/qzlAtn00KvOXdWy4tX3TQnTF4AnSTEaKSocthHg9ujbpc9zwAyxTLWmwRzNV+UhBi4bPCwQRixNLEgNRPE0thvoAGLtatlIzKXGecnL1tTkAflREuooCDFCMwkysB+lDer3NeDgy3y+ZrWJtWrKqtzP7PwNRioJOsRFCVZ1UAs9yy7HGVv9XedN2RfOVMvFzxHfxPPUBdIXqCqoMCEoZiCAE4b5luO7103FCbjVv6jH2dSS73EI3RvOLq9EQkgWQ5ZAVy0QE6/6A+fN05DGUMOEyHTXIuWW+6IWMyp/MRc0ZTFVHckK3PQs3HTNdMDftY28J9Et4dj2Wx6UM6M9Y01wVDJKxDrQKfwPefWC4pnWls+ZzpXUp+Rs90MGmhxTLewqHCT4HecLie4g3aTT579gs169fMkT1jfyyQ4mI3U1jkXuSLlByTigJI0L2/PZ4WrUWMhwx2rTxeDR70IGkR9tKwc0ODfRLSAeYwo78cLaocklv+24p7vYy6ff5PXfEc4vnz4+QSZGpkAbLI4WMAXH7afZF9Mr0u/TG9248KYEsxJvIlwv/C9oKHYgOxA39uzfOdHDxa2/ub9fyUrdofM1Cx0k5zlmQiJCJD8WMb4ZjQMU8aDek9IqzoDMGtJB5Kf2iQX9GKInqiwxLY4pGB4yDqH53eRf1ujKC8J1yWHUf99b9LgNcB5OMNlAoz/DMwAo1xYRAPbu3uRs2gjXttne5K/0OgOMFJMh6yaqKZkkAx0+EVICrPBb4HzVyMtTyfPOVtno4kv16gkGGqEmaTFVN8Yrix5fFGMAPO05477fNdp73MnoyPRLAr8PlxnjHm8gIxyAFp8O3wLb9yHwnurF5ODjTeXh5eTs/PiO/yUGDRG9FJYVKhkIGJYLBQM9/kPxgOsV73Lw/vDu+zMIsw22E4UZjhs7FWYOGQswBEj7SPXl85Lwk+st7g3zRfFl75r0AfvQ+df96gaUBwYFdQrMC0wG+P9w/gL4ZvWE99/4BfyV/mYCDwZJBzMI7wvrCNQHNwhOBjEE9wP1A8AB+QHHAp37bft9+yvyiu6e9HHyIPBA91EAdQLRBFALLQiSAm8Bif+6+3z7KfkL+UH9+gELBUoJaQpLC5IMKw1fDa0MLQyIByUHxgapA2EAVP6E9nLwhPCG7Lvv8/FI9AX5/f3vA+wFEQfPAtD6Lfmi9iDyufSM9u/42/6eBvEJWw0/DxIOwQzWDekKJAY5CZwJIQehCPcJkwSnALX/E/xE9Snzy/B07rDwU/A69WL7lvrA+h39Rv36+dn6p/4o/EX7owBDBIsHjwvBC/0KfwlECakKcgn+CogJ1wn7CjELjQoHCeMD4/9u+3/3CPSE7zzslesV7f7t8u409ZL6A/ll/NIA6P7F+5j9WgBC/mkAKQQABigKDAvuC7IMYgupCt0JLwu1DAcLyQusCUoIDwhqBE4B0QBW/UL5Pvdg9iTzBu7b7OLrFekt6z7vLfPi9pn5GP9AAoEENwm2ClwLWgwkDBAMYw1/CykJbwgkB/YDyAJIBXUDaQHGA1EEYwWGBuAHYwXVBAMBCP4a+hb1G/Kh7gfsuemm7R/vHPIo+Gj+jf4s/60A6QCTACv/mABgAXgC9QMVBysLaAsSCj8IWAYgBhUGyQY4BzIIvAb3BT0JbgpPC4UJLwbCAjX/F/uU9570p++r6jfmweh46uHqHe++8Rv2svbx+kf/TwNtBUkJ8Qs8DcoOqA3jDp0KAAclA1gBFQAtAfkEyge2COkLgQ8pENYTUxblFtsSHwyBB04Bvvrn9OHvK+gs4gbfPN7t3w7i2eLW4/Tnve9n9UX+UAZKCNIKVg9fE4YUWRVXEjENkAlNB1kFewRrBMoChwI4BWUIHBEVEzkXzxo0HfgZcRZJEu0IVf6Q9VHv3uh94+LfFN6F3orb2tpH3rTgBOIu5lLse/IC+T4B9AgNECwTYxceGg4ZpBduFgETHw2BC48GRQT1AJ4BcwNgBDEJrA5vFKkXyxuhHGcZhxZeECkJcgB+9s/r3uEN3GzWz9RP1nLX4tpN4SPo3+ug77jy5fM99W33GfxGA8kHUg04EnAXaRloGoEayBdcE88NLgnaBRsCsP+vACoAwQM/CfEOsRbpHewfBB/AHNcZQRQBDQsEyvp87/zmnOJl3fLbStpJ3EDf+eLr58/p+esC72nwVvLQ9Wv4kvcw+r79OQB+AzAHPAuzDDMQ0A/kDuENfAueCg4JgwfOCBcLnA6fESQVbhmwGj0dgiAKILYcKhe8D34JDANn+xv3NvIl7a7pIejM6TTnXOd450Pn5efs6Xrsf+3s7jvvxPE+8mnyZPVy+PL5Zvp3/dAA2gIaBfUHrgjGBhIHkwbtBi0I/QfbBkgHKQurDg8T9hWOFxMYwRc6F2gXNRdNEmINhQv5CnoGjgEIAJP8gviE9lD05PNs8tnvMPFR8PTtMu6u7Ufti+z16wDtmutr7pXw1fE78svzSfbu9yP8BP8fAMz/dwGsAh8FqQa5BnAHTQkAC38MFA3UDvMNtQ0YEFUPhQ+iEdYSphNNEakPmA0qDJgJRQeMBLkAyf0Q/MD76fqu+1743/h2+OH3o/g3+Pf3+fXO8wf1gvTp8yXzb/RC9MDybfPy9FL1lvK+8kn0I/UT9Y/4ovtn/Gz8xf9bAt0DxQbyCH0LeQ2qDvMNuA5zD3gMuQuqCboHsAaLBvYE0QL6BDkFngY2By0JJwvYCvgJKwgpBfgBOwAn//z72ffH91n3w/ax+Tf4Gvkk+Uj5Mvzb/pL9L/xm+m/74/ot+GD4Mvi09Yf3Z/qP/G78WfzK/gn/c//X/5f+S/+4AF7/kQBq/87+yQAiBMUE6wNYBp8HzgZFBqkHxAZXBN0CdwOMBMkCSALiAukCUAXaBrwHgwdTB8kHWwcUBZICmwCg/MH6U/ir9772AvUp+Iz7ZPpE+rz7t/9aAIj+YAKyAeIAhgKmAUgBI/9g/Gf7V/tm+xD8O/zH/Fr+7/6mAfsAZQCyAJsA9f7c/bz9SfyG+sX7Xv5b/Eb94f6t/xkBugAtAGwAoQAWAToCRQHsAJsBcwNWAyUDowRsBWsEywaKB2UHWQnfCDEHPwZrBEYDkwPLAEb+t/x6/Mz6jvnq+MP64fua+2H8Lvz5+0z8Cf0e/JX8yPug+oX90v6j/wwDngGqAegCXgSABqAGLgUtBm0D8AMlBFMAHv8m/e374/xN/Nv5Zvst/Ov8F/4n/WD9qP2f/JP8Jvt/+oz8O/3x/Sv/7f+gApwEPQWVBjwIMwWEAwsHcQXiAcMAvABK/1L+FADJAPr+Ev6fAkID9gCYAu0BRgLLAdn/cf1s+/36i/yM/Lr7yPuL+/n94f9N/4T+pwA4AL//wP6H/pD+Hf30/Hj8uvpN+w79Cf/N/zcCBwJPAsoEOgQwArL/UP5Z/3EADf+QAFECegRuBRAG8AdWBgwIRgmzCMkGlAOSAX8A3wCJ/0r8RPrs+mj95fz2+3P79vvU/Zz+DP6U/Q37nvtF/WP7XfsK++H7Iv2i/vn/wAGNA1AEYwQbBF0EHwS4A+QDRAP2AFEAFgB0AMsATACs/44ABgHNARICOwKTASgBZP/d/fn88vwu/D37G/4f/bj82v+3Ad8CwAGKAQIBXQDSAvABOv8ZAOf+CP3f/AH8cvtn/Wf/1wA3Ai8DdgH1/kgB3AAM/KD84PyI/RX+fv6c/+D+nQAJBKcEDARMBJ8FtwbsBSEDZQFRAswAXgBsACIAIP71+9H8qP3//FD99fyQ/PX7yvsg/gH+i/yy/bj8U/s+/eb+ov7y/acACgJVAK0BXgNSAooCGwK8AZABKAH7AC8Agf8NAFL+CP7j/xICSAGT/jD/DwETAGL/4f73/QH+MP8SAYQB1AAVA6sDmAN4BukGYgSBAuQCdALO/50A2/+f/aT+Kf1Y/b/7tPw2/z/9Wvxe/Yn9mP3w/sX+X/2c/lz+/P0f/sT9MgHIAIIApAKZAr4CJwPGAg4DMwLWAuYCDALNAfH/ugAoAfUAdgGaAJ8A4gA2AZIBYADJALT/sP8VAA7/EQCt/4/+s/2t/Qf9L/4KAW8B6f/r/zIBPgJUAc8BkwHJAIYBVQDEAL8Baf9c/5T/Zv9R/7n9//zz+8H5mPrn+8H5Rfvq/br9RACKAp8DUwT9BG4EjQNjA08EuALcAI4AFv4+/3UB/wCXAUIAW/+j/iL+Q/84/5X8Cv4d/Yn84v1E/sn93vwQ/Yr9av6XAL8A/f94/7wArv/n/uD+EP+H/YL9rv9IAFUCagGnAuUDRAQ4AiIBxwCy/5b/a/4x/sb9Y/3g/WP/tf8KACUBWv9WAEoBk//9AEMBkwGYAJkAQQKLAvcBUgLqAlkCJAI4AvIC7QFlAUMBwgD9/uX+g/87/p/+zv1m/o/9Sf4C/23+VP+a/lMAUgDqAPEBSwH8/5r/KwGfALgArQD4ACwBbf+GAKgACgCpAHMBwwDxAEMBxwFJAh8DAQGN/v7+Ov4j/X78h/2Q/Lr8j/4m/xABtQHpAfABGwF0AZMAswAoADf+Ff79/Y7+9/6m/4EA3wDo/8f/hP47/oD+Av5F/t/96v1F/uz/lv7EAKEBngApAXgBZgJYAP//NgCwANMAygAFASABkAE8AvoCQQNDAyACqQElARr/G/4M/gH9Hf2V/Kv8IP3A/HD9pv3v/JT+IP9P/yr/5P9r/63+Of4n/nz+Sv8p/0QAiAHkAfIBNAJzA7wCvAAoAcoBnwEeAToAHAAU/8//PP+F/4T+Sv/u/9X/ZQFAAVEC0AEXAToBDAH/AFf/vf5k/lL+Dv7n/s/+Of8W/3X/ZQHEAcUArgC2AKMABwAJAGD/8f46/gr/pf9U/kYA0AGtAf8CSAOOA5gCqgPsA5YCDwJHAQ0A3v4T/3r+C/6U/Yf9SP7r/jb/DQDCAOgARgDN/9j/N//e/kj+GP/m/m3+2f6u/uP/jgBi/xMBjQEZATcBPAJ3AcP/wP5O/x8A5v6bAM4AFACMANcC0wHcATYBWQHn/8D/u//3/Zr7EP15/Bj7VfxG+y/9Y/28/dD/twBQAdwB5ADGAEQB+f8ZATsAYgDc/x4BCAHdAaECewHsAp4CkAJOANMB6AD6/oP/wP81/rr8qv0m/yb9Gf4UAAkBJwHYAZkBpgCNASYAyP/L/0sA7v+p/X8A2wCd/lcBtwEGAPT/xQG8APYB///gAIgAdf/O/7oA4//g/2EAMQBwAFP/bP/e/nP+rf+n/5r+5P6zADMBggCmAvYBWAF0ABABfQAMAKMA//73/mf/1v6p/S7+5/8l/9z+h/+g/k7/6P6L/zT/nv4F/+j+n/5o/+b/TgDoACsA9P/yAEkBqv8NACEBlgDp/mcARwBy/yT/yQCfAKX/Rv/V//IA5/9oAYYAawCZ/8n+Nf8PAFf/Df+7/ykAKP+s/zcBdv/9/jz+Z//N/2P/oP8DAKAAVQDnAf8B0AEVAcIBNwJDAVEBJwHj/z0Al/4D/s38dfw8/tT8gP2A/mv+9P5k/+8AvP/6/jwBvf/s/70CCAEIAV8BlgHiAVYCuwJIA3MAogJzAt//dwAPABEBiP/7/yAAmv3x/3MBjQCtAGABpAJsAPEB1gIaAQsAl/8vAIz+Nf2s/mz+Df3H/qr+vv43/yf/+v8kAO0A+wD9ADkBOQGb/44BrgCW/4EA2/4V/03+Sv3U/RD+mv7X/u7+/f09/w3+Kv76/pEA7f9FAMP/jf9IAZ8AwwB+AaYBnwCyAC0BogHr/rf/2AARABv/PP8bADcAbv9+AacBeAEwAvIBnwBZAGcAKgBIAJf9cv7m/S/+rf7f/kf/MQAq/2YBvQCr/iIAOQFSAAEAFAAkARcBTgDZAMkAGAA7ABcAPv9B/of/lf4MAHcA2/9//ET+/QDl/uP/DwAOAMYANAFMAUUB2v/zAMgAYADS/7UAhv8D/lL+/P2E/8P9w/+gAbsBdAEUA2cCVwIjAdACnQLN/k7/+wCY/vr8z/6TANT/Af+J/1EBvAC3/8MA6/8K/W3+rP2K/QX+B/6j/XX+AQDX/0z/hQCEAJMAzABlAL8AfQCcAC8B8f+S/5H/gP9sADkA/f8AAUcBmAESApoCKAEmASMBUgGvAbz/JgAhAF3/1v9w/4P+yP88AEEBeAK9Ae8BmwDAALkAfgDq/4H+z/1A/iT+gf7g/VL9rv71/nX+hP8n//D/PwBX/9D/2//t/9L/gf8BAHoAjAAW/7b/wAChAFsBGADG/3z/Df9o//z+u/4f/yMAiv+gAP8AHgG0Ap4CLQLmAZkA2wDs/zAAFwAi/wr/BwAsAB8A1QAGAWwBrgDlAPoAxgAtAMf/a//y/jj/jv/d/gb/Z/+d/9f//P9tAAMAsv/hAFsAnQBDAOP/FP+r/1P/lv6n/pL+Gv/1/4//EAAEAJD/jP+y/7P/IwDS/vT+qv5b/4n/AgCfAIX/6gAIAdr/5gC0AEQA1/9P/8v+jP/I/17/7v+z/un+Af88AJX/OP+1/2H/lQAQAS0AuAGrAZQAyQB5/8f+4P2Z/qv/qf4i/wMA4/+FAIMAlgE6AWoBPwEnAXoAwACx/83+NwDwALIAiQBBAvkBTAFiAVgC+QAQAFQAAgDN/4n+Yv4o/kj9rP0g/j7+qf/X/6oAJQHbADD/tP5d///+zv7l/0T/if+6AK8AyQBkANsAvP8SADkBIgAGALb/OwDz/on/DwE2ACQAXQAUAIIBgQHPABIB3gGzASgAmgCWAAz/HACdANP/ZQDMAIIAkQCJAGEADv9G/oD/qf59/jv+gf1a/mP/zP+AAI4ATP+j/7kBfwD1/4kADQCV/+z/dAE7AGIAQADmACcA/ACMAaz/5/+vAf7/RwBwAIn/7P/RAFoAf/+lAIr/a/+x/4P/W/3T/tP+6f52/hYAPwAGAAsACAEtAdz/wQAMABP/Df+3/4b/IP8i/7n/Pv/k/tr/DgASACIA2wAwArwAYAIOA4oBWAIZAfcAMQA4/30AawCw/3L/LP98/jn+TP6A/e/9gP46/jz/Gv9z//j+zf/O/28AUAAEAlkCmgHJAHMAZv6g/ij+Yf69/Rz/DwAv/1//CgDM/+7/LwDFAKsBQAHlAXsCYgGLAmUDhAGaAhYDrwGAAK3/gv8zAFz+Tv5K/4/++P4N/xL/Fv+M/57/BQB7/yQAOAASAEcA/f9FADEARwDC/6T/NQA3/879Fv/z/jb+rv8k//f9rv7K/iX/mwDPAeoB7wFaAf0B6AGcANYA/P8x/2T+Qf9Z/4YAhv+m/5r/DQB+ACMAdACV/zP/WwD/AAP+p/8iAPf/mf+TAAcBYwDe/0MB4QASABAAtgAJ/97+Vf/w/dj+T/4r/hIA6P6g////OABXATcCHgKKAWEBlAD//8oAIAAQALP/bAD0/0n/YACv/+EBjQFNAIIBUgDaAHMA7/8u/6AATf+z/YwADf/O/wn/C/9bAcn/gf3i/b//7/1K/WP9iv1d/QL+xv31/o7/Nv/PAPQBnAEmAu3/qQG0AcwAgwEbAT8BPADt/9IAWALHAYYBwALRApgCSAFjAYgDTQAeAKkA2ABu/48AfwKEAQAAagFVArMAjP/sAPj9uv6U/cn7dPzf+sT89Psh+/39s/wx/zL/u/1b/xP/6f8O/14AUwDn/Sr/2/89/+AACwFyAWACmAD/AU4CTwDFARoC+gGbAd4BzwAsAYECUQKAAPH+hwCbAjMBGAGI/3kA9f4W/4L/vv10/l787/yL/fT9V/7s/SX/3P5k/s/+OP7z/6b97/+x/vf+zv0HAZQBwv8x/7UA9wAOAM8AvQJeAXX/lAJp/woA8P9sAbkBgQHRAHMAKgA/A1kCmAB0A1UBDf9bAOwAHP80AB0AHQEq/xf/zv90/gT/+v4QAI7/3P9EAEcAKAA0/1IAEQH+/rYAIQEe/3P+xP5zAJb+Ev/H/2n+KgB0AN3/HgFu/wcAsADkAH0A+QC8ALX/PwDY/5T/WQB/AaT/RgGDACcC+AGAAaoAtwA1/3//BQBuAAwAgQB6AF0ARgC6//kAuACz/5/+G/9oAJb/uv9dAE3/Yv/U/t/+gP8Q/3T+Tv8x/xn+SgAOAcH+LP+aAHz/jADRAHkApf8hAKf+0/4a/gz/Of+j/gkADQELAN7/BAHIAK0A8P/2AdYAXP/c/6X/yP+r/hEADf+C/rf+uv/I/vT/lAAv/2v+AwB8ARQBIQDJATwB7v9eAHQAE/+L/1v/c//m/1cA7QABAXj//wAvAIwAsgAoAY8BU//U/+kA3wAbAh0CiwFKAgICDgHJAL0B8v9CAFwA0AHf/3L+AQBSANT9r/6j/4n/Hf8T/6H+n/38AJn/UADP//MAUv7F/bIAqgD7/5MAJP4w/Zn+DP6U/3r/cv+X/RL+BP1m/0D/mQBr/4X+5v/GAaEC2P8PAiIBOwAOAGsCrAGS/5r/sAFu/pP+OgELAVP/mACNAKEAwgBrAHQBOwE0/7L/iP8q//z/fACUAPv/S/5F/i4AmAGjAOf+T/3CAAIAkf+JAPb9Rf80/6D/DwGA/v/+0f9tAJoA1/63AAQBIgGx/3EB/AA5AZ7/eQKcAar+KPzJAMwBUAD1AG0AlQHd/1EBhAGGAFYBMgGC/wH/Mv9jAMn9OAHKAFEB7wBW/qT+6P7e/n7+Zv9+ADP/BP6e/vf+uf/4/gUAjv/d/yz+OP9z/1P+Sv84/+7/FACK//z/GACE/6sAbwEzAjkBv/8zAdz/YAGdASMB/P8ZAvv/TQD3/9wAM/4WAdcBNwFE/lz+hgBvABv/lgGtAVP/tgHb/8L+yf5Q/6sALACj/noBHP4J/ikAZf9x/68ATAGn/2j/2ADOACMA4/7L/2cBAgDAAIQB3v/u/2j+eQAYATUArP4a/qj/rQEMAKT/ZAAtAKkAR/+eAAMAQQDyAFQBrgBDAVH/uP+nAaMBsACV/i4ASv/F/qD/FQDZ/loA6QCxAHn/GQKj/xT/OgDj/s0AEgAW/y3/yv6k/bIA7//q/ioAef/p/sj+SP4w/f7+9/v6+wr+iv3z/uz/2/4b/yf/VP+H/1T/MgAx/0X/JQHZAJMAKQBCAJYAf/9CAfsATAA6A4gBqAAbAbcAMQCBABECbQJPAWUBtAFLAfkBtAHAAv0CsAJfAuAAWQAmARUAtf/OAOj/Df6j/7D+hv4a/8b+CAA1/1f/+f7g/yT/2P62/xH/xP+F/4L/x/8eAAT/jv/8/1f/wP5e/v7+df8Y/5v/BQBl/6QB9QByATsD1wHuAfoBMADXAO7/Y/+AACv/kf9n/7f+sv88AMn+Cv91/08AGQDQ/0MAhQBD/83/7/+3/3v/WP++/7X/Y/9H/rH+Df/P/uj+rP8nALP/UAGpAQsAv//V//kAEAHw/6oAof8w/yIAVwDk/3n/WQAg/5j+IP8DALf+jv6U//r+wf6h/yT/6f9JACYBowH8/6cBsQFzAMEAJwCOAFoAgABMAZb/Af8IAYH/7v4oAC3/s/7Q/6z+OAC7ANAAVQFqAK8B9gDR/1kAKgBh/8//JgAFADL/rf8BAHD/bf+0/+P/wv/l/kv+xv+m/rP+5v+w//0ACgCKAbEBpQBgAAoB6AB7/4YA0wDaAOn/2QDrACQAr//DAO//wP//AJcA0P96/8cAPwB3/3sAbgBR/78AFwDJ/0UANv9kAFL/Gf/K//H+nf+A/0r/r/9N/vH+n//U/yIAUP8NAS0A8wAsArsB3AHqATEAWwBIAP3+CgCZ/xQAggEVARIBiQBo/63/MgDv/r3/zv+m/gcBOAGl//0ALgFaAbwAQQEGAeT+av5H/kb/Cv8g/+7/YP+rAD4BRv/4/VX9I/00/cb+Y//D/swAqgCK/8j/wf9l/kv+WP52/8z/qv00/iz+Mv+c/93+1v+x//EAd/9ZArMAkf/u/oQAVAFnAaAAQgMvAmwA5AAyAZkADf/gAFX/HAGxAKsCzAFJACwAGQD8/9wAqQJbApIAc/8AAKr/sP/R/2oAYQGj/xr+EADAAQ0ANP41/z7/S/8oACMAjACQ/5D+O/4R//sAEACp/Uv9Mf+r/q//kf+OADUBKwA4AigBUACh/1YAWf/kAAoAPwDRAHwBfAN0AM0AXwAvAdL/RgHJAdsBfP+zANoALgDvAFD/Ev/r/xsArf9A/7v++AF9ALn+8v8SAmX/QP1RALP/IQCX/2YAAf8lAB0B+P7r/V3/YAGG/Zr9RwKBAXv+FAC/AEsAyf4z/xUAD/8/AO7/H/+c/88B9P/9AAUBQAGP/wsAmgFJAPP/iAC5AsP/1f6h/74A6/8RAU0Ai/++/3kAywB+/w4ARQFC/qr9aQB9AHr/XP8ZAIsALP+k/+3/+P/U/1AAXwA3AKv/XP8H/9MAM/+4/zsAov8a/8v+PQFSAJL/agAuAXoBQf/J/gkAxgAn/6//8f/D/pT/mv2ZAAAA1f6d/sr+vv88AO3/Yf8pABb/x/7R/4AAbP7R/mn/sQDR/zH/hAC4/9v/uP8qAVsAbQCoAPD/2wC7AC//VgA3AFkATwFAAL7/MABp/y7/SwA7Abf/Uf+ZABwAAv/X/kYBTwGsAVUBXwF3ASsAUgAnANn/gwBn/1f+fQApASwA6P9zAc0ADgAdAdMAnP+b/7H+AACa/1UAOABV/0f/yAD/AFkAIAHoAB0AV/80/2AALf96/af/rACE/2X/IAAEAFf/fv+KAMUAxgAZ/6v/Wv9Z/zQAF/+c/9AAJQE0AVoBhwEkAUEAQv9xADD/iAABARr/Hf98/xcABgAh/yL/5f+k/hv+4v4+/4T/Xv+6/7kAQQFRASQBdf+ZAIkALP/+/wX/p/7h/p7/kv+hAGoAbP9nAGz/Yv/k/3z/NP/x/5T/qf8jADYBvwBWAIYADwEiAUEA6ACXAOL/EAFvAVkBMwEYAH3/fgAGAbMAuwBzACb/1P82AAoAYP9W/7b+Yv+r/2z/sv+O/zn+1P95/2X+/f/a/rP+IP9A/lj+d/5j/tn+bP+8/qH+Qf+6/vz+rf+q/2T/rQCNACj/4QAyAeX/5wC4ANMAUwCzALYB5gD8/1oBrQCGAHsAigF4AHgAvAAAAHf/CP/LAIb/Q/+n/5IASP8C/74ACwBL/9D/XP+m/3n/TwDWAO3/BP/d/wIADwC//+j/eQA9AJoAvQBUAHQB9gE1ANUAjwKhAfj/FgCy/1EAov5z/8r/2v30/zb/Vf/h/9H+Bf6R/nb/YP54/zX/yP7+/97/OQCzAMkAOQEIAUMAsgDaAF0ASgCSALcBFgETAV0BOQHSAP0A2ABiACoBYwC7/6sANgDn/wwA1/+LAFIAzQCs/yT/yf9D/wH/+v5W/r7+ff5P/z7/c/4b/ov+pP6N/xoA9//W/9L/kwARAW8AogDzABEBPAE8ARgBqgBVAUYB2v/Q/1gADACZAKwBPwEDAWgASwBQAaMAYAC3/4P/3v/b/9wAjADV/+3/7/7i/fz9VP5l/tL+bP4R/oH9rP23/Gb9Yv6l/lv+7/4EAHz+I/+oAC0AXwAbAH4AlgB0Ab8BiwDpAKYAhgDg/4gAlwC4///+T/9T/7P+SP6t/lX+5v10/ir/NQBVALT/ngFuALgAYAE2APEApADxAGwALQD//1EAhf+k/mn/S/+q/0EA0v+f/4//MP+jANX/NABBAIEAd/8bAtECyv9XA24CuAHoADECNgKRACwAigCNAFcAff+qAC//P/8bANcAXwCl/w//5//W/3b+NwAjAKH/bP8X/zn/2/8Y/jb+8v8G/3X+Qf+S/2z/pf/7/mcBm/+8/w8BKgA5AL8AVwH9AfIAswE0ARABLgFuAvQBMwGGASgCdQEsAXsBBwI2Al0CPwGjAKIAfgDp/+L/IwBf/+b+Af9g//z9Kf3s/Gr9bP1a/Sn+Ef71/ZT9E/5K/fD99/yE/e390v5y/iD+nf5J/8v+sv5tAL7/TACKAdgBmwC0AWwC7AG/AQ4BRQHuAeoBSgGRAeH/8v94AUEBbABXAMcAlwDmAK8AdQAxAEcA7v5+/g8AHQBIAIz+XP82APz/zf6V/1f/Lv6A/7z/zP8zAPgAuADX/tf/rwDe/5QAhwCE/yUA9ACs/5QAJgBaAAcBRv/CABQBYQGjAPX//ABNAJP/yf8qAY4ArP8kAGwAdP+N/pEAmv/4/W//5/+T/7L/CQCv/zT/2v/+/7n+8v9Z/3n/af8hAAgAJP8f/+L/2v8AAJQAYwAkAFYAAAGDAH8A9P/R/xL/9v+KAO//sv9XAHAADgDn/4QAd/+a/xcAPv9f/2D/1v/x/or/uAApAFEAKgDy/8j/Of+oABoA0v+V/+AADwEJAEf/MADuADoBIQHO/5///f8iACQApgBzAP//lf+8ACEAmgCeAFUAvADLAAgBNgDIAKAAHQBWAI8AtAD//+D/igDA//f/HwC+/3oARP83AKEA4AB2AKYA3f/t//D/6f8gAGf/+/+0/1D/gP/G/9X/bv9s/1YAvv8q/9H/Pv+F/3cACwAVAHz/If+MAO7/pf9M/03/O//5/4AA1v6P/+f/Wf/w/vL//P+Q/5z/Tf+r/6z/v/7v/hP/Pf99/8z+FgDi//v/RwAkACL/k/9dAMP/5f++/lj/i/9S/+L+bQC4/9r/wwC4/6L/jP+CAGkAXQDu/zQAZQA8AG0AOf9bABv/CQD4AJIAlQCJ/y4AnAA2AGQAVQAyABkBkP8kAX0A2P/HANQALQHg/5QADwA2AA0BRADL/wUAvf8VAB4A2AANADT/7P86AKwAy/98AK0Abv9FAFoAVwCiALEA5wDRACQAnv/D/1MAgP8/AE8AAACu/xIARgDr/8YAHAB3ALwA0AB2AeT/3QAiAAUA6v/z//X/sP+p/wsAdP9Y/1z/ev+P/7T+1P6X/0L/OP/2/6n/ZgC2/w//ov81ALL/Qv+7/97/Q/9a/77/dP8MADwAi/8e/zr/hP9l/2z/5/5G/+3+vv5c/5f/LgC2/6j/GADZ/5L/j/9p/3f/N/9t/+D/v/9V/zAABwDv/xoAt/9rAJ4ApgASAA4BRgA8ASkBvQDpAQYBrgFbAcsBjAEJAfQAvgANAdQAzABVAAUAHAAfAFoASwBSAJAA0wDH/3T/yP9h/0P/AP89/0D/8v6G/lH/L/9N/iX+O/5r/qb+Bf+o/s/+VP9N/x4APgDs//H/yf8mAGoAMQBoAFMAoQA7AAQBhgHwAD8BOQFHAS8BsQAVAQ8BLgGAASoBzgDQAHsAsgBfAEIAsv9t/57/1/4H/zX/d//0/gn/Yf9N/6f+yv6///v+2f7P/j3++/5A/9j+3f56/2r/N/9W/zT/F/9S/6z/2P9lAPb/0f+QAGMAJwD7/9v//ADH/3UAuwHCAGoBZQG6AbcBhAFvAc0AmwCPAEQBjAABAFQAnv8BAI//gf8x/yr//v6a/2T/KP+t//7+dP8GAIn/+v6R/0r/8f5C/yL/r//i/8H/AQBoAHAA/wD6AJAAqgCWABsAGwAPAL3/v/+4/+H/4P++/2f/m/+y/0IAPQDq/0cATgCZALkAwwCFAMcAeAB3AMcAswD7AIwAsABsAJYABwAAAB4A7/8OAA8AWgCoAE4AegA3AIcAawCS/7//vP9y/4H/nP8r/yX/tP7//hL/8/6T/q/+kv6+/hr+/P7b/aD+6/6U/jD/x/6S/5T/3gDL/6z/igD1/9T/DgCHAMoAwQDEADIBWAFWAccAjAAjAQoBugChARkBCALCAUgBCQGdAAsBYgBNAIMAaQD4/7r/Q/++/7X/If96/z7/YP8I/yv/OP8q/1H/bP8s/8X+vv7g/rP+cf6D/k/+mf6u/mn/0v7QAZz/m/75Asb/ZwGRAZoANQGnANYADAEDAbQA3gALAdoAowCyAL4AlwDT/0sAIwDy/6D/5wCOAZIAeADR//P/8v9t/zwAOgCN/xEAGAAv/6P/d/+C/+j/DQBNAO7/bwBVAOX/aQBKAN7/OADP/wUACwDx/43/ev8F/xz+ov4T/8X+Uv+h/+v/HwC2/xAA7P95/7f/gP91/77/6f9//4b/+f+0/7L/6P9WANAAegDI/2r/y//k/57/mf+Q/+P/pP9Z/xUAFQAnAHwAXgAiANf/gP8m/5//VgA+AA0AMAAHAA0A/v/QAHgAUgAFAcAAmwAYAPb/FACo/2T/pf9C/xH/Of9A/2j/8//Q/+P/JwC8/+v/PQAFAC0A7P8rAO3//P+bAB8A1wBnAOUA+ACtADQBtgBzADgAUQC0/4X/uP+f/w4AAACvALIAYACMAHMArAAsAEYAQwDj/87/kf/h/z8AEwCB/9j/pP+k/53/i/88/w//af/a/1b/ef+v/+j/f/+9/xMAaP+g/7D/sP+j/xYAHAARABcAowBcADYAMABuADwAWgA5AAQA/P9MAFX/vv8LALb/sP9R/GECq/+n+34CvAQAAg0AVQKeAGIAif9w/vz+2f6h/oz/FABwAL4A+QBoAX8BGgGMAOD/Sf8I/8P/of9Z/9v++f5M/7H+6P4ZAJYAggBQAKcA1ACnAAwAef+a/yb/sP4c/kb/tv/1/9AAdQByAUUB/wDtAHoBvgDSAAMBcgDMAOMAwwCFAD8A/wDaAIQATgAAAEQAEwAFAPP/9v9OAFUAaP/N/9n/KwCbADcA6v+W/7n/sP8AAOH/PgBuAOj/HgAEAOj/cP+//1T/wP7U/g//WP9N/zH/Qv+C/3v/TP+0/7H/gf8TAHL/M//U/1H/iv8EAJz/+/8yAAEARwACAOD/tv8EALH+RgAuAo/9yf+sApwATwCiAJ4AKgCeAF7/GP+5/43/o/+8ABwA2f/IACMA1//S//T/ZAAeADL/lf8pAGb/TP8BAH4AiADA/woAPwFwAE3/pgDx/5P/+v9w/43/dQALALr/yv+G/0v/HgCd/8r/AADI/4EAjQAAAKYAdACL/+L/PQBwAL//RgDVAGYAowBYAGIAmAAGAUsB0wB0AQEBjwA6ADgAFQB5/3H/0//g/10AHgBfAOsAoQBOAb0ApgDXAB0AVgDo/xwAGwDq/3MA8/8UAP//4f8zAPH/Z//P/+n/UgCa/yr/BgDz/6v/l/+8/13/X/9v/w7/Pf/7/pz+Bv+h///+m/4O/03/vv9h/5X/bv81//v+RP9r/7z/SwAxAI4AHwDo/zYAVAA3AHYAnwAdAA8AOQDw/10A5QCGAEQA+v8HAN8AxQDhAGgA+ACwAEgAJgA/AB4BsQBZAIMAVAApAEIAFgD8/4sADAA3//D/0f/N/9wAYABDANEAnwBEAPf/JACy/8H/BQCN/77/w//e/QsANQB3/uD/ZP/U/rD+4P6M/l3+cP51/2oAa//P/4UATf/H/in/bwDCAOz/8f7X/vf+i/6w/k//IQD8APb/nv9w/xwAlP/kABcAov9mATcAZ//0/0cB6f+KAPMAeQFiAj4A2P4EAHABEAA9AMQAwACmAN7/DAAbAbsBtv+1/5MAi/83/8n/jwDeANUAtP+3/88ADgCQ/0sA9gBFAAUANv+y/1wAi/9x/zMACQCW/woAlgBkAC4Az/8bAHYALQDk/2MARADb/2b/kf/0/7n/xf97/3j/mf9s/ycAfAByANL/pv/q/5//rf9F/8f/5P+l/7T/NQDt/7b/7P9dAK4ATwBYAA8AXgD3/57/pP9z/+z/2f/R/4f/7P9zAGUAigBSACQACgBIACAASwA7AC0AJwCIABMAff84ACgA6P+E/1j/lP9G/3v/cv/H/8//h/9//+L/lP+B/8n/rP/W/4D/bwAGANP+qgBJAED/yv87/wL/D/8E/2D/2v+6/5f//f/2/9L/NACCAEAAwACZAAgAZgAAAPz/XAB8AE0AIAAgAC8AEgDA/9f/9P/L/8n/7f/5/4j//P/+/9f/NwAMANr/EABBAIgAqAC4AG4ADAAoAPP/DADX/+j/zP/l/yIA0f8WABoAfgCDAHsA2gCwANkAcQDGAHoA8f91APP/9f8XAEAABwB2/9P/9//L/6X/EwA5ADMAIgC+/zEAkwAPAP//SgBPAFsA9P95ABAA5/8XAA4AYABhAM7/8f9IABcACQDE//r/YwB8ADgAZABvAGoAyf+x/8//pf+R/4L/sP+A/6r/9f8nAP//DgDt/+z/Zf9d/zT/qP+L/6H/z/8b/2v/Mf9f/1P/Z//F/43/vP/H/47/qf/a/7j/rP/7/1v/P/+d/2r/cP9O/83/9P8KAIAA6//t/yIAuv/0/xwA///K/zkAigBHACQAUgAmABkA6P9KAAYAUwB5AEAAtwAzAHAABgAXAKj/NAB/ADAAQAAaAO7/if87APf/SgBaAAoAHAAZAPAAnwBHAEAARwADAPP/bQA5AHcAEgD2/yEA7f8pAPv/IQAtAHgACgEfAIkAYQD9//v/9P8jAPj/DQD6/wYAEQDW/0P/bv96/0H/S/9s/9L/yv8AACIAIgA2AHAAeQA/AP//eQABAMP/wP9W/1//z/9/AGcAm/8Z/8z/5/+w/3//qf9P/0L//P9CANz/8/+c/6D/ugBv/4r/XABg/8b/2P/q//7/nv+Q/xEABwDC/x4AiQCyAIAAIQAPAIMAaQAcAPX/+P88AG8ASgDn/1kAtwDiAJUAswAbAdMA0gBCAM8AXAAIAL0A4ACaAPP/twAXASgAOwB4ADIADwDZ/8T/tf/N//j/hACCAO//9/9GAB4ABwD1/0f/RP+g/3z/Yv9Q/9D/XADU/9H/wP+L/9b/M/+V/wsAwv9+/4T/r/+Q/1X/Mf9U/zn/GP8B/8X+6f7s/vv+xv7U/m//DQDV/6f/sv/O/+3/uf/h/9n/CgBc/5n/5v8vAPr/hf+z/7v/s/98/9z/0v8BAA8ASwCEADEAuABAAIYAagBxAIcA1QDHAMgACQG8AM0ARQBOAIAAPADa/wkANQDD/6b/CADL/73/SACLAFkAbABmAK0AKwAsABMA9v8zAMf/fv+B/23/Nf9n/5n/sv/F/5T/BACMAKoAnABHAD8ATQBIAE4ADgAgACYA9P8cALP/h/+I/+r/VgC3/+r/hwB0ANX/q//4/+j/1v8jAEwAQgAPAOL/BQBSABYAIwA6APn/dwA+AH4AYgBKAFEAdACJAEgAQwAbAPr/8P/l/83/DQAzANf/f//j/w0AMwAFAI0ALAA9ALQAsv/q/+UA9P8j/77/KAAHALb/1f8wANz/zP8dAPQAPAAP/8z/z//2/1r/pP9cADIARP+W/1MAyP+r/6X/4/+r/5r/8/9a/1D/o/9J/53/fv+a/+H/8f+CAHb/YP/r/+3+kv/U/0L/AADS/9T/AADR/9P//v/h/+X/3f+w/+X/wP+0/wwANP8m/8j/2v+2/2n/N/+a/wkAAACzALwAiwBvAF0AmwCMAGAAaABeAJ8AOgAdABwALQBwAFgAOgBlAHAAWwDOADwAMAA/AOP/JgAaAOP/7/+8/44ASwDy/yQAEwDw/yAADgDl/2oAGwDr/wsApv+1/4P/ef+C/zv/y//g/wUAAQDK/+//FgALAMb/CAA/AJcAYAAZACwASgCCAEwAeAAqABUAJgA0AFwAFQDM/xQAVgA/AO3/3P8CAOb/KgA0AGYAUwAOAOn/HAALANb/BQDC/8v/0P/b/y4A+v/p/+r/+v+v/+//DQAkACYA7f/3/8b/e/8BABUADwDE/2v/a/9x/3f/7P/D/67/zf+8/+n/xf++/5b/lP/H/1P/0f/5/zoALADV/wIA0v/Q/9L/6f81AB4A0P+n//P/PQAHAMr/FgDx/wsAJwD4/1IAGwD4/xYARAA8AAcAIAAxACMA4//J/xcARAAuANH/wf8yAFYA7v/m/z8ALABGAAMAEABaAHcAkgCXAJIAlACdAMoArwCTAKwAawBgAE4ASgBmAGcAMwBjADMATQASALn/sf/H/8f/Z/+e/5z/Kv9T/y//bv+o/zf/lP+n/7X/7v/w/wUA5v///+L/5f+d/6v/+P+2/8T/sP98/3j/R/9G/2L/Pf8j/0D/nv/H/4n/if+x/97/7P+k/6//HwAbAA0ACwD8/xAAtf+5/+n/xP/1/xMAWwB2AHsAogBmACwALgACANL/7//r/xIAMwBjAIsAZQCAAHMASQA+AC0AOgApABMALwA6ACkAGQATACcAQQBTAHIAkgCqAKgAkABlACwA9P/I/67/qP+z/8H/yf/C/6j/e/9H/xj/+v75/hf/U/+i//X/PABvAIQAfQBgADcACwDn/8//xv/H/9D/3f/p//X//v8HABEAHAAnADMAPABBAEYARwBJAEwAUABVAFYAUgBIADYAHQAEAOv/2//V/9j/5f/1/wMACgAIAP3/8f/o/+P/5f/t//n/CQAaACoAOgBFAEoARwA6ACMACADt/9r/1f/g//7/JwBVAH4AmwCoAKQAlAB+AGgAVgBJAEEAOQAxACYAGgANAAYAAgABAAAA+v/u/93/y/++/8H/1f/7/yoAWgB6AIAAaAA1APb/uf+N/37/jf+z/+D/AQALAPj/zv+b/3r/Tv9e/3j/rP9hAEEA7f8JADIAhv+B/83/xf/h//b/LgAgAGIA4f/S/+T/yv/C/3r/cf9i/8///f/z/9P/o//O/8z/SQCt/5z/xP+m/+H/yP8BACsAeQFuAAsA8QBgAFf+y/4iAHX//f+y/8n/MwBbADwAeADg/xAByAAmADQB+wCfABACGwI7AQAD6wHJ/64BkAGl/dYA0f7L+wL9oP1L/U37bv92/OH9t/64+9b9Tv0b/iz9sf3N/ub9lv7J/SQBzgCX/YoDPQHN/moFkgJY/pUGwgFL/zUH7wFSBRUF5gPPBeICFwPcAWACfAL+APgCwAHBAooC1QHmAPgCBQBBAGoBD/8LAMz+2/41/gX/6f7C/QD/av62/ar+0P2O/bn9rfyG/CH9S/rY+un8Rvoa+/r8sfsm+8H8ePxK/TX8Gv4m/Y/8G/4t/kr9bACu/z79x/7v/woAVADuAZsBAAJGA/UBpAM3A6QCqgNlAjwDLgNnAmwCyAO+A/4CxQNLAxkErgQdBIcELwXXAwUEFgW4A1AE0wP8AhkEswIrAjwCewL5AZ4CwwFYA+UBhP/k/3sAeQHnALABAf5xALUBLf3F+iQC7vfo89n4PPcH+C/4K/tq+4b/kP6w+qr+Evuj+oL8r/jz+s75lPmY+1j97/4bAnIEzwJjA10G2gJgBTMHMAJV/doBZf0g/Jb+q/3v/Lv9kADB/TABwP/O/9wAXQBCAUIBfACH/9sAJwCA/+j/EAB2/6L/7v5uAJYBIAGqAUYCCAJkAtcArf5G/nz8H/17/K78Kv5Q/rn+WAD9ASkFAQO0BkoIzAVXCCwGVAZcA44CjQJNAAsBpwAb/yEA3//i/zT/EgAy/kf+Tv7//Yn+JP6a/pj/Yv8NAJ4Anv8FAF7/n/1d/r79ZfyW/P/8GP5z/mf/twCLASgBOwKPAZwBLwGaAcT/lQDm//j+sP8j/4z+hv6g/lX+U/1Q/bL9Vf1a/Df9fP4H/kD+s/5X/hP/p//Q/9oBggHkAWIDPwKaAlMCxAIBAzYBJQOeAzUDGwSGBHcC8AN/A50DfAQTAqICYgDnAO7/oP/4/yX/Pf8d/07/6f0c/vj97/zG/HL8QP0a/LX8kvza/OD8Xf36/Q7+fv6q/v3+rf7s/xcAbQBpAdQArwHaAfABGAI0ASQBKAEsAHIAnAAJADgAcgAuAJwA3ABbACAArv8S/2b/KP90/rn+l/4t/87+fP7I/UH+Gv6m/vv9Fv6j/vj+hf+B/3D/mP+6/2n/Tf/D/07/I/8m/zr/nf4M/0X/v/8bAD8AygBBAUsB3QAVAXMBCAHtAJAAwADNALMA9ACOAAcBBwHJAB8BKwG+Ab4BAwLmAfsBSQL+AdEB1AGvASIBHwHuAOMAlQB/ANYADQEfAboAlwCjAG4AMQAmACMA2P8u/33/+/6k/or+R/4w/sH9EP77/Rj+Xv46/lX+rv7w/vD+Of+X/9r/GABSACkAqACiAC8AfgAxADQAOwDz/9j/q/9C/zP/4v58/ur+g/6l/sf+L/9R/0n/PwCJ/8D/7P/A/zAA9v8sAGEAdgDKALMA+QBmAewAYAEqAUgBdQE2ATkBvQDEAFwA/P+//57/x/8b/5z/nv+M/6D////C/2f/1v+M/8//1f+r/8v/HADZ/zEAyv+r/yQAz/+V/7f/8v+r//b/1P/C/wcAzP/R/yMABAD6/yMAUQBjAHoAHgBVAHIASwA4APf/HAA6AB0Aw/8OABoA1f/z/xIAFQAtAC4AJQAuAE0AEQDx/wIAZQAAAP3/PQAxADgAFgAVAPj/VwAOAI0ANgBwANEAcQCBAIAAbQDJ/ygA3f9s/6f/BAD//5b/HwAzACcATwAnAHIAEwAXAOn/ov/c//X/qf+K//X/Wf+d/9//5/8TANL/w/8jACYA1f/h/x8AQADz/+T/+v8SAB0AFQC7/8D/5f+W/8v/rv+T/2H/b/8v/zf/aP9//9P/DADE/73/EwD4//H/8v/q/8//tv+7/w8A1P/M/7L/aP/O/xoA1v9aAI0AOwBOAF0AGQBGACQA/P/9//v/AgApAEQAcAAlAB8AcABSACwAVAA3AEIAUgAoADYAKgACACMAOwAoACkAAQAQABIA6P/v/zMALwA3AFsAaQA2ADoAPgD9/9j/BQDY/9H/AQDQ/8P/EAAFABwAfQBsAEQAbQBFANz/3P/y/8H/z/8AAPL/6P/5//X/BgAjACUAIwArAAkA1v/g/+//5//7/x0AGwD5/+P/3P+//7b/2P/r/+z/6v8EAAMACAD5/wkAEQAXAOj/v/+4/6P/mf+3/9H/z//9/xcADAACAAYAEQABAPX/AAANAA0AGAAqAC8ADgA/AB4ACQAsACgA9P8IAEEA2/8aADcA/P8nAD4AOgA1ACAAHABIADkABAARABYA6/8CACIAGQA5APv/5P/a/8z/uv+o/9z/8//4/zEAOAAXADcAGgD8/+D/rv+w/8//xv/X/+7/4//Q/+P/8/8DACoACwDc/+H/2/+z/93/5f+i/67/t//U/+n/3v/1//b//P/w/+X/0f+u/6j/wv/k/+z/5//7//L/+f8iACAAHwD8//b/AAD//xQA/P8GABUA//8VABgALAAyABoANgA9ACgABgAXABIA3f/o/+L/yf/J/87/1P8GAA8A+f/9/wIA/P8PAAQABwAcAPj/BQADAAMAFAD5/+P///8BAPv/5f/n/w0A+v/f/wEA2f/D//D/4/8IACQACgAFADIAIgARAC4AIgAOAB8AEQALABAA8v/3/x8AHgALACUALwAzAFEARAA5AF4AUwBLAEcAQQBdADgAFgAQAAwAIwAnAAwA9v/2/wUA//8IAAEADwAtACYAGAANACcAGADu/9z/BwAPABEAEwACAP//8v/s/8T/sP/b/8f/wP/e/9D/6f/L/8P/wP/j/+T/0v/5/+3/2v/3/+v/xv/V/9P/yP/H/+b/+P/+/wQA+/8MAAsAAwDy//r/BQD2/+//AwAQABMAAgACAPz/2P/i/+f/w//R/9//1v/b/87/1P/y//D/8//5/+7/+//9/wIA+v8IAAMABAAaAAoAEgANAP3/+//4//H/AAD9/+3/9f/3//b////9/wUAHAAQAA4ACQAEAAoA/P/7//3/AwAPAAsAEgAhACMAIwAaAA4ADwAgAB8AJgA1ADMAGwApAC8AJgATAPv/EgAXAAMACAALAPP/9f/8////GAAfABcAFwAhACcAFwAZABgAFgASAA8ACgD8//3/AAD9/wAADgAJAA==";
 function stopMinniBarks() {
   minniBarkTimers.forEach(clearTimeout);
   minniBarkTimers = [];
+  for (const source of minniBarkSources) {
+    try { source.stop(); } catch {}
+  }
+  minniBarkSources.clear();
 }
 function playMinniBark() {
   const ctx = minniAudioContext;
-  if (!ctx || ctx.state !== "running" || document.hidden ||
+  if (!ctx || ctx.state !== "running" || !minniBarkBuffer || document.hidden ||
       !$("animalStage").querySelector(".ml-scene") ||
       $("finishArea").classList.contains("hidden")) return;
-  if (!minniNoiseBuffer) {
-    minniNoiseBuffer = ctx.createBuffer(1, Math.ceil(ctx.sampleRate * .16), ctx.sampleRate);
-    const data = minniNoiseBuffer.getChannelData(0);
-    for (let i=0;i<data.length;i++) data[i] = Math.random()*2-1;
-  }
-  const t=ctx.currentTime;
-  const gain=ctx.createGain();
-  gain.gain.setValueAtTime(0,t);
-  gain.gain.linearRampToValueAtTime(.19,t+.012);
-  gain.gain.exponentialRampToValueAtTime(.001,t+.16);
-  gain.connect(ctx.destination);
-  const noise=ctx.createBufferSource(); noise.buffer=minniNoiseBuffer;
-  const filter=ctx.createBiquadFilter(); filter.type="bandpass";filter.frequency.value=950;filter.Q.value=.9;
-  noise.connect(filter);filter.connect(gain);noise.start(t);noise.stop(t+.17);
-  const voice=ctx.createOscillator();voice.type="sawtooth";
-  voice.frequency.setValueAtTime(340,t);voice.frequency.exponentialRampToValueAtTime(150,t+.15);
-  const voiceGain=ctx.createGain();voiceGain.gain.value=.22;
-  voice.connect(voiceGain);voiceGain.connect(gain);voice.start(t);voice.stop(t+.17);
-  noise.onended=()=>{noise.disconnect();filter.disconnect();};
-  voice.onended=()=>{voice.disconnect();voiceGain.disconnect();gain.disconnect();};
+  const source = ctx.createBufferSource();
+  source.buffer = minniBarkBuffer;
+  const gain = ctx.createGain();
+  gain.gain.value = .65;
+  source.connect(gain); gain.connect(ctx.destination);
+  minniBarkSources.add(source);
+  source.onended = () => {
+    minniBarkSources.delete(source);source.disconnect();gain.disconnect();
+  };
+  source.start();
 }
 function setupMinniSound(scene) {
   stopMinniBarks();
+  let credit = $("minniAudioCredit");
+  if (!credit) {
+    credit = document.createElement("small");credit.id = "minniAudioCredit";
+    credit.innerHTML = 'Haukku: <a href="https://commons.wikimedia.org/wiki/File:Barking_of_a_dog.ogg" target="_blank" rel="noopener">Amada44</a> · <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a> · lyhennetty ja muunnettu.';
+    $("replayFinaleBtn").before(credit);
+  }
+  credit.classList.toggle("hidden", scene.title !== "Minnin ja Lillin kohtaaminen");
   let button=$("minniSoundBtn");
   if (!button) {
     button=document.createElement("button");button.id="minniSoundBtn";
@@ -6329,6 +6503,10 @@ function setupMinniSound(scene) {
     try {
       minniAudioContext ||= new AudioContext();
       await minniAudioContext.resume();
+      if (!minniBarkBuffer) {
+        const bytes = Uint8Array.from(atob(MINNI_BARK_WAV), char => char.charCodeAt(0));
+        minniBarkBuffer = await minniAudioContext.decodeAudioData(bytes.buffer);
+      }
       minniSoundEnabled=true;
       showWritingFinale("Minnin ja Lillin kohtaaminen");
     } catch {button.textContent="Ääni ei käynnistynyt – kokeile uudelleen";}
@@ -6339,6 +6517,56 @@ function setupMinniSound(scene) {
   }
 }
 document.addEventListener("visibilitychange",()=>{if(document.hidden)stopMinniBarks();});
+
+
+function setupAuroraTug(stage) {
+  const old = stage.parentElement.querySelector(".aurora-controls");
+  if (old) old.remove();
+  const svg = stage.querySelector(".al-scene");
+  if (!svg) return;
+  let pulls = 0, busy = false;
+  const controls = document.createElement("div");
+  controls.className = "aurora-controls";
+  const status = document.createElement("p");
+  status.setAttribute("role", "status");
+  status.textContent = "0 / 5 vetoa – leikitään yhdessä!";
+  const button = document.createElement("button");
+  button.type = "button"; button.className = "primary";
+  button.textContent = "Vedä köydestä 🐾";
+  controls.append(status, button);
+  stage.after(controls);
+  button.onclick = () => {
+    if (busy || pulls >= 5) return;
+    busy = true; button.disabled = true;
+    svg.classList.remove("al-pulling");
+    void svg.getBoundingClientRect();
+    svg.classList.add("al-pulling");
+    pulls++;
+    svg.querySelectorAll(".al-progress circle").forEach((dot, i) => dot.classList.toggle("al-done", i < pulls));
+    svg.querySelector(".al-caption").textContent = pulls % 2 ? "Aurora vetää – Lilli pitää kiinni!" : "Lillin vuoro vetää!";
+    status.textContent = pulls + " / 5 vetoa";
+    setTimeout(() => {
+      if (!controls.isConnected || !svg.isConnected) return;
+      busy = false;
+      if (pulls === 5) {
+        svg.classList.add("al-won");
+        svg.querySelector(".al-caption").textContent = "Hyvä tiimi, Aurora ja Lilli!";
+        status.textContent = "Viisi vetoa! Molemmat voittivat – yhdessä on kivaa!";
+        button.textContent = "Leiki uudelleen";
+        button.disabled = false;
+        button.onclick = () => {
+          svg.classList.remove("al-won", "al-pulling");
+          svg.querySelectorAll(".al-done").forEach(dot => dot.classList.remove("al-done"));
+          svg.querySelector(".al-caption").textContent = "Lilli on valmis leikkiin!";
+          setupAuroraTug(stage);
+          stage.parentElement.querySelector(".aurora-controls button").focus();
+        };
+      } else {
+        button.disabled = false;
+      }
+    }, 950);
+  };
+}
 
 function showWritingFinale(requestedTitle = "") {
   const count = WRITING_FINAL_SCENES.length;
@@ -6365,6 +6593,7 @@ function showWritingFinale(requestedTitle = "") {
   $("animalStage").classList.add("writing-finale");
   $("animalStage").innerHTML = scene.svg;
   setupMinniSound(scene);
+  setupAuroraTug($("animalStage"));
   $("animalName").textContent = scene.title;
   $("animalCheer").textContent = scene.description;
   $("celebration").classList.remove("hidden");
@@ -6450,8 +6679,10 @@ function showCelebration() {
 
 
 function hideCelebration() {
+  $("animalStage").parentElement.querySelector(".aurora-controls")?.remove();
   stopMinniBarks();
   $("minniSoundBtn")?.classList.add("hidden");
+  $("minniAudioCredit")?.classList.add("hidden");
   $("animalStage").classList.remove("writing-finale");
 
   $("replayFinaleBtn")
@@ -6663,7 +6894,8 @@ function showRequestedDemo() {
     "lilli-pusut": "Lillin ruutupusut",
     "liito-orava-galago": "Liito-oravan ja galagon kuutamoleikki",
     numerot: "Lillin ja Hillan numerorata",
-    "minni-lilli": "Minnin ja Lillin kohtaaminen"
+    "minni-lilli": "Minnin ja Lillin kohtaaminen",
+    "aurora-lilli": "Auroran ja Lillin köydenveto"
   };
   const demoTitle = demoTitles[demo];
   if (!demoTitle) return false;
@@ -6893,7 +7125,7 @@ body.demo-only .subject-tabs,body.demo-only #ymppa{display:none!important}
     el("ymppaRound").classList.add("hidden");el("ymppaResult").classList.remove("hidden");
     scene=WRITING_FINAL_SCENES[Math.floor(Math.random()*WRITING_FINAL_SCENES.length)];
     el("ymppaResult").innerHTML='<h2>🎉 Hienosti harjoiteltu!</h2><p>Osasit kaikki '+questions.length+' tehtävää! Ensi yrittämällä oikein: '+firstCorrect+' / '+questions.length+'.</p><div class="stage animal-box writing-finale" id="ymppaReward"></div><p id="ymppaSceneName"></p><button type="button" class="secondary" id="ymppaReplay">Katso uudelleen</button><button type="button" class="primary" id="ymppaRestart">Pelaa uudelleen</button>';
-    const replay=()=>{el("ymppaReward").innerHTML=scene.svg;};
+    const replay=()=>{el("ymppaReward").innerHTML=scene.svg;setupAuroraTug(el("ymppaReward"));};
     el("ymppaSceneName").textContent=scene.title;replay();
     el("ymppaReplay").onclick=replay;el("ymppaRestart").onclick=start;el("ymppaRestart").focus();
   }
