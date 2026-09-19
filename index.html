@@ -1792,6 +1792,11 @@ const WORDS = [
     "harmaa"
   ],
   [
+    "zero",
+    "nolla",
+    5
+  ],
+  [
     "one",
     "yksi",
     5
@@ -2013,7 +2018,7 @@ const WORDS = [
   ]
 ];
 
-const NUMBER_WORDS = new Set(["one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen","twenty"]);
+const NUMBER_WORDS = new Set(["zero","one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen","twenty"]);
 function isNumberWord(word) { return NUMBER_WORDS.has(word[0]); }
 
 
@@ -2541,7 +2546,7 @@ function weightedShuffle(array) {
 
   /*
     Kolmas arvo on sanan paino.
-    Numerot 1–20 ja uusi kuvan sanasto käyttävät painoa 5,
+    Numerot 0–20 ja uusi kuvan sanasto käyttävät painoa 5,
     joten niitä tulee kierrokselle
     selvästi vanhoja sanoja useammin.
     Jokainen sana voi silti esiintyä
