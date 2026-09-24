@@ -1736,12 +1736,12 @@ const WORDS = [
   ],
   [
     "is",
-    "on",
-    5
+    "on"
   ],
   [
     "your",
-    "sinun"
+    "sinun",
+    5
   ],
   [
     "too",
@@ -1897,83 +1897,28 @@ const WORDS = [
     5
   ],
   [
-    "What time is it?",
-    "Paljonko kello on?",
+    "How are you?",
+    "Kuinka voit? Mitä kuuluu?",
     5
   ],
   [
-    "what",
-    "mitä, mikä",
+    "good",
+    "hyvä",
     5
   ],
   [
-    "time",
-    "aika",
+    "I",
+    "minä",
     5
   ],
   [
-    "Good morning.",
-    "Hyvää huomenta.",
+    "like",
+    "pitää, tykätä",
     5
   ],
   [
-    "please",
-    "ole kiltti, kiitos",
-    5
-  ],
-  [
-    "where",
-    "missä",
-    5
-  ],
-  [
-    "In Paris it's ten.",
-    "Pariisissa kello on kymmenen.",
-    5
-  ],
-  [
-    "Paris",
-    "Pariisi",
-    5
-  ],
-  [
-    "Really?",
-    "Todellako?",
-    5
-  ],
-  [
-    "yes",
-    "kyllä",
-    5
-  ],
-  [
-    "but",
-    "mutta",
-    5
-  ],
-  [
-    "here",
-    "täällä",
-    5
-  ],
-  [
-    "this",
-    "tämä",
-    5
-  ],
-  [
-    "England",
-    "Englanti",
-    5
-  ],
-  [
-    "so",
-    "joten",
-    5
-  ],
-  [
-    "It's nine o'clock.",
-    "Kello on yhdeksän.",
+    "it's",
+    "se on",
     5
   ],
   [
@@ -1982,38 +1927,8 @@ const WORDS = [
     5
   ],
   [
-    "You're welcome.",
-    "Ole hyvä.",
-    5
-  ],
-  [
-    "and",
-    "ja",
-    5
-  ],
-  [
-    "you're",
-    "sinä olet",
-    5
-  ],
-  [
-    "funny",
-    "hauska, hassu",
-    5
-  ],
-  [
-    "very",
-    "todella",
-    5
-  ],
-  [
-    "much",
-    "paljon",
-    5
-  ],
-  [
-    "Moscow",
-    "Moskova",
+    "my",
+    "minun",
     5
   ]
 ];
@@ -2038,21 +1953,8 @@ const ALIASES = {
   "grey": [
     "gray"
   ],
-  "you're": [
-    "you are"
-  ],
-  "You're welcome.": [
-    "You are welcome."
-  ],
-  "It's nine o'clock.": [
-    "It is nine o'clock.",
-    "Its nine oclock"
-  ],
-  "In Paris it's ten.": [
-    "In Paris it is ten."
-  ],
-  "What time is it?": [
-    "What time is it"
+  "it's": [
+    "it is"
   ]
 };
 
@@ -2546,7 +2448,7 @@ function weightedShuffle(array) {
 
   /*
     Kolmas arvo on sanan paino.
-    Numerot 0–20 ja uusi kuvan sanasto käyttävät painoa 5,
+    Numerot 0–20 ja kuvan ympyröidyt sanat käyttävät painoa 5,
     joten niitä tulee kierrokselle
     selvästi vanhoja sanoja useammin.
     Jokainen sana voi silti esiintyä
