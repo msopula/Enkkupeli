@@ -2056,7 +2056,7 @@ const WORDS = [
   ],
   [
     "very",
-    "todella"
+    "hyvin, todella"
   ],
   [
     "much",
@@ -2088,7 +2088,7 @@ const WORDS = [
   ],
   [
     "are",
-    "olet"
+    "ovat"
   ],
   [
     "I'm good.",
@@ -2153,8 +2153,87 @@ const WORDS = [
   [
     "pepper",
     "pippuri"
+  ],
+  [
+    "a brother",
+    "veli"
+  ],
+  [
+    "a father",
+    "isä"
+  ],
+  [
+    "a mother",
+    "äiti"
+  ],
+  [
+    "a stepsister",
+    "sisarpuoli"
+  ],
+  [
+    "a grandmother",
+    "isoäiti"
+  ],
+  [
+    "a sister",
+    "sisko"
+  ],
+  [
+    "a grandfather",
+    "isoisä"
+  ],
+  [
+    "an aunt",
+    "täti"
+  ],
+  [
+    "a stepfather",
+    "isäpuoli"
+  ],
+  [
+    "an uncle",
+    "setä, eno"
+  ],
+  [
+    "a street",
+    "katu"
+  ],
+  [
+    "there",
+    "siellä"
+  ],
+  [
+    "she",
+    "hän (tyttö/nainen)"
+  ],
+  [
+    "he",
+    "hän (poika/mies)"
+  ],
+  [
+    "over there",
+    "tuolla"
   ]
 ];
+
+const FOCUS_WORDS = new Set(["a brother","a father","a mother","a stepsister","a grandmother","a sister","a grandfather","an aunt","a stepfather","an uncle","a street","are","there","here","where","she","very","he","over there"]);
+
+// Draw without replacement: each remaining focus word has five tickets.
+function weightedRound(pool, count) {
+  const remaining = [...pool];
+  const selected = [];
+  while (selected.length < count && remaining.length) {
+    const total = remaining.reduce((sum, word) => sum + (FOCUS_WORDS.has(word[0]) ? 5 : 1), 0);
+    let ticket = Math.random() * total;
+    let index = 0;
+    for (; index < remaining.length - 1; index++) {
+      ticket -= FOCUS_WORDS.has(remaining[index][0]) ? 5 : 1;
+      if (ticket < 0) break;
+    }
+    selected.push(remaining.splice(index, 1)[0]);
+  }
+  return selected;
+}
 
 const NUMBER_WORDS = new Set(["zero","one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen","twenty"]);
 function isNumberWord(word) { return NUMBER_WORDS.has(word[0]); }
@@ -2163,6 +2242,17 @@ function isNumberWord(word) { return NUMBER_WORDS.has(word[0]); }
 
 
 const ALIASES = {
+"a brother": ["brother"],
+"a father": ["father"],
+"a mother": ["mother"],
+"a stepsister": ["stepsister"],
+"a grandmother": ["grandmother"],
+"a sister": ["sister"],
+"a grandfather": ["grandfather"],
+"an aunt": ["aunt"],
+"a stepfather": ["stepfather"],
+"an uncle": ["uncle"],
+"a street": ["street"],
   "I'm": [
     "I am"
   ],
@@ -2654,6 +2744,8 @@ const SKIP_TYPED = [
 
 function isTypable(entry) {
 
+  if (FOCUS_WORDS.has(entry[0])) return true;
+
   const word =
     plainWord(entry[0]);
 
@@ -2721,11 +2813,7 @@ function buildRound() {
 
 
   queue =
-    shuffle(pool)
-      .slice(
-        0,
-        roundSize
-      )
+    weightedRound(pool, roundSize)
       .map(word => ({
         word,
         mistakes: 0,
@@ -6425,6 +6513,11 @@ const CUTE_ANIMALS = [
 */
 
 const WRITING_FINAL_SCENES = [
+{
+  "title": "Äidin palapeli",
+  "description": "Vaaleahiuksinen äiti sovittaa viimeisen palan paikalleen. Palapeli on valmis!",
+  "svg": "<svg viewBox=\"0 0 480 320\" role=\"img\" aria-label=\"Vaaleahiuksinen äiti kokoaa palapeliä pöydän ääressä\"><style>\n.mp-hand{animation:mp-hand 9s ease-in-out both;transform-origin:190px 166px}\n.mp-piece{animation:mp-piece 9s ease-in-out both}\n.mp-done{animation:mp-done 9s both}\n@keyframes mp-hand{0%,15%{transform:rotate(-12deg)}45%,65%{transform:rotate(12deg)}85%,100%{transform:rotate(-12deg)}}\n@keyframes mp-piece{0%,20%{transform:translate(-110px,20px)}55%,100%{transform:translate(0,0)}}\n@keyframes mp-done{0%,70%{opacity:0}85%,100%{opacity:1}}\n@media(prefers-reduced-motion:reduce){.mp-hand,.mp-piece,.mp-done{animation:none}}\n</style>\n<rect width=\"480\" height=\"320\" fill=\"#f8eedf\"/><rect x=\"325\" y=\"25\" width=\"110\" height=\"110\" rx=\"9\" fill=\"#bde5ef\" stroke=\"#fff\" stroke-width=\"8\"/><circle cx=\"398\" cy=\"55\" r=\"18\" fill=\"#ffe499\"/><path d=\"M380 25v110M325 80h110\" stroke=\"white\" stroke-width=\"5\"/>\n<rect x=\"120\" y=\"140\" width=\"140\" height=\"130\" rx=\"25\" fill=\"#9caf9a\"/>\n<path d=\"M151 112Q127 30 188 27Q249 30 227 139L151 139Z\" fill=\"#e3bd60\"/>\n<path d=\"M147 168Q181 137 215 168L232 247H130Z\" fill=\"#9b79b9\"/>\n<path d=\"M179 130v29\" stroke=\"#f0c8aa\" stroke-width=\"18\"/>\n<ellipse cx=\"187\" cy=\"90\" rx=\"36\" ry=\"45\" fill=\"#f5d2b5\"/>\n<path d=\"M151 91Q137 32 189 31Q233 36 224 88L203 58Q181 81 151 78\" fill=\"#f2d682\"/>\n<circle cx=\"175\" cy=\"94\" r=\"3\" fill=\"#3e4852\"/><circle cx=\"202\" cy=\"94\" r=\"3\" fill=\"#3e4852\"/>\n<path d=\"M178 113q12 12 23-1\" fill=\"none\" stroke=\"#ad6e66\" stroke-width=\"3\" stroke-linecap=\"round\"/>\n<rect x=\"35\" y=\"232\" width=\"410\" height=\"65\" rx=\"12\" fill=\"#c79161\"/>\n<path d=\"M64 292v28m353-28v28\" stroke=\"#916442\" stroke-width=\"15\"/>\n<g transform=\"translate(250 210)\"><rect width=\"135\" height=\"70\" rx=\"5\" fill=\"#b8dfea\" stroke=\"#fff8e5\" stroke-width=\"4\"/><path d=\"M0 48Q35 15 65 45T135 42V70H0Z\" fill=\"#91b88a\"/><circle cx=\"106\" cy=\"20\" r=\"12\" fill=\"#ffda75\"/><path d=\"M45 0v22q12-8 12 3t-12 3v42M90 0v70M0 35h135\" fill=\"none\" stroke=\"#577b82\" stroke-width=\"2\"/><path d=\"M45 0h45v35H45V28q12 8 12-3t-12-3Z\" fill=\"#c79161\"/><path class=\"mp-piece\" d=\"M45 0h45v35H45V28q12 8 12-3t-12-3Z\" fill=\"#b8dfea\" stroke=\"#577b82\" stroke-width=\"2\"/></g>\n<path d=\"M151 174 126 211 174 244\" fill=\"none\" stroke=\"#f0c8aa\" stroke-width=\"14\" stroke-linecap=\"round\"/>\n<path class=\"mp-hand\" d=\"M210 171 234 200 291 211\" fill=\"none\" stroke=\"#f0c8aa\" stroke-width=\"14\" stroke-linecap=\"round\"/>\n<g class=\"mp-done\"><rect x=\"82\" y=\"5\" width=\"230\" height=\"27\" rx=\"13\" fill=\"white\"/><text x=\"197\" y=\"24\" text-anchor=\"middle\" font-family=\"system-ui\" font-size=\"16\" fill=\"#52694a\">Valmis! Hienosti tehty! ♥</text></g>\n</svg>"
+},
   {
     "description": "Kettu saapuu niitylle, loikkaa tukin yli ja löytää pupun järjestämän piknikin.",
     "svg": "<svg viewBox=\"0 0 480 320\" role=\"img\" aria-label=\"Ketun yllätyspiknik\"><rect width=\"480\" height=\"320\" fill=\"#dfeef1\"/><circle cx=\"404\" cy=\"47\" r=\"30\" fill=\"#fff0bb\"/><path d=\"M0 210Q140 155 260 212T480 204V320H0Z\" fill=\"#a4c899\"/><path d=\"M0 252Q210 214 480 254V320H0Z\" fill=\"#789e78\"/><path d=\"M35 258h330l-35 50H5Z\" fill=\"#f4c7a3\"/><path d=\"M30 276h310m-245-16-20 44m100-44-20 44m100-44-20 44\" stroke=\"#fff1df\" stroke-width=\"7\"/><rect x=\"119\" y=\"241\" width=\"55\" height=\"27\" rx=\"13\" fill=\"#865f44\"/><ellipse cx=\"136\" cy=\"254\" rx=\"10\" ry=\"12\" fill=\"none\" stroke=\"#be9770\" stroke-width=\"2\"/><g transform=\"translate(210 213) scale(1)\"><g class=\"fin-fox\"><path d=\"M-20 38q-60 0-46-42 42 3 48 26\" fill=\"#dc762e\"/><path d=\"M-66-4q14 2 24 10l-14 19q-15-10-10-29\" fill=\"#fff4df\"/><ellipse cy=\"30\" rx=\"24\" ry=\"28\" fill=\"#e98b36\"/><ellipse cy=\"34\" rx=\"13\" ry=\"20\" fill=\"#fff4df\"/><path d=\"m-24-12-4-34 25 22m27 12 4-34-25 22\" fill=\"#df7629\"/><circle cy=\"-9\" r=\"28\" fill=\"#f29c48\"/><ellipse cx=\"0\" cy=\"5\" rx=\"20\" ry=\"16\" fill=\"#fff4df\"/><circle cx=\"-11\" cy=\"-3\" r=\"3\" fill=\"#25334b\"/><circle cx=\"11\" cy=\"-3\" r=\"3\" fill=\"#25334b\"/><circle cx=\"-10\" cy=\"-4\" r=\"1\" fill=\"white\"/><circle cx=\"12\" cy=\"-4\" r=\"1\" fill=\"white\"/><path d=\"M-4 6h8l-4 5z\" fill=\"#49302b\"/><path d=\"M-7 15q7 6 14 0\" fill=\"none\" stroke=\"#49302b\" stroke-width=\"2\"/><path d=\"M-15 54h-9m39 0h9\" stroke=\"#703f2c\" stroke-width=\"9\" stroke-linecap=\"round\"/></g></g><g transform=\"translate(338 213) scale(0.8)\"><g class=\"fin-friend\"><g fill=\"#eee5ff\" stroke=\"#baa1d6\" stroke-width=\"2\"><ellipse cx=\"-13\" cy=\"-38\" rx=\"9\" ry=\"30\"/><ellipse cx=\"13\" cy=\"-38\" rx=\"9\" ry=\"30\"/><ellipse cy=\"32\" rx=\"24\" ry=\"28\"/><circle cy=\"-6\" r=\"27\"/></g><path d=\"M-13-57v28m26-28v28\" stroke=\"#f9b7ce\" stroke-width=\"7\" stroke-linecap=\"round\"/><ellipse cx=\"0\" cy=\"5\" rx=\"20\" ry=\"16\" fill=\"#fff4df\"/><circle cx=\"-11\" cy=\"-3\" r=\"3\" fill=\"#25334b\"/><circle cx=\"11\" cy=\"-3\" r=\"3\" fill=\"#25334b\"/><circle cx=\"-10\" cy=\"-4\" r=\"1\" fill=\"white\"/><circle cx=\"12\" cy=\"-4\" r=\"1\" fill=\"white\"/><path d=\"M-4 6h8l-4 5z\" fill=\"#49302b\"/><path d=\"M-7 15q7 6 14 0\" fill=\"none\" stroke=\"#49302b\" stroke-width=\"2\"/><ellipse cx=\"-17\" cy=\"56\" rx=\"14\" ry=\"6\" fill=\"#eee5ff\"/><ellipse cx=\"17\" cy=\"56\" rx=\"14\" ry=\"6\" fill=\"#eee5ff\"/></g></g><g class=\"fin-picnic\"><ellipse cx=\"264\" cy=\"280\" rx=\"30\" ry=\"8\" fill=\"#fff\"/><path d=\"m241 278 20-22 24 22z\" fill=\"#e6b35c\"/><path d=\"m252 267 11-12 13 12\" fill=\"#ee8494\"/></g><g transform=\"translate(443 259)\"><path d=\"M0 0v30\" stroke=\"#57934a\" stroke-width=\"3\"/><path d=\"M0 20q-18-20-15-3m15 9q18-20 15-3\" fill=\"#8fba69\"/><g fill=\"#ffb2bf\"><circle cx=\"-7\" r=\"8\"/><circle cx=\"7\" r=\"8\"/><circle cy=\"-7\" r=\"8\"/><circle cy=\"7\" r=\"8\"/></g><circle r=\"5\" fill=\"#ffd667\"/></g><g class=\"fin-message\"><rect x=\"108\" y=\"22\" width=\"264\" height=\"40\" rx=\"20\" fill=\"#fff8e9\"/><text x=\"240\" y=\"48\" text-anchor=\"middle\" font-family=\"system-ui\" font-weight=\"800\" font-size=\"18\" fill=\"#344753\">Hienosti kirjoitettu!</text></g></svg>",
@@ -7011,7 +7104,8 @@ function showRequestedDemo() {
     "liito-orava-galago": "Liito-oravan ja galagon kuutamoleikki",
     numerot: "Lillin ja Hillan numerorata",
     "minni-lilli": "Minnin ja Lillin kohtaaminen",
-    "aurora-lilli": "Auroran ja Lillin köydenveto"
+    "aurora-lilli": "Auroran ja Lillin köydenveto",
+    "aiti-palapeli": "Äidin palapeli"
   };
   const demoTitle = demoTitles[demo];
   if (!demoTitle) return false;
@@ -7023,7 +7117,7 @@ function showRequestedDemo() {
   $("finishTitle").textContent =
     demoTitle;
   $("finishText").textContent =
-    "Eläintarinan animaatiodemo";
+    "Animaatiodemo";
   $("restartBtn")
     .classList
     .add("hidden");
