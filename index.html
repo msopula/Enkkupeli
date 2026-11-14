@@ -2155,44 +2155,48 @@ const WORDS = [
     "pippuri"
   ],
   [
-    "a brother",
-    "veli"
-  ],
-  [
-    "a father",
-    "isä"
-  ],
-  [
-    "a mother",
-    "äiti"
-  ],
-  [
-    "a stepsister",
+    "half-sister",
     "sisarpuoli"
   ],
   [
-    "a grandmother",
-    "isoäiti"
+    "brother",
+    "veli"
   ],
   [
-    "a sister",
+    "sister",
     "sisko"
   ],
   [
-    "a grandfather",
-    "isoisä"
+    "friend",
+    "ystävä"
   ],
   [
-    "an aunt",
-    "täti"
-  ],
-  [
-    "a stepfather",
+    "stepdad",
     "isäpuoli"
   ],
   [
-    "an uncle",
-    "setä, eno"
+    "mum",
+    "äiti"
+  ],
+  [
+    "dad",
+    "isä"
+  ],
+  [
+    "uncle",
+    "setä"
+  ],
+  [
+    "aunt",
+    "täti"
+  ],
+  [
+    "granddad",
+    "isoisä"
+  ],
+  [
+    "granny",
+    "isoäiti"
   ],
   [
     "a street",
@@ -2216,7 +2220,7 @@ const WORDS = [
   ]
 ];
 
-const FOCUS_WORDS = new Set(["a brother","a father","a mother","a stepsister","a grandmother","a sister","a grandfather","an aunt","a stepfather","an uncle","a street","are","there","here","where","she","very","he","over there"]);
+const FOCUS_WORDS = new Set(["half-sister","brother","sister","friend","stepdad","mum","dad","uncle","aunt","granddad","granny","a street","are","there","here","where","she","very","he","over there"]);
 
 // Draw without replacement: each remaining focus word has five tickets.
 function weightedRound(pool, count) {
@@ -2242,16 +2246,7 @@ function isNumberWord(word) { return NUMBER_WORDS.has(word[0]); }
 
 
 const ALIASES = {
-"a brother": ["brother"],
-"a father": ["father"],
-"a mother": ["mother"],
-"a stepsister": ["stepsister"],
-"a grandmother": ["grandmother"],
-"a sister": ["sister"],
-"a grandfather": ["grandfather"],
-"an aunt": ["aunt"],
-"a stepfather": ["stepfather"],
-"an uncle": ["uncle"],
+
 "a street": ["street"],
   "I'm": [
     "I am"
@@ -2321,27 +2316,27 @@ const DECOYS = [
   ],
 
   [
-    "a friend",
-    "kaveri"
+    "friend",
+    "ystävä"
   ],
 
   [
-    "a brother",
+    "brother",
     "veli"
   ],
 
   [
-    "a sister",
+    "sister",
     "sisko"
   ],
 
   [
-    "a mother",
+    "mum",
     "äiti"
   ],
 
   [
-    "a father",
+    "dad",
     "isä"
   ],
 
